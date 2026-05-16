@@ -2,7 +2,7 @@
 
 import logging
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from notifier import notify
 from resy_client import ResyClient, Slot
@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 class BookingTarget:
     venue_id: int
     venue_name: str
-    date: str           # YYYY-MM-DD
+    dates: list[str]    # one or more YYYY-MM-DD dates to check each poll cycle
     party_size: int
     earliest_time: str  # "HH:MM"
     latest_time: str    # "HH:MM"
@@ -30,11 +30,12 @@ def run(
     poll_interval: int = 30,
     dry_run: bool = False,
 ) -> None:
-    """Poll until a matching slot is found, then book it."""
+    """Poll until a matching slot is found across any of the target dates, then book it."""
+    date_summary = ", ".join(target.dates) if len(target.dates) <= 5 else f"{target.dates[0]} … {target.dates[-1]} ({len(target.dates)} dates)"
     log.info(
-        "Watching %s on %s for party of %d between %s and %s (every %ds)",
+        "Watching %s on [%s] for party of %d between %s and %s (every %ds)",
         target.venue_name,
-        target.date,
+        date_summary,
         target.party_size,
         target.earliest_time,
         target.latest_time,
@@ -45,14 +46,19 @@ def run(
     while True:
         attempt += 1
         try:
-            slots = client.find_slots(target.venue_id, target.date, target.party_size)
-            matching = [s for s in slots if _slot_in_window(s, target)]
+            found_slot: Slot | None = None
+            for date in target.dates:
+                slots = client.find_slots(target.venue_id, date, target.party_size)
+                matching = [s for s in slots if _slot_in_window(s, target)]
+                if matching:
+                    found_slot = matching[0]
+                    break
 
-            if not matching:
-                log.info("[%d] No matching slots yet. Retrying in %ds…", attempt, poll_interval)
+            if found_slot is None:
+                log.info("[%d] No matching slots on any date yet. Retrying in %ds…", attempt, poll_interval)
             else:
-                slot = matching[0]
-                log.info("[%d] Found slot at %s!", attempt, slot.time_label)
+                slot = found_slot
+                log.info("[%d] Found slot on %s at %s!", attempt, slot.date, slot.time_label)
 
                 if dry_run:
                     notify(

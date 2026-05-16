@@ -5,6 +5,7 @@ import argparse
 import logging
 import os
 import sys
+from datetime import date, timedelta
 
 from dotenv import load_dotenv
 
@@ -30,10 +31,18 @@ Examples:
   # Search for a venue and print its ID
   python main.py search --query "Carbone"
 
-  # Watch for any slot between 7pm-9pm and book when one appears
+  # Book a specific date
   python main.py book --venue-id 1234 --venue-name "Carbone" \\
-      --date 2026-06-15 --party-size 2 \\
-      --earliest 19:00 --latest 21:00
+      --date 2026-06-15 --party-size 2 --earliest 19:00 --latest 21:00
+
+  # Book any Friday, Saturday, or Sunday in the next 60 days
+  python main.py book --venue-id 1234 --venue-name "Carbone" \\
+      --days fri sat sun --party-size 2 --earliest 19:00 --latest 21:00
+
+  # Narrow the window (next 4 weekends only)
+  python main.py book --venue-id 1234 --venue-name "Carbone" \\
+      --days sat sun --from-date 2026-06-01 --to-date 2026-06-30 \\
+      --party-size 2 --earliest 19:00 --latest 21:00
 
   # Same but don't actually book (just notify)
   python main.py book ... --dry-run
@@ -51,12 +60,31 @@ Examples:
     b = sub.add_parser("book", help="Poll and book a reservation")
     b.add_argument("--venue-id", type=int, required=True, help="Resy venue ID (from 'search')")
     b.add_argument("--venue-name", required=True, help="Human-readable venue name (for notifications)")
-    b.add_argument("--date", required=True, help="Target date (YYYY-MM-DD)")
     b.add_argument("--party-size", type=int, required=True, help="Number of guests")
     b.add_argument("--earliest", default="00:00", help="Earliest acceptable time slot (HH:MM, default 00:00)")
     b.add_argument("--latest", default="23:59", help="Latest acceptable time slot (HH:MM, default 23:59)")
     b.add_argument("--interval", type=int, default=30, help="Polling interval in seconds (default 30)")
     b.add_argument("--dry-run", action="store_true", help="Find a slot but don't actually book it")
+
+    date_group = b.add_mutually_exclusive_group(required=True)
+    date_group.add_argument("--date", help="Specific date to target (YYYY-MM-DD)")
+    date_group.add_argument(
+        "--days",
+        nargs="+",
+        choices=["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+        metavar="DAY",
+        help="Days of week to target (e.g. --days fri sat sun). Searches within --from-date..--to-date.",
+    )
+    b.add_argument(
+        "--from-date",
+        default=str(date.today()),
+        help="Start of search window when using --days (YYYY-MM-DD, default: today)",
+    )
+    b.add_argument(
+        "--to-date",
+        default=str(date.today() + timedelta(days=60)),
+        help="End of search window when using --days (YYYY-MM-DD, default: 60 days from today)",
+    )
 
     return p.parse_args()
 
@@ -92,12 +120,41 @@ def cmd_search(args: argparse.Namespace) -> None:
         print(f"{vid:<10} {name:<40} {location}")
 
 
+_DAY_NAMES = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+
+
+def _build_dates(args: argparse.Namespace) -> list[str]:
+    if args.date:
+        return [args.date]
+
+    target_weekdays = {_DAY_NAMES.index(d) for d in args.days}
+    start = date.fromisoformat(args.from_date)
+    end = date.fromisoformat(args.to_date)
+    if end < start:
+        log.error("--to-date must be on or after --from-date")
+        sys.exit(1)
+
+    dates = []
+    current = start
+    while current <= end:
+        if current.weekday() in target_weekdays:
+            dates.append(str(current))
+        current += timedelta(days=1)
+
+    if not dates:
+        log.error("No dates match --days %s in range %s..%s", args.days, start, end)
+        sys.exit(1)
+
+    log.info("Targeting %d date(s): %s%s", len(dates), ", ".join(dates[:5]), " …" if len(dates) > 5 else "")
+    return dates
+
+
 def cmd_book(args: argparse.Namespace) -> None:
     client = make_client()
     target = BookingTarget(
         venue_id=args.venue_id,
         venue_name=args.venue_name,
-        date=args.date,
+        dates=_build_dates(args),
         party_size=args.party_size,
         earliest_time=args.earliest,
         latest_time=args.latest,
