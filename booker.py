@@ -2,12 +2,15 @@
 
 import logging
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from datetime import datetime, time as dtime
 
 from notifier import notify
 from resy_client import ResyClient, Slot
 
 log = logging.getLogger(__name__)
+
+DEFAULT_RELEASE_TIMES = [dtime(0, 0), dtime(9, 0)]  # midnight and 9am
 
 
 @dataclass
@@ -24,27 +27,72 @@ def _slot_in_window(slot: Slot, target: BookingTarget) -> bool:
     return target.earliest_time <= slot.time_start <= target.latest_time
 
 
+def _secs_from_midnight(t: dtime) -> int:
+    return t.hour * 3600 + t.minute * 60 + t.second
+
+
+def _near_release_time(release_times: list[dtime], window_secs: int) -> bool:
+    """Return True if the current clock time is within window_secs of any release time."""
+    now_secs = _secs_from_midnight(datetime.now().time())
+    for rt in release_times:
+        rt_secs = _secs_from_midnight(rt)
+        diff = abs(now_secs - rt_secs)
+        diff = min(diff, 86400 - diff)  # handle midnight wraparound
+        if diff <= window_secs:
+            return True
+    return False
+
+
 def run(
     client: ResyClient,
     target: BookingTarget,
     poll_interval: int = 30,
+    fast_interval: int = 1,
+    release_times: list[dtime] | None = None,
+    fast_window_secs: int = 120,
     dry_run: bool = False,
 ) -> None:
-    """Poll until a matching slot is found across any of the target dates, then book it."""
-    date_summary = ", ".join(target.dates) if len(target.dates) <= 5 else f"{target.dates[0]} … {target.dates[-1]} ({len(target.dates)} dates)"
+    """Poll until a matching slot is found across any of the target dates, then book it.
+
+    Automatically switches to fast_interval polling within fast_window_secs of any
+    release_time, then falls back to poll_interval between windows.
+    """
+    if release_times is None:
+        release_times = DEFAULT_RELEASE_TIMES
+
+    date_summary = (
+        ", ".join(target.dates)
+        if len(target.dates) <= 5
+        else f"{target.dates[0]} … {target.dates[-1]} ({len(target.dates)} dates)"
+    )
+    release_labels = ", ".join(t.strftime("%H:%M") for t in release_times)
     log.info(
-        "Watching %s on [%s] for party of %d between %s and %s (every %ds)",
-        target.venue_name,
-        date_summary,
-        target.party_size,
-        target.earliest_time,
-        target.latest_time,
-        poll_interval,
+        "Watching %s | dates: [%s] | party: %d | window: %s–%s",
+        target.venue_name, date_summary, target.party_size,
+        target.earliest_time, target.latest_time,
+    )
+    log.info(
+        "Polling every %ds normally, every %ds within %ds of release times [%s]",
+        poll_interval, fast_interval, fast_window_secs, release_labels,
     )
 
     attempt = 0
+    in_fast_mode = False
+
     while True:
         attempt += 1
+
+        # Determine polling speed and log transitions
+        fast_now = _near_release_time(release_times, fast_window_secs)
+        if fast_now and not in_fast_mode:
+            log.info("*** Entering fast-poll mode (1s) — release window open ***")
+            in_fast_mode = True
+        elif not fast_now and in_fast_mode:
+            log.info("Release window closed — returning to slow poll (%ds)", poll_interval)
+            in_fast_mode = False
+
+        current_interval = fast_interval if in_fast_mode else poll_interval
+
         try:
             found_slot: Slot | None = None
             for date in target.dates:
@@ -55,7 +103,7 @@ def run(
                     break
 
             if found_slot is None:
-                log.info("[%d] No matching slots on any date yet. Retrying in %ds…", attempt, poll_interval)
+                log.info("[%d] No slots yet (%ds poll)…", attempt, current_interval)
             else:
                 slot = found_slot
                 log.info("[%d] Found slot on %s at %s!", attempt, slot.date, slot.time_label)
@@ -83,4 +131,4 @@ def run(
         except Exception as exc:
             log.warning("[%d] Error during poll: %s", attempt, exc)
 
-        time.sleep(poll_interval)
+        time.sleep(current_interval)

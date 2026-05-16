@@ -5,11 +5,11 @@ import argparse
 import logging
 import os
 import sys
-from datetime import date, timedelta
+from datetime import date, time as dtime, timedelta
 
 from dotenv import load_dotenv
 
-from booker import BookingTarget, run
+from booker import BookingTarget, DEFAULT_RELEASE_TIMES, run
 from resy_client import ResyClient
 
 load_dotenv()
@@ -36,13 +36,14 @@ Examples:
       --date 2026-06-15 --party-size 2 --earliest 19:00 --latest 21:00
 
   # Book any Friday, Saturday, or Sunday in the next 60 days
+  # (auto-speeds up around midnight and 9am — the two common release times)
   python main.py book --venue-id 1234 --venue-name "Carbone" \\
       --days fri sat sun --party-size 2 --earliest 19:00 --latest 21:00
 
-  # Narrow the window (next 4 weekends only)
+  # You know this restaurant releases at 10am — target just that window
   python main.py book --venue-id 1234 --venue-name "Carbone" \\
-      --days sat sun --from-date 2026-06-01 --to-date 2026-06-30 \\
-      --party-size 2 --earliest 19:00 --latest 21:00
+      --days fri sat sun --party-size 2 --earliest 19:00 --latest 21:00 \\
+      --release-time 10:00
 
   # Same but don't actually book (just notify)
   python main.py book ... --dry-run
@@ -63,7 +64,20 @@ Examples:
     b.add_argument("--party-size", type=int, required=True, help="Number of guests")
     b.add_argument("--earliest", default="00:00", help="Earliest acceptable time slot (HH:MM, default 00:00)")
     b.add_argument("--latest", default="23:59", help="Latest acceptable time slot (HH:MM, default 23:59)")
-    b.add_argument("--interval", type=int, default=30, help="Polling interval in seconds (default 30)")
+    b.add_argument("--interval", type=int, default=30, help="Slow polling interval in seconds (default 30)")
+    b.add_argument(
+        "--release-time",
+        nargs="+",
+        metavar="HH:MM",
+        default=None,
+        help="Known release times to hammer (default: 00:00 and 09:00). Can specify multiple.",
+    )
+    b.add_argument(
+        "--fast-window",
+        type=int,
+        default=120,
+        help="Seconds around each release time to use 1s polling (default 120)",
+    )
     b.add_argument("--dry-run", action="store_true", help="Find a slot but don't actually book it")
 
     date_group = b.add_mutually_exclusive_group(required=True)
@@ -149,6 +163,20 @@ def _build_dates(args: argparse.Namespace) -> list[str]:
     return dates
 
 
+def _parse_release_times(raw: list[str] | None) -> list[dtime]:
+    if not raw:
+        return DEFAULT_RELEASE_TIMES
+    times = []
+    for s in raw:
+        try:
+            h, m = s.split(":")
+            times.append(dtime(int(h), int(m)))
+        except (ValueError, AttributeError):
+            log.error("Invalid --release-time value %r — expected HH:MM", s)
+            sys.exit(1)
+    return times
+
+
 def cmd_book(args: argparse.Namespace) -> None:
     client = make_client()
     target = BookingTarget(
@@ -159,7 +187,14 @@ def cmd_book(args: argparse.Namespace) -> None:
         earliest_time=args.earliest,
         latest_time=args.latest,
     )
-    run(client, target, poll_interval=args.interval, dry_run=args.dry_run)
+    run(
+        client,
+        target,
+        poll_interval=args.interval,
+        release_times=_parse_release_times(args.release_time),
+        fast_window_secs=args.fast_window,
+        dry_run=args.dry_run,
+    )
 
 
 def main() -> None:
