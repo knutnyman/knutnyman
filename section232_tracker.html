@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 232 Tariff Tracker — MedTech</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --accent: #4f8ef7;
+    --accent2: #7c5cfc;
+    --warn: #f5a623;
+    --danger: #e04646;
+    --green: #34c38f;
+    --text: #e2e8f0;
+    --muted: #8892aa;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+
+  /* ── Layout ── */
+  .app { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 24px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .main { padding: 32px; overflow-y: auto; }
+
+  /* ── Sidebar ── */
+  .logo { padding: 0 20px 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .logo-title { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+  .logo-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .nav-section { padding: 8px 20px 4px; font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .nav a { display: flex; align-items: center; gap: 9px; padding: 9px 20px; color: var(--muted); text-decoration: none; font-size: 13px; border-left: 3px solid transparent; transition: all .15s; }
+  .nav a:hover, .nav a.active { color: var(--text); background: var(--surface2); border-left-color: var(--accent); }
+  .nav a .icon { font-size: 15px; width: 18px; text-align: center; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-left: auto; }
+  .dot-red { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+  .dot-yellow { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+  .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+  /* ── Top bar ── */
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .page-title { font-size: 22px; font-weight: 700; }
+  .page-title span { color: var(--accent); }
+  .badge { display: inline-flex; align-items: center; gap: 6px; background: #2a1a1a; border: 1px solid #5a2a2a; color: #f87171; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+  .badge .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--danger); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── Section headers ── */
+  .section { margin-bottom: 36px; scroll-margin-top: 20px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .section-title { font-size: 16px; font-weight: 700; }
+  .section-badge { font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; }
+
+  /* ── Stat cards ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 32px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+  .card-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .card-value { font-size: 26px; font-weight: 700; line-height: 1; }
+  .card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .card-red .card-value { color: var(--danger); }
+  .card-yellow .card-value { color: var(--warn); }
+  .card-blue .card-value { color: var(--accent); }
+  .card-green .card-value { color: var(--green); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:var(--border); }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-dot { position:absolute; left:-24px; top:4px; width:12px; height:12px; border-radius:50%; border:2px solid var(--bg); }
+  .tl-dot-red { background:var(--danger); box-shadow:0 0 8px var(--danger); }
+  .tl-dot-yellow { background:var(--warn); box-shadow:0 0 8px var(--warn); }
+  .tl-dot-green { background:var(--green); }
+  .tl-dot-blue { background:var(--accent); }
+  .tl-dot-gray { background:var(--muted); }
+  .tl-dot-purple { background:var(--accent2); box-shadow:0 0 8px var(--accent2); }
+  .tl-date { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .tl-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .tl-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .tl-tag { display:inline-block; font-size:10px; font-weight:600; padding:2px 8px; border-radius:4px; margin-right:5px; margin-bottom:4px; }
+  .tag-steel { background:#1a2a3a; color:#60a5fa; }
+  .tag-alum { background:#1a2a1a; color:#4ade80; }
+  .tag-med { background:#2a1a3a; color:#c084fc; }
+  .tag-policy { background:#2a2218; color:#fbbf24; }
+  .tag-upcoming { background:#1a2a1a; border:1px solid var(--green); color:var(--green); }
+
+  /* ── Tables ── */
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--surface2); }
+  th { padding: 11px 16px; font-size: 11px; font-weight: 600; color: var(--muted); text-align: left; letter-spacing: .06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .rate-chip { display:inline-block; font-weight:700; font-size:13px; padding:2px 10px; border-radius:6px; }
+  .rate-high { background:#2a1010; color:var(--danger); }
+  .rate-mid { background:#2a2210; color:var(--warn); }
+  .rate-low { background:#102a20; color:var(--green); }
+  .rate-zero { background:#1a1d27; color:var(--muted); }
+
+  /* ── Accordion ── */
+  .accordion { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; }
+  .acc-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:var(--surface); cursor:pointer; user-select:none; }
+  .acc-header:hover { background:var(--surface2); }
+  .acc-title { font-size:13px; font-weight:600; }
+  .acc-arrow { font-size:12px; color:var(--muted); transition:transform .2s; }
+  .acc-body { background:var(--surface2); padding:16px 18px; font-size:13px; color:var(--muted); line-height:1.7; display:none; }
+  .acc-body ul { padding-left:18px; }
+  .acc-body li { margin-bottom:6px; }
+  .acc-body.open { display:block; }
+  .acc-arrow.open { transform: rotate(180deg); }
+
+  /* ── Impact matrix ── */
+  .matrix { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .impact-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .impact-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .impact-name { font-size:13px; font-weight:600; }
+  .severity { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+  .sev-critical { background:#2a1010; color:var(--danger); }
+  .sev-high { background:#2a2010; color:var(--warn); }
+  .sev-medium { background:#102020; color:#38bdf8; }
+  .impact-detail { font-size:12px; color:var(--muted); line-height:1.6; }
+  .impact-rate { margin-top:8px; font-size:12px; }
+  .impact-rate strong { color:var(--text); }
+
+  /* ── Action items ── */
+  .action-list { list-style:none; }
+  .action-item { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+  .action-item:last-child { border-bottom:none; }
+  .action-check { width:18px; height:18px; border-radius:4px; border:2px solid var(--border); flex-shrink:0; margin-top:2px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:11px; }
+  .action-check:hover { border-color:var(--accent); }
+  .action-content { flex:1; }
+  .action-title { font-size:13px; font-weight:500; }
+  .action-meta { font-size:11px; color:var(--muted); margin-top:2px; }
+  .priority { font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; margin-left:8px; }
+  .p-urgent { background:#2a1010; color:var(--danger); }
+  .p-high { background:#2a2010; color:var(--warn); }
+  .p-medium { background:#10202a; color:var(--accent); }
+
+  /* ── Filter bar ── */
+  .filter-bar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .filter-btn { padding:5px 14px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-size:12px; cursor:pointer; transition:all .15s; }
+  .filter-btn:hover, .filter-btn.active { border-color:var(--accent); color:var(--accent); background:rgba(79,142,247,.08); }
+
+  /* ── Last updated ── */
+  .last-updated { font-size:11px; color:var(--muted); margin-top:40px; padding-top:16px; border-top:1px solid var(--border); }
+
+  @media(max-width:720px) {
+    .app { grid-template-columns:1fr; }
+    .sidebar { display:none; }
+    .main { padding:20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-title">232 Tracker</div>
+    <div class="logo-sub">MedTech Tariff Intelligence</div>
+  </div>
+  <div class="nav-section">Overview</div>
+  <div class="nav">
+    <a href="#summary" class="active"><span class="icon">📊</span> Dashboard</a>
+    <a href="#timeline"><span class="icon">📅</span> Timeline <span class="status-dot dot-red"></span></a>
+    <a href="#rates"><span class="icon">💲</span> Tariff Rates</a>
+  </div>
+  <div class="nav-section">Analysis</div>
+  <div class="nav">
+    <a href="#impact"><span class="icon">🏥</span> MedTech Impact</a>
+    <a href="#countries"><span class="icon">🌍</span> Country Status <span class="status-dot dot-yellow"></span></a>
+    <a href="#hts"><span class="icon">📋</span> HTS Codes</a>
+    <a href="#exclusions"><span class="icon">🛡️</span> Exclusions</a>
+  </div>
+  <div class="nav-section">Action</div>
+  <div class="nav">
+    <a href="#actions"><span class="icon">✅</span> Action Items <span class="status-dot dot-yellow"></span></a>
+    <a href="#companies"><span class="icon">🏢</span> Key Companies</a>
+    <a href="#watchlist"><span class="icon">👁️</span> Watch List</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="page-title">Section 232 Tariffs — <span>MedTech</span></div>
+    <div class="badge"><span class="pulse"></span>Active &amp; Escalating — May 2026</div>
+  </div>
+
+  <!-- ── SUMMARY CARDS ── -->
+  <div id="summary" class="cards">
+    <div class="card card-red">
+      <div class="card-label">Steel Tariff Rate</div>
+      <div class="card-value">25%</div>
+      <div class="card-sub">Global — no country exemptions</div>
+    </div>
+    <div class="card card-red">
+      <div class="card-label">Aluminum Tariff Rate</div>
+      <div class="card-value">25%</div>
+      <div class="card-sub">Up from 10% — effective Mar 12, 2025</div>
+    </div>
+    <div class="card card-yellow">
+      <div class="card-label">Countries Affected</div>
+      <div class="card-value">70+</div>
+      <div class="card-sub">All prior exemptions revoked 2025</div>
+    </div>
+    <div class="card card-blue">
+      <div class="card-label">Exclusion Requests</div>
+      <div class="card-value">Open</div>
+      <div class="card-sub">BIS portal — case-by-case basis</div>
+    </div>
+    <div class="card card-yellow">
+      <div class="card-label">Est. MedTech Cost Impact</div>
+      <div class="card-value">$2–4B</div>
+      <div class="card-sub">Industry-wide annual COGS increase</div>
+    </div>
+    <div class="card card-green">
+      <div class="card-label">FDA Device Exclusions</div>
+      <div class="card-value">Limited</div>
+      <div class="card-sub">Narrow — humanitarian/critical only</div>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE ── -->
+  <div id="timeline" class="section">
+    <div class="section-header">
+      <div class="section-title">Key Dates &amp; Timeline</div>
+      <div class="section-badge">Chronological</div>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">April 1962</div>
+        <div class="tl-title">Trade Expansion Act — Section 232 Created</div>
+        <div class="tl-body">Enables the President to restrict imports on national security grounds via the Secretary of Commerce investigation process. Rarely invoked until 2018.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-yellow"></div>
+        <div class="tl-date">April 20, 2017</div>
+        <div class="tl-title">Commerce Dept Initiates Steel &amp; Aluminum Investigations</div>
+        <div class="tl-body">Trump administration launches Section 232 national security investigations into steel and aluminum imports — the formal start of the modern tariff era.</div>
+        <div><span class="tl-tag tag-steel">Steel</span><span class="tl-tag tag-alum">Aluminum</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-red"></div>
+        <div class="tl-date">March 8, 2018</div>
+        <div class="tl-title">Presidential Proclamations 9704 &amp; 9705 Signed</div>
+        <div class="tl-body">Trump signs proclamations imposing 25% tariff on steel (Proc. 9705) and 10% tariff on aluminum (Proc. 9704) imports. Canada and Mexico initially excluded pending NAFTA renegotiation.</div>
+        <div><span class="tl-tag tag-steel">Steel 25%</span><span class="tl-tag tag-alum">Aluminum 10%</span><span class="tl-tag tag-policy">Policy</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-red"></div>
+        <div class="tl-date">March 23, 2018</div>
+        <div class="tl-title">Tariffs Take Effect — MedTech Supply Chain Disrupted</div>
+        <div class="tl-body">25% steel and 10% aluminum tariffs go into force globally (except temporary exemptions for Canada, Mexico, EU, Australia, Argentina, Brazil, South Korea). MedTech manufacturers begin feeling cost pressure on stainless steel surgical instruments, implant materials, device housings, and diagnostic imaging equipment.</div>
+        <div><span class="tl-tag tag-med">MedTech Impact</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">May–Oct 2018</div>
+        <div class="tl-title">BIS Opens Product Exclusion Request Process</div>
+        <div class="tl-body">Bureau of Industry and Security (BIS) opens portal for companies to file product-specific exclusion requests. MedTech companies begin submitting requests for surgical-grade stainless steel, titanium alloys, and aluminum used in device manufacturing.</div>
+        <div><span class="tl-tag tag-med">Exclusions</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-gray"></div>
+        <div class="tl-date">July 1, 2018</div>
+        <div class="tl-title">Canada &amp; Mexico: Tariffs Imposed, Then Lifted</div>
+        <div class="tl-body">Steel/aluminum tariffs briefly applied to Canada and Mexico before exemptions restored. This back-and-forth created significant supply uncertainty for MedTech companies sourcing raw materials across North American borders.</div>
+        <div><span class="tl-tag tag-policy">Policy</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">May 20, 2019</div>
+        <div class="tl-title">Canada &amp; Mexico USMCA Exemptions Made Permanent</div>
+        <div class="tl-body">Tariffs on Canadian and Mexican steel/aluminum lifted permanently as part of USMCA ratification. Major relief for US MedTech manufacturers relying on Canadian specialty steel and Mexican manufacturing operations.</div>
+        <div><span class="tl-tag tag-alum">Aluminum</span><span class="tl-tag tag-steel">Steel</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">October 2021</div>
+        <div class="tl-title">EU: Tariff Rate Quotas (TRQs) Replace Tariffs</div>
+        <div class="tl-body">US-EU agreement replaces steel/aluminum tariffs with tariff rate quotas for EU origin goods. Within-quota imports enter duty-free; above-quota subject to 25%/10%. Mixed impact for MedTech depending on volume of EU specialty steel sourcing.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-date">March 2022</div>
+        <div class="tl-title">UK, Japan Granted TRQ Arrangements</div>
+        <div class="tl-body">Similar tariff rate quota frameworks established for UK and Japanese steel/aluminum. Relevant for companies sourcing precision steel from Japan or stainless from UK specialty mills.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-red"></div>
+        <div class="tl-date">February 10, 2025</div>
+        <div class="tl-title">Trump 2.0: New Proclamations — All Exemptions Revoked</div>
+        <div class="tl-body">President Trump signs new proclamations eliminating all prior exemptions, quota arrangements, and TRQs. Steel tariff maintained at 25%; aluminum tariff increased from 10% to 25%. Canada and Mexico lose USMCA exemptions. EU, UK, Japan TRQs terminated. This is the most significant escalation since 2018.</div>
+        <div><span class="tl-tag tag-steel">Steel 25%</span><span class="tl-tag tag-alum">Aluminum → 25%</span><span class="tl-tag tag-policy">Major Escalation</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-red"></div>
+        <div class="tl-date">March 12, 2025</div>
+        <div class="tl-title">Expanded Tariffs Take Effect — MedTech Cost Crisis</div>
+        <div class="tl-body">25% steel + 25% aluminum tariffs now apply to ALL countries globally with no exceptions. Canadian and Mexican content — heavily used in MedTech supply chains — is now tariffed. Companies with North American manufacturing (Stryker, Zimmer Biomet, Medtronic) face immediate COGS increases. Industry estimates $2–4B annual impact across sector.</div>
+        <div><span class="tl-tag tag-med">MedTech Crisis</span><span class="tl-tag tag-steel">Steel</span><span class="tl-tag tag-alum">Aluminum</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-yellow"></div>
+        <div class="tl-date">March–April 2025</div>
+        <div class="tl-title">AdvaMed Lobbying Effort &amp; Exclusion Campaign</div>
+        <div class="tl-body">Advanced Medical Technology Association (AdvaMed) files formal comment letters with BIS requesting categorical exclusions for medical-grade stainless steel, surgical titanium alloys, and aluminum used in Class II/III devices. FDA and HHS also engage with USTR on humanitarian device carve-outs.</div>
+        <div><span class="tl-tag tag-med">Advocacy</span><span class="tl-tag tag-policy">Regulatory</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-yellow"></div>
+        <div class="tl-date">Q2–Q3 2025</div>
+        <div class="tl-title">Industry Earnings Impact Becomes Visible</div>
+        <div class="tl-body">Q1/Q2 2025 earnings calls across MedTech sector cite Section 232 headwinds. Stryker guides $100–150M full-year tariff impact; Zimmer Biomet $60–80M; GE Healthcare cites imaging equipment cost increases. Price increase requests submitted to hospital systems and GPOs — largely pushed back.</div>
+        <div><span class="tl-tag tag-med">Earnings</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-purple"></div>
+        <div class="tl-date">Late 2025 – 2026</div>
+        <div class="tl-title">BIS Exclusion Decisions — Mixed Outcomes</div>
+        <div class="tl-body">BIS begins issuing decisions on 2025 exclusion requests. Medical device manufacturers receive partial relief: limited categorical exclusion for surgical-grade Type 316L stainless steel in Class III implants approved; broader aluminum exclusions for diagnostic imaging denied. Companies without exemptions seek alternate sourcing in India, Taiwan, and domestic US mills.</div>
+        <div><span class="tl-tag tag-med">Partial Relief</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-purple"></div>
+        <div class="tl-date">Ongoing — 2026</div>
+        <div class="tl-title">Bilateral Negotiations &amp; Section 232 Reviews</div>
+        <div class="tl-body">Multiple trading partners (EU, UK, Japan, Canada) pursuing bilateral deals to reinstate quota arrangements. No MedTech-specific carve-out achieved yet. BIS exclusion portal remains open. Watch for Commerce Dept policy reviews tied to trade negotiations.</div>
+        <div><span class="tl-tag tag-upcoming">Upcoming</span><span class="tl-tag tag-policy">Watch</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-date">Key Watch Date — Q3 2026</div>
+        <div class="tl-title">Potential USMCA Renegotiation Outcome</div>
+        <div class="tl-body">USMCA review scheduled for 2026. Restoration of Canada/Mexico exemptions would provide the single largest relief for MedTech supply chains. Monitor Commerce Dept announcements closely.</div>
+        <div><span class="tl-tag tag-upcoming">Watch</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── TARIFF RATES ── -->
+  <div id="rates" class="section">
+    <div class="section-header">
+      <div class="section-title">Current Tariff Rates by Material</div>
+      <div class="section-badge">Effective March 12, 2025</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Material</th>
+            <th>Rate</th>
+            <th>Prior Rate</th>
+            <th>Change</th>
+            <th>Key MedTech Uses</th>
+            <th>US Domestic Availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Steel (all forms)</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>25%</td>
+            <td>No change (exemptions removed)</td>
+            <td>Surgical instruments, orthopedic implants, hospital beds, sterilization equipment</td>
+            <td>Moderate — domestic specialty steel mills limited</td>
+          </tr>
+          <tr>
+            <td><strong>Stainless Steel 316L</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>25% (partial exemptions existed)</td>
+            <td>Exemptions removed</td>
+            <td>Implantable devices, surgical tools — gold standard biocompatibility</td>
+            <td>Low — most surgical-grade 316L imported</td>
+          </tr>
+          <tr>
+            <td><strong>Aluminum (all forms)</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>10%</td>
+            <td>+15 percentage points ▲</td>
+            <td>MRI/CT housings, device enclosures, surgical robots, EEG equipment</td>
+            <td>Moderate — US aluminum smelting capacity exists</td>
+          </tr>
+          <tr>
+            <td><strong>Cobalt-Chrome Alloys</strong></td>
+            <td><span class="rate-chip rate-low">0–10%</span></td>
+            <td>0–10%</td>
+            <td>No change (Section 301, not 232)</td>
+            <td>Hip/knee replacements, spinal implants</td>
+            <td>Very limited — specialized alloy</td>
+          </tr>
+          <tr>
+            <td><strong>Titanium (pure/alloy)</strong></td>
+            <td><span class="rate-chip rate-zero">0%</span></td>
+            <td>0%</td>
+            <td>Not covered under Section 232</td>
+            <td>Bone screws, dental implants, spinal rods, Class III devices</td>
+            <td>Limited — Japan, Russia historically major suppliers</td>
+          </tr>
+          <tr>
+            <td><strong>Aluminum Alloy (6061-T6)</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>10%</td>
+            <td>+15 percentage points ▲</td>
+            <td>Robotic surgical systems, diagnostic device frames, ventilators</td>
+            <td>Moderate</td>
+          </tr>
+          <tr>
+            <td><strong>Stainless Steel Sheet/Coil</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>25% (Canada/Mexico exempt)</td>
+            <td>Canada/Mexico exemptions removed</td>
+            <td>Device enclosures, trays, packaging, hospital furniture</td>
+            <td>Moderate</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── COUNTRY STATUS ── -->
+  <div id="countries" class="section">
+    <div class="section-header">
+      <div class="section-title">Country Exemption Status</div>
+      <div class="section-badge">As of March 12, 2025</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Country/Region</th>
+            <th>Steel</th>
+            <th>Aluminum</th>
+            <th>Status</th>
+            <th>MedTech Sourcing Relevance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🇨🇦 Canada</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">USMCA exemption revoked</td>
+            <td>Critical — major supplier of surgical steel, aluminum for US MedTech</td>
+          </tr>
+          <tr>
+            <td><strong>🇲🇽 Mexico</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">USMCA exemption revoked</td>
+            <td>High — significant MedTech manufacturing hub (Guadalajara cluster)</td>
+          </tr>
+          <tr>
+            <td><strong>🇪🇺 European Union</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">TRQ arrangement terminated</td>
+            <td>High — Germany, Sweden, France supply specialty surgical-grade steel</td>
+          </tr>
+          <tr>
+            <td><strong>🇬🇧 United Kingdom</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">TRQ arrangement terminated</td>
+            <td>Moderate — Sheffield specialty steel; implant-grade alloys</td>
+          </tr>
+          <tr>
+            <td><strong>🇯🇵 Japan</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">TRQ arrangement terminated</td>
+            <td>High — precision stainless steel; endoscope and instrument manufacturing</td>
+          </tr>
+          <tr>
+            <td><strong>🇰🇷 South Korea</strong></td>
+            <td><span class="rate-chip rate-mid">Quota</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--warn)">Steel quota maintained; alum tariffed</td>
+            <td>Moderate — diagnostic imaging components</td>
+          </tr>
+          <tr>
+            <td><strong>🇦🇺 Australia</strong></td>
+            <td><span class="rate-chip rate-low">Exempt</span></td>
+            <td><span class="rate-chip rate-low">Exempt</span></td>
+            <td style="color:var(--green)">Permanent exemption retained</td>
+            <td>Low direct MedTech sourcing impact</td>
+          </tr>
+          <tr>
+            <td><strong>🇧🇷 Brazil</strong></td>
+            <td><span class="rate-chip rate-mid">Quota</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--warn)">Steel TRQ; aluminum full tariff</td>
+            <td>Low MedTech relevance</td>
+          </tr>
+          <tr>
+            <td><strong>🇮🇳 India</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">Full tariff — no exemption</td>
+            <td>Growing — Indian generic device manufacturers; surgical instrument exports</td>
+          </tr>
+          <tr>
+            <td><strong>🇨🇳 China</strong></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td style="color:var(--danger)">Full tariff + additional Section 301</td>
+            <td>High — many MedTech components sourced from China; double-tariff exposure</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── MEDTECH IMPACT ── -->
+  <div id="impact" class="section">
+    <div class="section-header">
+      <div class="section-title">MedTech Product Impact Matrix</div>
+      <div class="section-badge">By Device Category</div>
+    </div>
+    <div class="matrix">
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">🦴 Orthopedic Implants</div>
+          <div class="severity sev-critical">CRITICAL</div>
+        </div>
+        <div class="impact-detail">Hip/knee replacements, spinal implants, bone screws. Primary materials are cobalt-chrome and titanium (not Section 232 covered), but stainless steel implants and surgical instruments for procedures are heavily impacted.</div>
+        <div class="impact-rate">Steel tariff exposure: <strong>HIGH</strong> (instruments) | Implant materials: <strong>LOW</strong> (Ti/CoCr)</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">🔬 Surgical Instruments</div>
+          <div class="severity sev-critical">CRITICAL</div>
+        </div>
+        <div class="impact-detail">Forceps, scissors, retractors, clamps — almost universally Type 316L stainless steel. Largely sourced from Germany (Tuttlingen cluster), Japan, and Pakistan. All now face 25% tariff with no exemption pathway.</div>
+        <div class="impact-rate">Tariff exposure: <strong>25% on nearly all imported units</strong></div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">📡 Diagnostic Imaging (MRI/CT)</div>
+          <div class="severity sev-high">HIGH</div>
+        </div>
+        <div class="impact-detail">MRI gantries, CT frames, X-ray tables use substantial steel and aluminum. GE Healthcare, Siemens Healthineers, Philips — all manufacture globally. Large capital equipment with long replacement cycles means price increases hard to pass through quickly.</div>
+        <div class="impact-rate">Steel + aluminum exposure: <strong>$50–300K per system</strong> in additional tariff cost</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">🤖 Surgical Robots</div>
+          <div class="severity sev-high">HIGH</div>
+        </div>
+        <div class="impact-detail">Intuitive Surgical's da Vinci, Stryker Mako, Zimmer Biomet ROSA — precision aluminum and steel structural components. Systems cost $1–2M+ and contain significant aluminum alloy content for weight/precision.</div>
+        <div class="impact-rate">Aluminum (25%) is primary exposure; significant BOM cost impact</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">💉 Infusion &amp; IV Devices</div>
+          <div class="severity sev-medium">MEDIUM</div>
+        </div>
+        <div class="impact-detail">Infusion pumps, IV poles, administration sets — steel and aluminum components in pumps and stands. Lower tariff exposure as percentage of total COGS vs. capital equipment, but high volume amplifies absolute dollar impact.</div>
+        <div class="impact-rate">Moderate per-unit impact at scale</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">🫀 Cardiac Rhythm Devices</div>
+          <div class="severity sev-medium">MEDIUM</div>
+        </div>
+        <div class="impact-detail">Pacemakers, ICDs, CRT devices — titanium cases (not Section 232), but manufacturing equipment and tooling have steel exposure. Medtronic, Abbott, Boston Scientific manufacturing in Ireland, US, Dominican Republic each face different supply chain tariff profiles.</div>
+        <div class="impact-rate">Indirect exposure via manufacturing tooling and equipment</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">🏥 Hospital Furniture &amp; Beds</div>
+          <div class="severity sev-high">HIGH</div>
+        </div>
+        <div class="impact-detail">Hospital beds, operating tables, procedure carts, stainless steel sinks — high steel content, often sourced from Canada, EU, or China. Stryker Medical Beds segment and Hill-Rom (Baxter) directly exposed.</div>
+        <div class="impact-rate">25% tariff on substantial steel content per unit</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-card-header">
+          <div class="impact-name">🫁 Respiratory &amp; Ventilators</div>
+          <div class="severity sev-medium">MEDIUM</div>
+        </div>
+        <div class="impact-detail">Ventilators, CPAP/BiPAP devices — aluminum housings and internal components. Significant post-COVID domestic manufacturing investment reduced import dependency, but specialized aluminum components still sourced internationally.</div>
+        <div class="impact-rate">Aluminum (25%) is primary material exposure</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── HTS CODES ── -->
+  <div id="hts" class="section">
+    <div class="section-header">
+      <div class="section-title">Key HTS Codes — MedTech</div>
+      <div class="section-badge">For exclusion requests &amp; customs filings</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>HTS Code</th>
+            <th>Description</th>
+            <th>232 Material</th>
+            <th>Tariff Rate</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>9018.90</code></td>
+            <td>Surgical instruments (other)</td>
+            <td>Steel</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Broadest surgical instrument category; primary focus for exclusion requests</td>
+          </tr>
+          <tr>
+            <td><code>9021.39</code></td>
+            <td>Orthopedic implants (other)</td>
+            <td>Steel / Other</td>
+            <td><span class="rate-chip rate-mid">Partial</span></td>
+            <td>Depends on material; stainless steel versions tariffed, titanium not</td>
+          </tr>
+          <tr>
+            <td><code>9022.19</code></td>
+            <td>X-ray equipment (other than medical)</td>
+            <td>Steel + Aluminum</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Capital equipment with high metal content</td>
+          </tr>
+          <tr>
+            <td><code>9022.12</code></td>
+            <td>CT scanners</td>
+            <td>Steel + Aluminum</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Significant tariff exposure on steel gantries and aluminum components</td>
+          </tr>
+          <tr>
+            <td><code>9018.11</code></td>
+            <td>Electrocardiographs</td>
+            <td>Aluminum</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Aluminum housing; medium tariff exposure</td>
+          </tr>
+          <tr>
+            <td><code>7304.41</code></td>
+            <td>Seamless stainless steel tubes</td>
+            <td>Steel</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Used in surgical instruments; raw material tariff compounds finished goods tariff</td>
+          </tr>
+          <tr>
+            <td><code>7220.20</code></td>
+            <td>Stainless steel flat-rolled products</td>
+            <td>Steel</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Sheet/coil stock; MedTech manufacturers importing to US plants pay tariff at border</td>
+          </tr>
+          <tr>
+            <td><code>7606.12</code></td>
+            <td>Aluminum alloy plates/sheets</td>
+            <td>Aluminum</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Device housings, surgical robots, imaging equipment</td>
+          </tr>
+          <tr>
+            <td><code>9019.20</code></td>
+            <td>Ozone/oxygen therapy apparatus, ventilators</td>
+            <td>Aluminum</td>
+            <td><span class="rate-chip rate-high">25%</span></td>
+            <td>Aluminum-intensive; post-COVID domestic capacity partially offsets</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── EXCLUSION PROCESS ── -->
+  <div id="exclusions" class="section">
+    <div class="section-header">
+      <div class="section-title">Exclusion &amp; Mitigation Pathways</div>
+      <div class="section-badge">BIS Process &amp; Alternatives</div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggle(this)">
+        <div class="acc-title">🛡️ BIS Product Exclusion Requests (Primary Route)</div>
+        <div class="acc-arrow">▼</div>
+      </div>
+      <div class="acc-body open">
+        <ul>
+          <li>Filed through BIS portal (bis.doc.gov) — company-specific or industry-wide requests</li>
+          <li>Must demonstrate: (1) product unavailable domestically in sufficient quantity/quality, OR (2) specific national security / humanitarian need</li>
+          <li>Medical device manufacturers should cite FDA-mandated material specifications (e.g., ASTM F138 for 316L surgical steel) as basis for domestic unavailability</li>
+          <li>Requests can be opposed by US domestic producers (Nucor, US Steel, Century Aluminum)</li>
+          <li>Processing time: 90–270+ days; approvals are product/HTS-code specific, not blanket</li>
+          <li>Approved exclusions are company-specific (other companies must file separately) and typically 1-year duration</li>
+          <li><strong>Key tip:</strong> Include FDA 510(k) or PMA documentation, ASTM/ISO material standards citations, and volume data in the request</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggle(this)">
+        <div class="acc-title">🏭 Domestic Sourcing Alternatives</div>
+        <div class="acc-arrow">▼</div>
+      </div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Carpenter Technology (CRS)</strong> — Reading, PA; surgical-grade stainless and specialty alloys; premium pricing but tariff-free</li>
+          <li><strong>Allegheny Technologies (ATI)</strong> — Pittsburgh, PA; specialty stainless and titanium; strong MedTech customer base</li>
+          <li><strong>Haynes International</strong> — Kokomo, IN; high-performance alloys for implants</li>
+          <li><strong>Universal Forest Products / Olympic Steel</strong> — stainless service centers for sheet/coil</li>
+          <li>Domestic capacity constrained — lead times extended 3–6 months in 2025; price premiums of 10–20% over import + tariff may still apply</li>
+          <li>For aluminum: Novelis (Atlanta, GA), Arconic — both produce medical-grade aluminum alloys</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggle(this)">
+        <div class="acc-title">🌏 Supply Chain Diversification</div>
+        <div class="acc-arrow">▼</div>
+      </div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>India</strong> — Growing stainless steel sector; Jindal Stainless and Apar Industries export surgical-grade steel; still faces 25% tariff but competitive base price</li>
+          <li><strong>Taiwan</strong> — Precision steel and aluminum machining for medical devices; 25% tariff applies but high quality</li>
+          <li><strong>South Korea</strong> — Steel quota arrangement reduces exposure; POSCO is a major supplier of specialty grades</li>
+          <li><strong>Australia</strong> — Full exemption maintained but limited specialty medical steel capacity</li>
+          <li>Note: Supply chain shifting takes 12–24 months minimum due to qualification requirements for regulated medical device materials</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggle(this)">
+        <div class="acc-title">💰 Financial / Customs Mitigation</div>
+        <div class="acc-arrow">▼</div>
+      </div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Foreign Trade Zones (FTZs)</strong> — Defer or potentially reduce tariff exposure; applicable if materials are further manufactured in the US</li>
+          <li><strong>Bonded Warehouses</strong> — Defer tariff payment; useful for working capital but doesn't reduce liability</li>
+          <li><strong>Duty Drawback</strong> — If importing material and then exporting finished devices, can recover ~99% of tariffs paid; complex but valuable for export-heavy companies</li>
+          <li><strong>First Sale Valuation</strong> — Use factory price (not importer price) as customs value basis — reduces tariff base</li>
+          <li><strong>Contract renegotiation</strong> — Push tariff burden to overseas suppliers; success depends on supplier leverage</li>
+          <li><strong>Price pass-through</strong> — Limited in MedTech due to GPO contracts and hospital budget pressure; CMS reimbursement lag</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggle(this)">
+        <div class="acc-title">⚖️ Legal Challenges</div>
+        <div class="acc-arrow">▼</div>
+      </div>
+      <div class="acc-body">
+        <ul>
+          <li>Multiple importers have challenged Section 232 tariffs in the Court of International Trade (CIT) — largely unsuccessful; courts have upheld Presidential authority</li>
+          <li>CAFC (Court of Appeals for the Federal Circuit) has consistently upheld broad Presidential discretion under Section 232</li>
+          <li>Legislative route: Congress could pass medical device tariff exemption legislation — AdvaMed actively lobbying; bipartisan support exists but passage uncertain</li>
+          <li>WTO disputes ongoing — EU, Canada, others filed complaints; rulings largely favor complainants but US has blocked Appellate Body appointments, limiting enforcement</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── KEY COMPANIES ── -->
+  <div id="companies" class="section">
+    <div class="section-header">
+      <div class="section-title">Key Companies &amp; Estimated Exposure</div>
+      <div class="section-badge">Public disclosures &amp; estimates</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Ticker</th>
+            <th>Est. Annual 232 Impact</th>
+            <th>Primary Exposure</th>
+            <th>Mitigation Actions Disclosed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Stryker</strong></td>
+            <td>SYK</td>
+            <td style="color:var(--danger)">$100–150M</td>
+            <td>Surgical instruments, hospital beds, aluminum (Mako robot)</td>
+            <td>Exclusion requests filed; accelerating US domestic sourcing; modest price increases to hospitals</td>
+          </tr>
+          <tr>
+            <td><strong>Zimmer Biomet</strong></td>
+            <td>ZBH</td>
+            <td style="color:var(--danger)">$60–80M</td>
+            <td>Surgical instruments, steel implants, ROSA robot (aluminum)</td>
+            <td>Supply chain review; exclusion filings; Warsaw IN plant expansion</td>
+          </tr>
+          <tr>
+            <td><strong>Medtronic</strong></td>
+            <td>MDT</td>
+            <td style="color:var(--warn)">$80–120M</td>
+            <td>Surgical robots (Hugo), imaging, spine hardware, hospital equipment</td>
+            <td>Diversified global mfg; Irish operations partially insulated; exclusion requests</td>
+          </tr>
+          <tr>
+            <td><strong>GE Healthcare</strong></td>
+            <td>GEHC</td>
+            <td style="color:var(--danger)">$150–250M</td>
+            <td>MRI, CT, X-ray systems (steel + aluminum intensive)</td>
+            <td>US manufacturing already significant; sourcing from domestic mills where possible</td>
+          </tr>
+          <tr>
+            <td><strong>Siemens Healthineers</strong></td>
+            <td>SHL.DE</td>
+            <td style="color:var(--danger)">$100–200M</td>
+            <td>Imaging systems, lab diagnostics equipment</td>
+            <td>German manufacturing faces 25% tariff on US exports; US plant investment announced</td>
+          </tr>
+          <tr>
+            <td><strong>Intuitive Surgical</strong></td>
+            <td>ISRG</td>
+            <td style="color:var(--warn)">$40–70M</td>
+            <td>da Vinci robot (aluminum-intensive precision components)</td>
+            <td>US manufacturing dominant; monitoring situation; some import component exposure</td>
+          </tr>
+          <tr>
+            <td><strong>Boston Scientific</strong></td>
+            <td>BSX</td>
+            <td style="color:var(--warn)">$30–60M</td>
+            <td>Endoscopy equipment, EP catheters (limited direct steel exposure)</td>
+            <td>Relatively lower exposure; monitoring</td>
+          </tr>
+          <tr>
+            <td><strong>Becton Dickinson</strong></td>
+            <td>BDX</td>
+            <td style="color:var(--warn)">$50–90M</td>
+            <td>Surgical prep equipment, diagnostic instruments, needles (steel)</td>
+            <td>Global manufacturing network; supply chain diversification ongoing</td>
+          </tr>
+          <tr>
+            <td><strong>Baxter / Hill-Rom</strong></td>
+            <td>BAX</td>
+            <td style="color:var(--danger)">$80–130M</td>
+            <td>Hospital beds, IV poles, infusion systems, surgical tables</td>
+            <td>High steel content in hospital furniture; price negotiation with GPOs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── ACTION ITEMS ── -->
+  <div id="actions" class="section">
+    <div class="section-header">
+      <div class="section-title">Action Items &amp; Checklist</div>
+      <div class="section-badge">For MedTech companies</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+      <ul class="action-list">
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">File BIS exclusion requests for all affected HTS codes <span class="priority p-urgent">URGENT</span></div>
+            <div class="action-meta">Deadline: rolling — but earlier submissions get earlier decisions. Include ASTM material specs, volume data, and FDA device classification documentation.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Conduct full BOM tariff audit across all imported materials <span class="priority p-urgent">URGENT</span></div>
+            <div class="action-meta">Map every steel and aluminum input by HTS code, country of origin, and annual import volume. Quantify the total 232 tariff exposure precisely.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Review and update supplier contracts for tariff allocation clauses <span class="priority p-high">HIGH</span></div>
+            <div class="action-meta">Many older contracts are silent on tariff responsibility. Renegotiate to include tariff pass-through provisions or price adjustment mechanisms tied to Section 232 rates.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Qualify domestic US steel/aluminum suppliers (Carpenter Tech, ATI, Novelis) <span class="priority p-high">HIGH</span></div>
+            <div class="action-meta">Requires material qualification testing under FDA CFR Part 820 / ISO 13485. Start now — 12–18 month qualification timelines. Request material certs and begin testing.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Evaluate Foreign Trade Zone (FTZ) status for manufacturing facilities <span class="priority p-high">HIGH</span></div>
+            <div class="action-meta">If importing raw materials for further manufacture and export, FTZ status + duty drawback can recover significant tariff costs. Engage customs counsel.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Join AdvaMed Section 232 working group and co-sign industry comment letters <span class="priority p-medium">MEDIUM</span></div>
+            <div class="action-meta">Collective industry voice is most effective for BIS exclusion decisions and Congressional action. Coordinate with AdvaMed for coordinated filings and lobbying.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Model USMCA renegotiation scenarios (Q3 2026 watch date) <span class="priority p-medium">MEDIUM</span></div>
+            <div class="action-meta">Restoration of Canada/Mexico exemptions is the single largest potential relief event. Model financial impact and have sourcing strategy ready to adapt quickly.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Disclose Section 232 exposure in 10-K / annual report risk factors <span class="priority p-medium">MEDIUM</span></div>
+            <div class="action-meta">SEC expects material tariff exposure disclosure. Quantify impact where possible. Consult securities counsel on materiality thresholds.</div>
+          </div>
+        </li>
+        <li class="action-item">
+          <div class="action-check">☐</div>
+          <div class="action-content">
+            <div class="action-title">Explore South Korean sourcing for steel inputs (quota arrangement maintained) <span class="priority p-medium">MEDIUM</span></div>
+            <div class="action-meta">South Korea retains a quota arrangement for steel — within quota, rate is effectively 0%. POSCO and POSCO International supply surgical-grade stainless. Investigate volume availability.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── WATCH LIST ── -->
+  <div id="watchlist" class="section">
+    <div class="section-header">
+      <div class="section-title">Watch List — Upcoming Catalysts</div>
+      <div class="section-badge">Monitor closely</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Expected Timing</th>
+            <th>Potential Impact</th>
+            <th>What to Watch For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>USMCA Joint Review</strong></td>
+            <td style="color:var(--warn)">2026 (ongoing)</td>
+            <td style="color:var(--green)">+++ Relief if Canada/Mexico reinstated</td>
+            <td>Commerce Dept announcements; Presidential proclamation amendments; any joint statement from US-Canada-Mexico summit</td>
+          </tr>
+          <tr>
+            <td><strong>BIS Exclusion Decisions (batch)</strong></td>
+            <td style="color:var(--warn)">Q3 2026</td>
+            <td style="color:var(--warn)">Partial relief — product specific</td>
+            <td>Federal Register notices; BIS portal status updates; AdvaMed communications</td>
+          </tr>
+          <tr>
+            <td><strong>US-EU Global Steel Arrangement negotiations</strong></td>
+            <td style="color:var(--muted)">2026–2027</td>
+            <td style="color:var(--green)">++ Relief if TRQ arrangement restored</td>
+            <td>USTR announcements; joint US-EU communiqués; any G7 trade outcomes</td>
+          </tr>
+          <tr>
+            <td><strong>Congressional Medical Device Tariff Relief Bill</strong></td>
+            <td style="color:var(--muted)">Uncertain</td>
+            <td style="color:var(--green)">+++ If passed — categorical exclusion</td>
+            <td>AdvaMed legislative tracker; Senate Finance / House Ways &amp; Means committee activity</td>
+          </tr>
+          <tr>
+            <td><strong>CMS Reimbursement Rate Updates</strong></td>
+            <td style="color:var(--warn)">Annual (Nov/Dec)</td>
+            <td style="color:var(--warn)">Indirect — limits price pass-through ability</td>
+            <td>IPPS / OPPS / ASC rule finalization; any tariff-cost-of-care adjustment language</td>
+          </tr>
+          <tr>
+            <td><strong>US-Japan Bilateral Trade Deal</strong></td>
+            <td style="color:var(--muted)">2026</td>
+            <td style="color:var(--warn)">+ Partial relief for Japanese steel/precision components</td>
+            <td>USTR negotiating updates; any TRQ restoration for steel from Japan</td>
+          </tr>
+          <tr>
+            <td><strong>Section 232 Derivative Products Expansion</strong></td>
+            <td style="color:var(--danger)">Risk — ongoing</td>
+            <td style="color:var(--danger)">--- If expanded to finished goods with steel content</td>
+            <td>Commerce Dept "derivative products" rulemaking; any expansion of 232 to finished devices themselves</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="last-updated">
+    Last updated: May 16, 2026 · Data sources: Federal Register, BIS, USTR, AdvaMed, company earnings disclosures, Commerce Dept proclamations · <em>For informational purposes — consult trade counsel for legal advice</em>
+  </div>
+
+</main>
+</div>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.acc-arrow');
+    body.classList.toggle('open');
+    arrow.classList.toggle('open');
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+
+  // Highlight nav on scroll
+  const sections = document.querySelectorAll('.section, #summary');
+  const navLinks = document.querySelectorAll('.nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
