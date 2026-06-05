@@ -16,9 +16,10 @@
 |---|---|---|---|---|---|---|
 | **Nutrition** | ~$8.4bn | ~$1.7–1.9bn | 2.0x – 3.0x | 11x – 15x | **~$18bn – $26bn** | ~$22bn |
 | **Established Pharmaceuticals (EPD)** | ~$5.2bn | ~$1.3–1.45bn | 2.5x – 3.5x | 11x – 14x | **~$13bn – $19bn** | ~$16bn |
-| **Combined** | ~$13.6bn | ~$3.0–3.3bn | — | — | **~$31bn – $45bn** | **~$38bn** |
+| **Combined (pre-adjustment)** | ~$13.6bn | ~$3.0–3.3bn | — | — | **~$31bn – $45bn** | **~$38bn** |
+| **Combined (after carve-out costs + NEC)** | ~$13.6bn | ~$3.0bn standalone | — | — | **~$28bn – $42bn** | **~$35bn** |
 
-\* *Estimated. Abbott discloses segment operating margin, not segment EBITDA. EBITDA approximated by adding back assumed D&A of ~3–4% of sales to disclosed segment operating earnings (see §3).*
+\* *Estimated. Abbott discloses segment operating margin, not segment EBITDA. EBITDA approximated by adding back assumed D&A of ~3–4% of sales to disclosed segment operating earnings (see §3). The "after carve-out" row applies standalone/dis-synergy costs (1.5% of sales for Nutrition, 2.0% for EPD) to EBITDA and nets an illustrative $1.5bn NEC litigation deduction off Nutrition EV — see §6.5. All assumptions are editable on the workbook's Inputs tab; a live two-way Sensitivity tab shows the swing.*
 
 **Key takeaways**
 - Both assets are **scaled, profitable, emerging-market-weighted franchises** that map cleanly onto an active set of M&A precedents — strategic carve-outs are highly feasible.
@@ -128,21 +129,35 @@ Abbott does not publish segment EBITDA. We approximate:
 
 ---
 
+## 6.5 Carve-out / Standalone & Stranded Cost Assumptions
+
+A divested unit cannot rely on Abbott's shared corporate infrastructure, so two adjustments are applied (both editable on the Inputs tab, flagged as **ESTIMATE** on the Sources tab):
+
+| Adjustment | Assumption | Basis | Effect |
+|---|---|---|---|
+| **Standalone / dis-synergy cost** | **1.5%** of sales (Nutrition), **2.0%** (EPD) | Typical carve-out dis-synergy is ~1–3% of revenue — the standalone unit must rebuild finance, IT, HR, legal, regulatory, treasury (net of any TSA recoveries). EPD set higher as it is more embedded in Abbott's EM commercial platform. | Reduces estimated EBITDA → lowers the EV/EBITDA-derived value. Nutrition standalone EBITDA ~$1.7bn (from ~$1.8bn); EPD ~$1.27bn (from ~$1.37bn). |
+| **NEC litigation risk deduction** | **$1.5bn** (illustrative) netted off Nutrition EV | Buyer indemnity/escrow ask given the NEC overhang (§6, verdicts $58–495m, ~683 active cases). **Not** a booked Abbott provision; Abbott has also won defense verdicts and is appealing. Placeholder — flex on Inputs tab. | Direct reduction to Nutrition enterprise value. |
+
+**Buyer type matters:** the standalone-cost drag is borne by a **financial (PE) buyer**; a **strategic** acquirer with an existing platform may eliminate much of it through synergies (and could pay toward the *pre-adjustment* range). 
+
+**Stranded costs** (the overhead left behind at Abbott that does *not* transfer with the unit) are **not** deducted from the target's EV here — they affect Abbott RemainCo's margins and the seller's net-proceeds analysis, and should be modelled separately on the sell-side.
+
 ## 7. Indicative Valuation Output
 
-**Nutrition**
+**Nutrition** (standalone EBITDA ~$1.7bn after dis-synergy)
 - EV/Sales: 2.0x–3.0x × $8.4bn → **$16.8bn – $25.2bn**
-- EV/EBITDA: 11x–15x × ~$1.8bn → **$19.8bn – $27.0bn**
-- **Blended indicative EV: ~$18bn – $26bn (midpoint ~$22bn)**
+- EV/EBITDA: 11x–15x × ~$1.7bn → **$18.6bn – $25.4bn**
+- Blended (pre-litigation): ~$17bn – $25bn
+- **less illustrative NEC deduction ($1.5bn) → Adjusted EV: ~$15bn – $24bn (midpoint ~$20bn)**
 
-**Established Pharmaceuticals (EPD)**
+**Established Pharmaceuticals (EPD)** (standalone EBITDA ~$1.27bn after dis-synergy)
 - EV/Sales: 2.5x–3.5x × $5.2bn → **$13.0bn – $18.2bn**
-- EV/EBITDA: 11x–14x × ~$1.4bn → **$15.4bn – $19.6bn**
-- **Blended indicative EV: ~$13bn – $19bn (midpoint ~$16bn)**
+- EV/EBITDA: 11x–14x × ~$1.27bn → **$14.0bn – $17.8bn**
+- **Blended indicative EV: ~$13bn – $18bn (midpoint ~$16bn)**
 
-**Combined indicative EV: ~$31bn – $45bn (midpoint ~$38bn).**
+**Combined indicative EV: ~$28bn – $42bn (midpoint ~$35bn)** after standalone/dis-synergy costs and the illustrative NEC deduction. *(Pre-adjustment, i.e. as a synergy-capturing strategic might underwrite: ~$31bn – $45bn, midpoint ~$38bn.)*
 
-> Sensitivities worth modelling next: (i) NEC litigation provision / indemnity cost on Nutrition; (ii) Nutrition SOTP (adult at consumer-health multiples vs. pediatric at a litigation-discounted multiple); (iii) stand-alone (carve-out) margin haircut for stranded costs; (iv) EM FX on EPD; (v) tax leakage on disposal structure.
+> The workbook's **Sensitivity** tab provides two live two-way tables: (A) Nutrition adjusted EV across EV/EBITDA multiple × standalone-cost %, and (B) combined EV across NEC deduction × standalone-cost %. Other sensitivities worth layering next: Nutrition SOTP (adult at consumer-health multiples vs. pediatric litigation-discounted), EM FX on EPD, and tax leakage on the disposal structure.
 
 ---
 

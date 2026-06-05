@@ -73,6 +73,19 @@ put(ws,r,4,"ESTIMATE = operating earnings + D&A add-back",sub_font,green_fill); 
 put(ws,r,1,"Implied EBITDA margin",reg,green_fill)
 put(ws,r,2,f"=B{ebitda_row}/B8",reg,green_fill,PCT,right); put(ws,r,3,f"=C{ebitda_row}/C8",reg,green_fill,PCT,right)
 put(ws,r,4,"DERIVED",sub_font,green_fill); r+=2
+# ---- carve-out / standalone adjustments ----
+put(ws,r,1,"Carve-out / standalone adjustments",secn_font,bd=False); r+=1
+hrow(ws,r,1,["Adjustment","Nutrition","EPD","Basis / source (see Sources tab)"]); r+=1
+put(ws,r,1,"Standalone cost / dis-synergy (% of sales)",bold)
+put(ws,r,2,0.015,input_font,fmt=PCT,align=right); put(ws,r,3,0.020,input_font,fmt=PCT,align=right)
+put(ws,r,4,"ESTIMATE — corporate functions a standalone unit must rebuild; typical carve-out 1-3% of sales [S20]",reg); stdcost_row=r; r+=1
+put(ws,r,1,"Standalone-adjusted EBITDA ($m)",bold,green_fill)
+put(ws,r,2,f"=B{ebitda_row}-B{stdcost_row}*B8",bold,green_fill,USD0,right)
+put(ws,r,3,f"=C{ebitda_row}-C{stdcost_row}*C8",bold,green_fill,USD0,right)
+put(ws,r,4,"ESTIMATE = estimated EBITDA - standalone cost (drives EV/EBITDA). PE buyer bears this; a strategic may offset via synergies.",sub_font,green_fill); stand_row=r; r+=1
+put(ws,r,1,"NEC litigation risk deduction ($m, applied to Nutrition EV)",bold)
+put(ws,r,2,1500,input_font,fmt=USD0,align=right); put(ws,r,3,0,input_font,fmt=USD0,align=right)
+put(ws,r,4,"ESTIMATE / ILLUSTRATIVE — buyer indemnity ask; not a booked Abbott provision. Verdicts $58-495m, many on appeal [S19, S21]",reg); nec_row=r; r+=2
 put(ws,r,1,"Selected multiple ranges (judgement — see rationale below)",secn_font,bd=False); r+=1
 hrow(ws,r,1,["Multiple","Nutrition low","Nutrition high","EPD low","EPD high"]); r+=1
 mult_start=r
@@ -94,9 +107,13 @@ ws.cell(row=ebitda_row,column=1).comment=Comment(
  "ESTIMATE. Abbott does not publish EBITDA by segment. = disclosed segment operating earnings + assumed D&A add-back. See Sources tab note S4.","Analysis")
 for i,w in enumerate([42,13,13,52],1): ws.column_dimensions[get_column_letter(i)].width=w
 INP="'Inputs & Assumptions'"
-EB_N,EB_E=f"{INP}!B{ebitda_row}",f"{INP}!C{ebitda_row}"
+# EV/EBITDA is applied to the STANDALONE-adjusted EBITDA (post dis-synergy)
+EB_N,EB_E=f"{INP}!B{stand_row}",f"{INP}!C{stand_row}"
+EBPRE_N,EBPRE_E=f"{INP}!B{ebitda_row}",f"{INP}!C{ebitda_row}"
 SAL_N,SAL_E=f"{INP}!B8",f"{INP}!C8"
+NEC_N=f"{INP}!B{nec_row}"
 MS=mult_start
+ME=mult_start+1
 
 # ============================================================ COMPS
 def comps_sheet(title,banner_sub,data):
@@ -153,26 +170,37 @@ comps_sheet("EPD Comps",
 # ============================================================ VALUATION
 ws=wb.create_sheet("Valuation"); ws.sheet_view.showGridLines=False
 banner(ws,6,"Valuation — Implied Enterprise Value","Driven by Inputs & Assumptions tab. $ in US$m; EV midpoint shown in $bn.")
-def block(ws,r,name,sal,eb,ms_lo,ms_hi,me_lo,me_hi):
+def block(ws,r,name,sal,eb,ms_lo,ms_hi,me_lo,me_hi,nec=None):
     put(ws,r,1,name,secn_font,bd=False); r+=1
     hrow(ws,r,1,["Method","Multiple low","Multiple high","EV low ($m)","EV high ($m)","EV midpoint ($bn)"]); r+=1
-    put(ws,r,1,"EV / Sales",bold)
+    put(ws,r,1,"EV / Sales (reported sales)",bold)
     put(ws,r,2,f"={INP}!{ms_lo}{MS}",reg,fmt=MULT,align=right); put(ws,r,3,f"={INP}!{ms_hi}{MS}",reg,fmt=MULT,align=right)
     put(ws,r,4,f"={sal}*B{r}",reg,fmt=USD0,align=right); put(ws,r,5,f"={sal}*C{r}",reg,fmt=USD0,align=right)
     put(ws,r,6,f"=AVERAGE(D{r}:E{r})/1000",reg,fmt='#,##0.0"bn"',align=right); sr=r; r+=1
-    put(ws,r,1,"EV / EBITDA",bold)
-    put(ws,r,2,f"={INP}!{me_lo}{MS+1}",reg,fmt=MULT,align=right); put(ws,r,3,f"={INP}!{me_hi}{MS+1}",reg,fmt=MULT,align=right)
+    put(ws,r,1,"EV / EBITDA (standalone EBITDA)",bold)
+    put(ws,r,2,f"={INP}!{me_lo}{ME}",reg,fmt=MULT,align=right); put(ws,r,3,f"={INP}!{me_hi}{ME}",reg,fmt=MULT,align=right)
     put(ws,r,4,f"={eb}*B{r}",reg,fmt=USD0,align=right); put(ws,r,5,f"={eb}*C{r}",reg,fmt=USD0,align=right)
     put(ws,r,6,f"=AVERAGE(D{r}:E{r})/1000",reg,fmt='#,##0.0"bn"',align=right); er=r; r+=1
-    put(ws,r,1,"Blended indicative EV",bold,gold_fill)
+    put(ws,r,1,"Blended indicative EV (pre-litigation)",bold,gold_fill)
     for c in (2,3): put(ws,r,c,"",reg,gold_fill)
     put(ws,r,4,f"=MIN(D{sr}:E{er})",bold,gold_fill,USD0,right); put(ws,r,5,f"=MAX(D{sr}:E{er})",bold,gold_fill,USD0,right)
-    put(ws,r,6,f"=AVERAGE(D{r}:E{r})/1000",bold,gold_fill,'#,##0.0"bn"',right)
-    return r+2,r
+    put(ws,r,6,f"=AVERAGE(D{r}:E{r})/1000",bold,gold_fill,'#,##0.0"bn"',right); blend=r; r+=1
+    if nec:
+        put(ws,r,1,"less: NEC litigation risk deduction",reg)
+        for c in (2,3): put(ws,r,c,"",reg)
+        put(ws,r,4,f"=-{nec}",reg,fmt=USD0,align=right); put(ws,r,5,f"=-{nec}",reg,fmt=USD0,align=right)
+        put(ws,r,6,"",reg); r+=1
+        put(ws,r,1,"Adjusted indicative EV",bold,green_fill)
+        for c in (2,3): put(ws,r,c,"",reg,green_fill)
+        put(ws,r,4,f"=D{blend}-{nec}",bold,green_fill,USD0,right); put(ws,r,5,f"=E{blend}-{nec}",bold,green_fill,USD0,right)
+        put(ws,r,6,f"=AVERAGE(D{r}:E{r})/1000",bold,green_fill,'#,##0.0"bn"',right); final=r
+    else:
+        final=blend
+    return r+2,final
 r=4
-r,nut_b=block(ws,r,"Nutrition",SAL_N,EB_N,"B","C","B","C")
+r,nut_b=block(ws,r,"Nutrition",SAL_N,EB_N,"B","C","B","C",nec=NEC_N)
 r,epd_b=block(ws,r,"Established Pharmaceuticals (EPD)",SAL_E,EB_E,"D","E","D","E")
-put(ws,r,1,"Combined (Nutrition + EPD)",secn_font,bd=False); r+=1
+put(ws,r,1,"Combined (Nutrition adjusted + EPD)",secn_font,bd=False); r+=1
 hrow(ws,r,1,["","","","EV low ($m)","EV high ($m)","EV midpoint ($bn)"]); r+=1
 put(ws,r,1,"Total indicative enterprise value",bold,green_fill)
 for c in (2,3): put(ws,r,c,"",reg,green_fill)
@@ -220,6 +248,9 @@ src2=[
  ("S17","Advent / Zentiva (2018)","~€1.9bn EV; ~10.25x EBITDA; ~2.5x sales","REPORTED/DERIVED","InterCapital","https://inter.capital/recent-mas-in-the-european-pharma-generics-industry/"),
  ("S18","CapVest / STADA majority (2025)","~€10bn EV reported; ~11.29x EBITDA; FY24 sales ~€4.1bn (=~2.4x)","REPORTED/DERIVED","Bain Capital/Cinven press; InterCapital","https://www.businesswire.com/news/home/20250901671846/en/CapVest-to-Acquire-Majority-Stake-in-STADA-from-Bain-Capital-and-Cinven"),
  ("S19","NEC infant-formula litigation overhang","$495m (2024), $58-60m (2025-26) verdicts; ~683 active cases (Apr-25)","REPORTED","Reuters/Yahoo; Top Class Actions","https://finance.yahoo.com/sectors/healthcare/articles/abbott-laboratories-contest-damages-awarded-111141543.html"),
+ ("S20","Standalone cost / dis-synergy assumption","1.5% (Nutrition) / 2.0% (EPD) of sales","ESTIMATE","Analyst judgement — typical carve-out dis-synergy 1-3% of revenue (corporate finance/IT/HR/legal/regulatory rebuilt; net of TSA). PE buyer bears; strategic may offset via synergies.",""),
+ ("S21","NEC litigation risk deduction (Nutrition EV)","$1,500m (illustrative, editable)","ESTIMATE","Illustrative buyer indemnity/escrow ask — NOT a booked Abbott provision. Placeholder given unresolved litigation; Abbott has also won defense verdicts and is appealing [S19].",""),
+ ("S22","Stranded costs at RemainCo (Abbott retained group)","Not deducted from target EV","ESTIMATE","Costs left behind that don't transfer with the unit affect Abbott's RemainCo, not the target's standalone EV; flagged for the seller's net-proceeds / dis-synergy analysis.",""),
 ]
 for ref,item,val,typ,source,url in src2:
     put(ws,r,1,ref,bold,align=center); put(ws,r,2,item,reg); put(ws,r,3,val,reg)
@@ -237,7 +268,7 @@ for i,w in enumerate([7,40,40,16,52],1): ws.column_dimensions[get_column_letter(
 ws=wb.create_sheet("Summary",0); ws.sheet_view.showGridLines=False
 banner(ws,6,"Abbott — Precedent Transaction Analysis","Potential divestiture of Nutrition and Established Pharmaceuticals (EPD)  •  FY2024 basis  •  Indicative / discussion draft")
 put(ws,4,1,"Headline indicative EV. Build = Valuation tab; assumptions = Inputs tab; every figure sourced/flagged on Sources & Methodology tab.",sub_font,bd=False)
-hrow(ws,6,1,["Business","FY24 Sales ($bn)","Est. EBITDA ($bn)","EV/Sales","EV/EBITDA","Indicative EV ($bn)"])
+hrow(ws,6,1,["Business","FY24 Sales ($bn)","Standalone EBITDA ($bn)","EV/Sales","EV/EBITDA","Indicative EV ($bn)"])
 VAL="Valuation"
 def srow(r,name,sal,eb,evs_lo,evs_hi,eve_lo,eve_hi,lo,hi,fill=None):
     put(ws,r,1,name,bold,fill)
@@ -257,15 +288,63 @@ pts=[
  "Nutrition: two-speed — growing adult/medical nutrition (Ensure, Glucerna) vs. structurally challenged infant formula (Similac) with an NEC litigation overhang [S19].",
  "Peak infant-formula comps (Reckitt/MJN 17.4x; Nestlé/Pfizer ~20-24x) discounted for Nutrition's blend and litigation risk.",
  "Sum-of-the-parts optionality: adult nutrition at consumer-health multiples while ring-fencing infant formula could exceed the blended range.",
- "EBITDA is ESTIMATED (Abbott discloses segment margin, not EBITDA). Every figure's basis is on the Sources & Methodology tab.",
+ "Carve-out adjustments applied: standalone/dis-synergy cost 1.5% (Nutrition) / 2.0% (EPD) of sales reduces EBITDA; an illustrative $1.5bn NEC risk deduction is netted off Nutrition EV. Both are editable on the Inputs tab [S20, S21]. Stranded costs sit at Abbott RemainCo, not the target [S22].",
+ "EBITDA is ESTIMATED (Abbott discloses segment margin, not EBITDA). Every figure's basis is on the Sources & Methodology tab. See Sensitivity tab for the swing factors.",
 ]
 rr=12
 for p in pts:
     put(ws,rr,1,"•  "+p,reg,bd=False); ws.merge_cells(start_row=rr,start_column=1,end_row=rr,end_column=6)
     ws.row_dimensions[rr].height=30; rr+=1
-put(ws,rr+1,1,"Tabs:  Summary  ·  Inputs & Assumptions  ·  Nutrition Comps  ·  EPD Comps  ·  Valuation  ·  Sources & Methodology",sub_font,bd=False)
-for i,w in enumerate([40,16,17,14,14,20],1): ws.column_dimensions[get_column_letter(i)].width=w
+put(ws,rr+1,1,"Indicative EV is post standalone/dis-synergy costs and (for Nutrition) post the illustrative NEC deduction.",sub_font,bd=False)
+put(ws,rr+2,1,"Tabs:  Summary · Inputs & Assumptions · Nutrition Comps · EPD Comps · Valuation · Sensitivity · Sources & Methodology",sub_font,bd=False)
+for i,w in enumerate([40,16,18,14,14,20],1): ws.column_dimensions[get_column_letter(i)].width=w
 
+# ============================================================ SENSITIVITY
+ws=wb.create_sheet("Sensitivity")  # placed after Valuation below via move
+ws.sheet_view.showGridLines=False
+banner(ws,7,"Sensitivity Analysis","Live grids driven by Inputs tab. Shows how indicative EV swings with the key carve-out estimates. $bn.")
+N_SAL=f"{INP}!B8"; N_OPM=f"{INP}!B9"; N_DA=f"{INP}!B10"
+E_SAL=f"{INP}!C8"; E_OPM=f"{INP}!C9"; E_DA=f"{INP}!C10"
+N_MEmid=f"((({INP}!B{ME})+({INP}!C{ME}))/2)"   # Nutrition EV/EBITDA midpoint
+E_MEmid=f"((({INP}!D{ME})+({INP}!E{ME}))/2)"   # EPD EV/EBITDA midpoint
+NECc=f"{INP}!B{nec_row}"
+
+# --- Table A: Nutrition adjusted EV ($bn): EV/EBITDA multiple (rows) x standalone cost % (cols), net of NEC
+put(ws,4,1,"A.  Nutrition adjusted EV ($bn)  —  EV/EBITDA multiple  ×  standalone cost % of sales  (net of NEC deduction on Inputs tab)",secn_font,bd=False)
+costs=[0.010,0.015,0.020,0.025]
+mults=[10,11,12,13,14,15]
+put(ws,5,1,"EV/EBITDA \\ Std cost %",bold,hdr_fill); ws.cell(5,1).font=hdr_font; ws.cell(5,1).alignment=center; ws.cell(5,1).border=border
+for j,cst in enumerate(costs):
+    put(ws,5,2+j,cst,hdr_font,hdr_fill,fmt=PCT,align=center)
+for i,m in enumerate(mults):
+    rr=6+i
+    put(ws,rr,1,m,bold,lblue_fill,fmt=MULT,align=center)
+    for j,cst in enumerate(costs):
+        # (preEBITDA - cost*sales)*mult - NEC, all /1000 -> $bn
+        f=f"=(({N_SAL}*({N_OPM}+{N_DA}))-{cst}*{N_SAL})*{m}/1000-{NECc}/1000"
+        put(ws,rr,2+j,f,reg,fmt='#,##0.0',align=center)
+
+# --- Table B: Combined adjusted EV ($bn): NEC deduction (rows) x standalone cost % both (cols), at selected EV/EBITDA midpoints
+base=13
+put(ws,base,1,"B.  Combined adjusted EV ($bn)  —  NEC deduction $bn (rows)  ×  standalone cost % applied to both (cols),  at selected EV/EBITDA midpoints",secn_font,bd=False)
+necs=[0,500,1000,1500,2000,2500]
+put(ws,base+1,1,"NEC $m \\ Std cost %",hdr_font,hdr_fill,align=center)
+for j,cst in enumerate(costs):
+    put(ws,base+1,2+j,cst,hdr_font,hdr_fill,fmt=PCT,align=center)
+for i,nv in enumerate(necs):
+    rr=base+2+i
+    put(ws,rr,1,nv,bold,lblue_fill,fmt=USD0,align=center)
+    for j,cst in enumerate(costs):
+        nut=f"(({N_SAL}*({N_OPM}+{N_DA}))-{cst}*{N_SAL})*{N_MEmid}-{nv}"
+        epd=f"(({E_SAL}*({E_OPM}+{E_DA}))-{cst}*{E_SAL})*{E_MEmid}"
+        put(ws,rr,2+j,f"=({nut}+{epd})/1000",reg,fmt='#,##0.0',align=center)
+put(ws,base+2+len(necs)+1,1,"Tables use the EV/EBITDA method (the method affected by standalone costs); EV/Sales is unaffected. Shaded cells nearest the base case (1.5%/2.0% cost, $1.5bn NEC) are the headline. Estimates — not investment advice.",sub_font,bd=False)
+ws.merge_cells(start_row=base+2+len(necs)+1,start_column=1,end_row=base+2+len(necs)+1,end_column=7)
+ws.row_dimensions[base+2+len(necs)+1].height=42
+ws.column_dimensions['A'].width=22
+for col in "BCDEFG": ws.column_dimensions[col].width=12
+
+wb.move_sheet("Sensitivity", offset=-1)  # place before Sources & Methodology
 out="/home/user/knutnyman/abbott-precedent-transaction-analysis/Abbott_Nutrition_and_EPD_Precedent_Transaction_Analysis.xlsx"
 wb.save(out)
 print("saved",out); print("sheets:",wb.sheetnames)
