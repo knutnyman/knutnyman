@@ -249,45 +249,159 @@ MHLW established a "selective care" (選定療養) pathway for patients who do N
 
 ---
 
-## GERMANY (from prior research round — GKV framework)
+## GERMANY
+
+### G-BA Foundational Decision — rtCGM Reimbursement
+
+**G-BA Beschluss 2623 (foundational CGM decision)**
+- **URL:** https://www.g-ba.de/beschluesse/2623/
+- **PDF:** https://www.g-ba.de/downloads/39-261-2623/2016-06-16_MVV-RL_rtCGM_BAnz.pdf
+- **Title:** "Richtlinie Methoden vertragsärztliche Versorgung (MVV-RL): Kontinuierliche interstitielle Glukosemessung mit Real-Time-Messgeräten (rtCGM) zur Therapiesteuerung bei insulinpflichtigem Diabetes mellitus"
+- **Date:** 16 June 2016; **effective 7 September 2016**
+- All g-ba.de URLs return HTTP 403 to automated fetchers
+
+**Legal basis:** §135 Abs. 1 SGB V
+**Mechanism:** Established rtCGM as a statutory GKV benefit under the MVV-RL (Richtlinie Methoden vertragsärztliche Versorgung)
+
+**Eligibility (as established in 2016 Beschluss):**
+- Patients with insulin-dependent diabetes mellitus on intensive conventional therapy (ICT) or insulin pump (CSII)
+- Who cannot achieve individually set metabolic control goals despite considering life circumstances
+- AND who cannot detect hypoglycaemia in time
+- Prescription follows Hilfsmittel-Richtlinie (HilfsM-RL), Section 20 of MVV-RL
+
+**Most recent G-BA CGM-related document (2025):**
+- URL: https://www.g-ba.de/downloads/40-268-11672/2025-06-18_DMP-A-RL_Aenderung-Anlagen-7-8-24_Diabetes-mellitus-Typ-1-2_TrG.pdf
+- Title: "Tragende Gründe — Änderungen Anlagen 7, 8 und 24 DMP-Anforderungen-Richtlinie: Diabetes mellitus Typ 1 und 2"
+- Date: 18 June 2025 — amendment to Disease Management Programme requirements for T1D and T2D
+
+---
+
+### IQWiG Assessment — Scientific Basis for 2016 Reimbursement
+
+- **URL:** https://www.iqwig.de/download/d12-01_abschlussbericht_kontinuierliche-glukosemessung-mit-real-time-messgeraeten.pdf?rev=186496
+- **Report number:** D12-01
+- **Title:** "Abschlussbericht: Kontinuierliche Glukosemessung mit Real-Time-Messgeräten"
+- **Date:** 25 March 2015 (commissioned by G-BA November 2012)
+- **Key conclusion:** Patients with insulin-dependent diabetes can better adjust HbA1c using rtCGM + BGSM versus BGSM alone without increasing severe hypoglycaemic episodes — certified rtCGM a "Zusatznutzen" (additional benefit), enabling the 2016 G-BA reimbursement decision
+
+---
+
+### GKV-Spitzenverband Hilfsmittelverzeichnis — Product Group 30
+
+**Primary document:**
+- URL: https://www.gkv-spitzenverband.de/media/dokumente/krankenversicherung_1/hilfsmittel/fortschreibungen_aktuell/06_2023/20230601_Produktgruppe_30_Hilfsmittel_zum_Glukosemanagement.pdf
+- Title: "Produktgruppe 30: Hilfsmittel zum Glukosemanagement"
+- Date: **1 June 2023** — product group renamed from Gruppe 21 (Messgeräte für Diabetiker) to **Gruppe 30 (Hilfsmittel zum Glukosemanagement)**
+
+**Dexcom products listed in Hilfsmittelverzeichnis (product codes):**
+
+| Code | Product | Notes |
+|------|---------|-------|
+| **30.99.01.0006** | Dexcom G7 Sensor | Integrated transmitter; factory-calibrated; 10-day wear; age ≥2 incl. pregnant women; no routine fingerstick calibration |
+| **30.99.02.4003** | Dexcom G7 Receiver mg/dL | Art.-Nr. STK-GT-013 |
+| **30.99.02.4004** | Dexcom G7 Receiver mmol/L | Art.-Nr. STK-GT-109 |
+| **30.99.02.3006** | Dexcom G6 Transmitter | Art.-Nr. STT-GS-003 |
+
+**Pricing note:** Reimbursement amounts (Erstattungsbeträge) are **not publicly listed** — they are negotiated per insurer under §127 SGB V bilateral supply agreements (Versorgungsverträge). No fixed euro amounts appear in public-facing Hilfsmittelverzeichnis data.
+
+---
 
 ### GKV Coverage Framework
 
 | Year | Event | Mechanism |
 |------|-------|-----------|
-| 2016 | GKV reimburses CGM for T1D and intensive insulin T2D | G-BA directive; Hilfsmittelverzeichnis listing |
-| 2024 | Contract with KKH insurer for T2D on Basal Oral Therapy | §127 SGB V bilateral supply agreement |
-| May 2026 | Dexcom Flex launched (cash-pay; no GKV coverage yet for non-insulin T2D) | Commercial launch; GKV application pending |
+| Sep 2016 | GKV reimburses rtCGM for T1D and intensive insulin T2D (ICT/CSII) | G-BA Beschluss 2623; MVV-RL |
+| Jun 2023 | Product group renamed to Gruppe 30; Dexcom G7 listed (code 30.99.01.0006) | GKV Hilfsmittelverzeichnis update |
+| 2024 | Contract with **KKH insurer** for T2D on Basal Oral Therapy (BOT) | §127 SGB V Selektivvertrag (voluntary bilateral insurer contract — NOT a G-BA mandate) |
+| May 2026 | Dexcom Flex launched in Germany (cash-pay; explicitly NOT GKV-reimbursed) | Commercial launch; GKV reimbursement application pending CONNECT trial data |
+
+**Critical clarification on KKH contract:** The KKH T2D BOT contract is a **Selektivvertrag** (optional selective contract between Dexcom and one insurer), not a statutory G-BA benefit. Other Krankenkassen are not obligated to follow. GKV does not yet mandate coverage for basal-only T2D nationally.
+
+**Dexcom Flex reimbursement status:** Explicitly positioned by Dexcom for "markets with limited reimbursement." No MDR CE certificate number or notified body found in public records. Self-pay/OTC positioning in Germany.
 
 **Key portals:**
-- G-BA decisions (Hilfsmittel): https://www.g-ba.de/beschluesse/
+- G-BA decisions portal: https://www.g-ba.de/beschluesse/
 - GKV Hilfsmittelverzeichnis: https://hilfsmittel.gkv-spitzenverband.de/
-- G-BA CGM directive topic page: https://www.g-ba.de/themen/hilfsmittel/
+- G-BA thematic page (Hilfsmittel): https://www.g-ba.de/themen/hilfsmittel/
 
 ---
 
 ## AUSTRALIA — NDSS & TGA
 
-*(Germany/Australia agent timed out; supplemented from confirmed sources)*
-
 ### NDSS — National Diabetes Services Scheme
 
 **Product listing page:** https://www.ndss.com.au/products/cgm-products/
 **Government announcement (G7 March 2025):** https://www.ndss.com.au/news/dexcom-g7-subsidised-ndss-march-2025/
+**Government investment:** AUD $273.1 million over 4 years (Albanese Government, announced 17 April 2022)
+**Eligibility access form:** https://www.ndss.com.au/wp-content/uploads/form-cgm-eligibility-access-type1.pdf
 
-| Product | NDSS Status | Effective | Patient Co-pay | Notes |
-|---------|------------|-----------|---------------|-------|
-| Dexcom G6 | Listed | 2022 | AUD $11.60/sensor | 10-day wear |
-| Dexcom G7 | **Listed** | **1 Mar 2025** | **AUD $11.60/sensor** | 9 sensors/3-month transaction; T1D eligible |
+#### Co-payment Structure
 
-**Eligibility:** All NDSS-registered T1D adults; T2D on insulin meeting specific clinical criteria.
-**Non-insulin T2D:** Not covered; potential expansion trigger = CONNECT trial readout.
+| Patient Group | Co-payment |
+|--------------|-----------|
+| T1D aged under 21 | **Nil** (fully subsidised) |
+| T1D 21+ with concessional card (Pensioner Concession, Health Care Card, Commonwealth Seniors) | **Nil** |
+| Pregnant T1D women (planning, pregnant, immediately post-partum) | **Nil** |
+| All other eligible T1D patients | **AUD $32.50/month** general rate |
 
-**TGA device register:** https://www.tga.gov.au/resources/artg
-- Dexcom devices registered under ARTG; specific ARTG numbers accessible via TGA ARTG search
+**Per-sensor co-pay:** AUD $11.60/sensor for Dexcom G7 (10-day wear; max 9 sensors/3-month transaction)
+
+#### Three mandatory clinical eligibility criteria (ALL must be met):
+1. Expected to benefit clinically from CGM use
+2. Willingness and capability to use CGM (patient or carer)
+3. Commitment to participate in a diabetes management plan incorporating CGM
+
+#### Current NDSS Subsidised CGM Products (June 2026)
+
+| Product | NDSS Status | Effective | Notes |
+|---------|------------|-----------|-------|
+| Dexcom G6 | Listed | 2022 | Ongoing |
+| **Dexcom G7** | **Listed** | **1 Mar 2025** | T1D eligible |
+| FreeStyle Libre 2 | Listed → **discontinuing 1 Jul 2026** | 2022 | Auto-upgrade to Libre 2 Plus |
+| FreeStyle Libre 2 Plus | Listed | 1 Apr 2025 | Replaces FSL2 |
+| FreeStyle Libre 3 Plus | Listed (restricted) | 1 Dec 2025 | Only for mylife YpsoPump + CamAPS FX users; not standalone |
+| Medtronic Guardian 4 | Listed | 2023 | MiniMed 780G / iOS/Android app |
+| Medtronic Guardian Sensor 3 | Listed → **discontinuing 30 Jun 2026** | — | Being phased out |
+
+**T2D coverage:** NOT covered. MSAC July 2025 deferred recommendation (see below).
+
+---
+
+### TGA — ARTG Registrations for Dexcom Australia
+
+| ARTG No. | Device | Sponsor | Registered |
+|----------|--------|---------|-----------|
+| **453426** | G7 Glucose Sensing Subsystem (Class III invasive interstitial-fluid CGM) | AA-Med Pty Ltd | 24 Jun 2024 |
+| 330535 | G6 Sensor Kit — Subcutaneous glucose sensor | AA-Med Pty Ltd | Pre-2024 |
+| 169241 | Dexcom Glucose monitoring system, in vivo | Australasian Medical & Scientific Ltd (AMSL) | Pre-2024 |
+| 285956 | Dexcom Self-care monitoring web-based application software | AMSL | — |
+| 462866 | Dexcom Subcutaneous glucose sensor | AMSL | — |
+
+**TGA advertising approvals:**
+- G7 advertising approval (Sep 2024): https://www.tga.gov.au/sites/default/files/2024-09/advertising-approval-australasian-medical-scientific-ltd-g7-glucose-monitoring-system.pdf
+- AMSL system advertising approval (Jan 2025): https://www.tga.gov.au/sites/default/files/2025-01/australasian-medical-scientific-dexcom-glucose-monitoring-system-in-vivo-artg-169241-285956-462866.pdf
+
+**Note on sponsors:** Two sponsors registered — **AA-Med Pty Ltd** (G7 sensing subsystem, G6 kit) and **AMSL** (broader system including receiver and legacy products). AMSL is the primary commercial distributor.
+
+---
+
+### MSAC Assessments — Critical for T2D Expansion Outlook
+
+#### MSAC 1785 — Dexcom ONE for Insulin-Dependent T2D (July 2025)
+- **URL:** https://www.msac.gov.au/applications/1785
+- **Public Summary Document:** https://www.msac.gov.au/sites/default/files/2025-10/1785_final_psd_-_july_2025_-_redacted.pdf
+- **Decision date:** July 2025
+- **Outcome: DEFERRED — not supported for NDSS listing**
+- **Reason:** Clinical claim that CGM leads to overall improvement in glycaemic control (HbA1c) in insulin-dependent T2D was not fully supported — trials were small, short-term, and did not report end-organ outcomes; HbA1c reduction was below the threshold considered meaningful by PBAC and regulatory agencies
+- **Implication:** NDSS expansion to insulin-dependent T2D is NOT imminent in Australia; CONNECT trial data and larger RCTs are needed before MSAC would reconsider
+
+#### MSAC 1786 — FreeStyle Libre 2 for T2D, Gestational Diabetes, T3c (July 2025)
+- **URL:** https://www.msac.gov.au/applications/1786
+- **Public Summary Document:** https://www.msac.gov.au/sites/default/files/2025-10/1786_final_psd_-_july_2025_-_redacted_0.pdf
+- **Decision date:** July 2025 (outcome details not accessible due to 403 blocks)
 
 **AusTender (federal procurement):** https://www.tenders.gov.au
-- No Dexcom-specific national NDSS tender notices publicly identified — NDSS operates as a subsidised product listing scheme, not a competitive tender
+- No Dexcom-specific national NDSS tender identified — NDSS operates as a subsidised product listing scheme, not a competitive tender process
 
 ---
 
@@ -327,6 +441,14 @@ MHLW established a "selective care" (選定療養) pathway for patients who do N
 | JP | JDS isCGM selected care guidelines | https://www.jds.or.jp/uploads/files/document/info/2024-07-01_isCGM.pdf | 1 Jul 2024 |
 | AU | NDSS G7 subsidy announcement | https://www.ndss.com.au/news/dexcom-g7-subsidised-ndss-march-2025/ | Mar 2025 |
 | AU | NDSS CGM products page | https://www.ndss.com.au/products/cgm-products/ | Ongoing |
+| AU | TGA ARTG 453426 — G7 Glucose Sensing Subsystem (Class III) | https://www.tga.gov.au/resources/artg/453426 | 24 Jun 2024 |
+| AU | TGA G7 advertising approval | https://www.tga.gov.au/sites/default/files/2024-09/advertising-approval-australasian-medical-scientific-ltd-g7-glucose-monitoring-system.pdf | Sep 2024 |
+| AU | **MSAC 1785 — Dexcom ONE T2D (DEFERRED Jul 2025)** | **https://www.msac.gov.au/applications/1785** | **Jul 2025** |
+| AU | MSAC 1786 — FreeStyle Libre 2 T2D/gestational | https://www.msac.gov.au/applications/1786 | Jul 2025 |
 | EU | TED — Brittany medical consumables notice | https://ted.europa.eu/en/notice/-/detail/28043-2026 | Jan 2026 |
-| DE | G-BA decisions portal | https://www.g-ba.de/beschluesse/ | Ongoing |
-| DE | GKV Hilfsmittelverzeichnis | https://hilfsmittel.gkv-spitzenverband.de/ | Ongoing |
+| DE | **G-BA Beschluss 2623 — foundational rtCGM decision** | **https://www.g-ba.de/beschluesse/2623/** | **16 Jun 2016** |
+| DE | G-BA Beschluss 2623 — PDF | https://www.g-ba.de/downloads/39-261-2623/2016-06-16_MVV-RL_rtCGM_BAnz.pdf | 16 Jun 2016 |
+| DE | G-BA DMP update T1D/T2D (2025) | https://www.g-ba.de/downloads/40-268-11672/2025-06-18_DMP-A-RL_Aenderung-Anlagen-7-8-24_Diabetes-mellitus-Typ-1-2_TrG.pdf | 18 Jun 2025 |
+| DE | IQWiG D12-01 — rtCGM benefit assessment | https://www.iqwig.de/download/d12-01_abschlussbericht_kontinuierliche-glukosemessung-mit-real-time-messgeraeten.pdf?rev=186496 | 25 Mar 2015 |
+| DE | **GKV Hilfsmittelverzeichnis Gruppe 30** | **https://www.gkv-spitzenverband.de/media/dokumente/krankenversicherung_1/hilfsmittel/fortschreibungen_aktuell/06_2023/20230601_Produktgruppe_30_Hilfsmittel_zum_Glukosemanagement.pdf** | **1 Jun 2023** |
+| DE | GKV HMV portal | https://hilfsmittel.gkv-spitzenverband.de/ | Ongoing |
