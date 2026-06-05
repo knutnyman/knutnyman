@@ -384,6 +384,191 @@ for rr in range(hr2 + 1, r2):
     ws2.row_dimensions[rr].height = 32
 
 # ---------------------------------------------------------------------------
+# Sheet: Growth to Guidance (how much growth is needed to hit guidance/consensus)
+# ---------------------------------------------------------------------------
+ws5 = wb.create_sheet("Growth to Guidance")
+INPUT_FILL = PatternFill("solid", fgColor="FFF2CC")   # yellow = user input
+CALC_FILL = PatternFill("solid", fgColor="F2F7FF")    # light = computed
+SECT_FILL = PatternFill("solid", fgColor=NAVY)
+EPS_FMT = '$#,##0.00'
+M_FMT = '#,##0'
+PCT_FMT = '0.0%'
+
+
+def w(ws, r, c, val, fmt=None, bold=False, fill=None, align=None,
+      border=True, font_color=None, italic=False, size=10):
+    cell = ws.cell(row=r, column=c, value=val)
+    cell.font = Font(name="Calibri", bold=bold, italic=italic,
+                     size=size, color=font_color or "000000")
+    if fmt:
+        cell.number_format = fmt
+    if fill:
+        cell.fill = fill
+    if align:
+        cell.alignment = Alignment(horizontal=align, vertical="center", wrap_text=True)
+    else:
+        cell.alignment = Alignment(vertical="center", wrap_text=True)
+    if border:
+        cell.border = BORDER
+    return cell
+
+
+def section(ws, r, text, span=5):
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=span)
+    c = ws.cell(row=r, column=1, value=text)
+    c.font = Font(bold=True, color=WHITE, size=11)
+    c.fill = SECT_FILL
+    c.alignment = Alignment(horizontal="left", vertical="center")
+
+
+# ---- Title -------------------------------------------------------------
+ws5.merge_cells("A1:N1")
+ws5["A1"] = "Growth Needed to Reach Guidance & Consensus"
+ws5["A1"].font = TITLE_FONT
+ws5.merge_cells("A2:N2")
+ws5["A2"] = ("Yellow cells = inputs you populate (consensus). White/blue cells compute automatically in Excel. "
+             "FY2026 is the live year (Q1 reported); the lower table backtests every year and accepts consensus EPS.")
+ws5["A2"].font = SUB_FONT
+
+# =======================================================================
+# BLOCK 1a — FY2026 ADJUSTED EPS calculator
+# =======================================================================
+section(ws5, 4, "FY2026  ·  Adjusted EPS — growth still needed to reach guidance & consensus", span=5)
+hdr = ["Metric", "Guidance Low", "Guidance Mid", "Guidance High", "Consensus (input)"]
+for j, t in enumerate(hdr, start=1):
+    w(ws5, 5, j, t, bold=True, fill=PatternFill("solid", fgColor="D9E1F2"),
+      align="center")
+
+# row 6 full-year target ($)
+w(ws5, 6, 1, "Full-year target — adjusted EPS ($)")
+w(ws5, 6, 2, 5.38, EPS_FMT, align="center")
+w(ws5, 6, 3, 5.48, EPS_FMT, align="center")
+w(ws5, 6, 4, 5.58, EPS_FMT, align="center")
+w(ws5, 6, 5, None, EPS_FMT, align="center", fill=INPUT_FILL)   # consensus EPS input
+# row 7 prior-year actual
+w(ws5, 7, 1, "Prior-year actual — FY2025 ($)")
+w(ws5, 7, 2, 5.15, EPS_FMT, align="center")
+for j in (3, 4, 5):
+    w(ws5, 7, j, "=$B$7", EPS_FMT, align="center")
+# row 8 implied full-year growth
+w(ws5, 8, 1, "Implied full-year EPS growth vs FY2025")
+for j, col in zip((2, 3, 4, 5), "BCDE"):
+    w(ws5, 8, j, f"={col}6/$B$7-1", PCT_FMT, align="center", fill=CALC_FILL)
+# row 9 YTD actual
+w(ws5, 9, 1, "YTD actual — Q1'26 ($)")
+w(ws5, 9, 2, 1.15, EPS_FMT, align="center")
+for j in (3, 4, 5):
+    w(ws5, 9, j, "=$B$9", EPS_FMT, align="center")
+# row 10 prior-year YTD
+w(ws5, 10, 1, "Prior-year YTD — Q1'25 ($)")
+w(ws5, 10, 2, 1.09, EPS_FMT, align="center")
+for j in (3, 4, 5):
+    w(ws5, 10, j, "=$B$10", EPS_FMT, align="center")
+# row 11 YTD growth achieved
+w(ws5, 11, 1, "YTD growth achieved (Q1'26 vs Q1'25)")
+for j in (2, 3, 4, 5):
+    w(ws5, 11, j, "=$B$9/$B$10-1", PCT_FMT, align="center", fill=CALC_FILL)
+# row 12 remaining EPS still needed
+w(ws5, 12, 1, "Remaining (Q2–Q4) EPS still needed ($)")
+for j, col in zip((2, 3, 4, 5), "BCDE"):
+    w(ws5, 12, j, f"={col}6-$B$9", EPS_FMT, align="center", fill=CALC_FILL)
+# row 13 prior-year remaining
+w(ws5, 13, 1, "Prior-year remaining — Q2–Q4'25 ($)")
+for j in (2, 3, 4, 5):
+    w(ws5, 13, j, 4.06 if j == 2 else "=$B$13", EPS_FMT, align="center")
+# row 14 required remaining growth
+w(ws5, 14, 1, "Required Q2–Q4 EPS growth to hit target", bold=True)
+for j, col in zip((2, 3, 4, 5), "BCDE"):
+    w(ws5, 14, j, f"={col}12/$B$13-1", PCT_FMT, align="center", bold=True,
+      fill=PatternFill("solid", fgColor="E2EFDA"))
+
+# =======================================================================
+# BLOCK 1b — FY2026 SALES (comparable growth) calculator
+# =======================================================================
+section(ws5, 16, "FY2026  ·  Sales (comparable growth) — growth still needed to reach guidance & consensus", span=5)
+for j, t in enumerate(hdr, start=1):
+    w(ws5, 17, j, t, bold=True, fill=PatternFill("solid", fgColor="D9E1F2"), align="center")
+# row 18 full-year comparable growth target
+w(ws5, 18, 1, "Full-year comparable sales-growth target")
+w(ws5, 18, 2, 0.065, PCT_FMT, align="center")
+w(ws5, 18, 3, 0.070, PCT_FMT, align="center")
+w(ws5, 18, 4, 0.075, PCT_FMT, align="center")
+w(ws5, 18, 5, None, PCT_FMT, align="center", fill=INPUT_FILL)   # consensus growth input
+# row 19 YTD comparable achieved
+w(ws5, 19, 1, "YTD (Q1'26) comparable growth achieved")
+w(ws5, 19, 2, 0.037, PCT_FMT, align="center")
+for j in (3, 4, 5):
+    w(ws5, 19, j, "=$B$19", PCT_FMT, align="center")
+# row 20 required remaining comparable growth (weighted by prior-yr quarterly sales)
+w(ws5, 20, 1, "Required Q2–Q4 comparable growth to hit target", bold=True)
+for j, col in zip((2, 3, 4, 5), "BCDE"):
+    w(ws5, 20, j, f"=({col}18*$H$18-$B$19*$H$19)/$H$20", PCT_FMT, align="center",
+      bold=True, fill=PatternFill("solid", fgColor="E2EFDA"))
+# helper weights to the right (cols G/H)
+w(ws5, 17, 7, "Prior-yr sales weights ($M)", bold=True, fill=PatternFill("solid", fgColor="D9E1F2"))
+ws5.merge_cells("G17:H17")
+w(ws5, 18, 7, "FY2025 full-year"); w(ws5, 18, 8, 44328, M_FMT, align="center")
+w(ws5, 19, 7, "Q1'25"); w(ws5, 19, 8, 10358, M_FMT, align="center")
+w(ws5, 20, 7, "Q2–Q4'25"); w(ws5, 20, 8, 33970, M_FMT, align="center")
+w(ws5, 21, 1,
+  "Note: the required-remaining-growth row weights quarters by prior-year reported sales (approximation; Abbott's "
+  "'comparable' base also adjusts for the Exact Sciences acquisition & FX). EPS calc above is exact (uses actual quarterly EPS).",
+  italic=True, size=9, border=False)
+ws5.merge_cells("A21:H21")
+
+# =======================================================================
+# BLOCK 2 — All fiscal years: guidance-implied growth vs actual + consensus
+# =======================================================================
+section(ws5, 24, "All fiscal years  ·  Guidance-implied growth vs actual results (enter consensus in the yellow column)", span=14)
+b2h = ["FY", "Prior-Yr Net Sales ($M)", "Actual Net Sales ($M)", "Actual Reported Sales Growth",
+       "Actual Total Organic %", "Actual Base ex-COVID Organic %", "Prior-Yr Adj EPS",
+       "Actual Adj EPS", "Actual EPS Growth", "Initial EPS Guidance", "Final EPS Guidance",
+       "Actual − Initial Guid ($)", "Consensus Adj EPS (input)", "Actual − Consensus ($)"]
+for j, t in enumerate(b2h, start=1):
+    w(ws5, 25, j, t, bold=True, fill=PatternFill("solid", fgColor="D9E1F2"),
+      align="center", size=9)
+
+# FY, priorSales, actualSales, totOrg, baseOrg, priorEPS, actualEPS, initGuid, finalGuid
+B2 = [
+    ["FY2020", 31904, 34608, None,  None, 3.24, 3.65, 3.60, 3.55],
+    ["FY2021", 34608, 43075, 0.229, 0.137, 3.65, 5.21, 5.00, 5.05],
+    ["FY2022", 43075, 43653, 0.064, None, 5.21, 5.34, 4.70, 5.20],
+    ["FY2023", 43653, 40109, None,  0.116, 5.34, 4.44, 4.40, 4.44],
+    ["FY2024", 40109, 41950, 0.071, 0.096, 4.44, 4.67, 4.60, 4.67],
+    ["FY2025", 41950, 44328, 0.055, 0.067, 4.67, 5.15, 5.15, 5.15],
+    ["FY2026", 44328, None,  None,  None, 5.15, None, 5.675, 5.48],
+]
+r = 26
+for fy, psales, asales, torg, borg, peps, aeps, ig, fg in B2:
+    w(ws5, r, 1, fy, bold=True, align="center")
+    w(ws5, r, 2, psales, M_FMT, align="center")
+    w(ws5, r, 3, asales, M_FMT, align="center")
+    w(ws5, r, 4, (f"=C{r}/B{r}-1" if asales else None), PCT_FMT, align="center", fill=CALC_FILL)
+    w(ws5, r, 5, torg, PCT_FMT, align="center")
+    w(ws5, r, 6, borg, PCT_FMT, align="center")
+    w(ws5, r, 7, peps, EPS_FMT, align="center")
+    w(ws5, r, 8, aeps, EPS_FMT, align="center")
+    w(ws5, r, 9, (f"=H{r}/G{r}-1" if aeps else None), PCT_FMT, align="center", fill=CALC_FILL)
+    w(ws5, r, 10, ig, EPS_FMT, align="center")
+    w(ws5, r, 11, fg, EPS_FMT, align="center")
+    w(ws5, r, 12, (f"=H{r}-J{r}" if aeps else None), EPS_FMT, align="center", fill=CALC_FILL)
+    w(ws5, r, 13, None, EPS_FMT, align="center", fill=INPUT_FILL)        # consensus input
+    w(ws5, r, 14, f"=IF(AND(H{r}<>\"\",M{r}<>\"\"),H{r}-M{r},\"\")", EPS_FMT, align="center", fill=CALC_FILL)
+    r += 1
+# FY2026 in-progress note
+w(ws5, r, 1,
+  "FY2026 in progress: YTD Q1'26 comparable sales growth +3.7%, Q1'26 adjusted EPS $1.15 (vs $1.09). "
+  "Initial EPS guidance $5.55–$5.80 (mid $5.675); current $5.38–$5.58 (mid $5.48) after Exact Sciences dilution.",
+  italic=True, size=9, border=False)
+ws5.merge_cells(start_row=r, start_column=1, end_row=r, end_column=14)
+
+# column widths
+gw = [40, 12, 12, 13, 12, 12, 12, 12, 12, 12, 12, 13, 14, 13]
+for i, ww in enumerate(gw, start=1):
+    ws5.column_dimensions[get_column_letter(i)].width = ww
+ws5.freeze_panes = "A3"
+
+# ---------------------------------------------------------------------------
 # Sheet 3: Notes & Sources
 # ---------------------------------------------------------------------------
 ws3 = wb.create_sheet("Notes & Sources")
@@ -429,6 +614,19 @@ notes = [
     "• Minor uncertainty: the initial FY2022 GAAP floor (cited as ~$3.43 vs $3.40); the exact COVID-testing-sales assumption at",
     "  Q3 2022 (~$7.8B) and the implied FY2023 figure at Q3 2023; and the precise wording of the Q1 2023 base-business descriptor",
     "  ('high single digits' vs 'at least high single digits').",
+    "",
+    "GROWTH TO GUIDANCE TAB",
+    "A calculator showing how much growth is still needed to reach guidance and consensus. Yellow cells are inputs (consensus);",
+    "everything else recomputes in Excel. The top blocks track the live FY2026 year: given Q1'26 actuals, they show the Q2-Q4",
+    "growth required to land at the low/mid/high of guidance (and at a consensus you enter). The lower table backtests every",
+    "fiscal year (guidance-implied growth vs actual results) and accepts a consensus adj. EPS per year.",
+    "Actuals used (Abbott reported): net sales ($M) 2019: 31,904; 2020: 34,608; 2021: 43,075; 2022: 43,653; 2023: 40,109;",
+    "2024: 41,950; 2025: 44,328. Adjusted EPS 2019: 3.24; 2020: 3.65; 2021: 5.21; 2022: 5.34; 2023: 4.44; 2024: 4.67; 2025: 5.15.",
+    "FY2025 quarterly adj. EPS: 1.09 / 1.26 / 1.30 / 1.50. Q1'26: net sales 11,164; adj. EPS 1.15; comparable growth +3.7%.",
+    "Caveats: the FY2026 sales 'required remaining growth' weights quarters by prior-year REPORTED sales (Abbott's comparable",
+    "base also nets out the Exact Sciences acquisition and FX, which I don't have at quarterly granularity) - treat as indicative;",
+    "the EPS calculator is exact. FY2020 total-company organic % and FY2022/FY2023 some organic splits were not cleanly",
+    "confirmed and are left blank rather than estimated.",
     "",
     "PRIMARY SOURCES",
     "Abbott investor news (abbott.mediaroom.com) and PR Newswire press releases, plus the corresponding SEC 8-K exhibit 99.1 for",
@@ -545,6 +743,10 @@ ws4.add_chart(c2, "E22")
 ws4.column_dimensions["A"].width = 16
 ws4.column_dimensions["B"].width = 20
 ws4.column_dimensions["C"].width = 24
+
+# final tab order
+order = ["Guidance Timeline", "By Fiscal Year", "Growth to Guidance", "Trends", "Notes & Sources"]
+wb._sheets.sort(key=lambda s: order.index(s.title))
 
 out_path = "/home/user/knutnyman/Abbott_Guidance_By_Quarter_2020-2026.xlsx"
 wb.save(out_path)
