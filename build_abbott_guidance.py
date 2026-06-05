@@ -9,6 +9,7 @@ and SEC 8-K exhibits, cross-checked against secondary financial sources.
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+from openpyxl.chart import LineChart, Reference
 from collections import OrderedDict
 
 # ---------------------------------------------------------------------------
@@ -476,6 +477,74 @@ for label, desc in basis_legend:
     ws3.cell(row=row_cursor, column=1).border = BORDER
     ws3.cell(row=row_cursor, column=2, value=f"{label} — {desc}").font = Font(name="Calibri", size=10)
     row_cursor += 1
+
+# ---------------------------------------------------------------------------
+# Sheet 4: Trends (charts of the guidance trajectory)
+# ---------------------------------------------------------------------------
+ws4 = wb.create_sheet("Trends")
+ws4.merge_cells("A1:F1")
+ws4["A1"] = "Guidance Trajectory — adjusted EPS and organic sales-growth midpoints over time"
+ws4["A1"].font = TITLE_FONT
+ws4.merge_cells("A2:F2")
+ws4["A2"] = ("EPS line uses the guidance midpoint, or the floor for 'at least $X' guidance. "
+            "Organic line shows the midpoint only for quarters where Abbott gave a numeric range (FY2020 initial, FY2024 onward).")
+ws4["A2"].font = SUB_FONT
+
+# helper data block (hidden-ish, to the side / below)
+dh = 4  # data header row
+ws4.cell(row=dh, column=1, value="Report")
+ws4.cell(row=dh, column=2, value="Adj. EPS guide point ($)")
+ws4.cell(row=dh, column=3, value="Organic growth midpoint (%)")
+for c in range(1, 4):
+    ws4.cell(row=dh, column=c).font = Font(bold=True, size=9, color=NAVY)
+
+# numeric organic midpoints aligned to ROWS (None where Abbott gave no numeric range)
+ORG_MID = [7.5, None, None, None, None, None, None, None, None, None, None, None,
+           None, None, None, None, 9.0, 9.25, 9.75, 9.75, 8.0, 8.0, 7.75, 7.75, 7.0, 7.0]
+
+rr = dh + 1
+for rec, omid in zip(ROWS, ORG_MID):
+    label = f"{rec[1]} ({rec[2][2:]})"            # e.g. "Q3 2024 (2024)"
+    eps_pt = rec[7] if rec[7] is not None else rec[5]   # midpoint, else floor
+    ws4.cell(row=rr, column=1, value=label)
+    ws4.cell(row=rr, column=2, value=eps_pt)
+    ws4.cell(row=rr, column=3, value=omid)
+    rr += 1
+last_data = rr - 1
+
+# Chart 1 — adjusted EPS guidance trajectory
+c1 = LineChart()
+c1.title = "Abbott adjusted EPS guidance over time"
+c1.style = 12
+c1.y_axis.title = "Adjusted EPS ($)"
+c1.x_axis.title = "Earnings report"
+c1.height = 8.5
+c1.width = 22
+data1 = Reference(ws4, min_col=2, min_row=dh, max_row=last_data)
+cats = Reference(ws4, min_col=1, min_row=dh + 1, max_row=last_data)
+c1.add_data(data1, titles_from_data=True)
+c1.set_categories(cats)
+c1.series[0].smooth = False
+c1.series[0].graphicalProperties.line.width = 28000
+ws4.add_chart(c1, "E4")
+
+# Chart 2 — organic sales-growth guidance trajectory
+c2 = LineChart()
+c2.title = "Abbott organic / comparable sales-growth guidance midpoint (where numeric)"
+c2.style = 13
+c2.y_axis.title = "Organic growth midpoint (%)"
+c2.x_axis.title = "Earnings report"
+c2.height = 8.5
+c2.width = 22
+data2 = Reference(ws4, min_col=3, min_row=dh, max_row=last_data)
+c2.add_data(data2, titles_from_data=True)
+c2.set_categories(cats)
+c2.series[0].graphicalProperties.line.width = 28000
+ws4.add_chart(c2, "E22")
+
+ws4.column_dimensions["A"].width = 16
+ws4.column_dimensions["B"].width = 20
+ws4.column_dimensions["C"].width = 24
 
 out_path = "/home/user/knutnyman/Abbott_Guidance_By_Quarter_2020-2026.xlsx"
 wb.save(out_path)
