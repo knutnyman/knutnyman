@@ -1,0 +1,13 @@
+sector,year,acquirer,target,enterprise_value_usd_bn,ev_sales_x,ev_ebitda_x,notes
+Nutrition,2007,Danone,Numico,16.8,4.5,22.0,"EUR 12.3bn; baby + medical nutrition; peak strategic multiple"
+Nutrition,2007,Nestle,Gerber (Novartis),5.5,2.8,20.0,"EBITDA multiple estimated; made Nestle #1 baby food"
+Nutrition,2012,Nestle,Pfizer Nutrition,11.85,5.0,22.0,"~$2.1bn sales / ~$0.5bn EBITDA 2011; EBITDA mult 20-24x range"
+Nutrition,2017,Danone,WhiteWave,12.5,2.7,20.0,"Organic/plant-based (not infant); lower-multiple bookend"
+Nutrition,2017,Reckitt Benckiser,Mead Johnson,17.9,4.4,17.4,"Pure-play infant formula; closest single comp; ~14x w/ synergies"
+Nutrition,2021,Nestle,The Bountiful Company,5.75,2.7,17.0,"Vitamins/supplements; adult-nutrition-adjacent"
+Branded Generics / EPD,2014,Sun Pharma,Ranbaxy,4.0,2.2,,"Incl debt; low-margin target so EBITDA mult n/m; India/EM consolidation"
+Branded Generics / EPD,2015,Teva,Allergan Generics (Actavis),40.5,3.6,11.5,"EBITDA multiple estimated; global generics scale"
+Branded Generics / EPD,2016,Mylan,Meda,9.9,3.3,10.5,"8.9x w/ synergies; ~10-11x reported; branded/specialty + EM/OTC"
+Branded Generics / EPD,2017,Bain Capital / Cinven,STADA,5.7,2.4,13.4,"EUR 5.32bn; PE take-private; branded generics + consumer health"
+Branded Generics / EPD,2018,Advent,Zentiva (Sanofi EU generics),2.1,2.5,10.3,"EUR ~1.9bn; EU/EM branded generics carve-out"
+Branded Generics / EPD,2025,CapVest,STADA (majority stake),10.0,3.0,11.3,"Reported ~EUR 10bn; latest large branded-generics print"
