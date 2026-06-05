@@ -4,6 +4,8 @@
 
 **Prepared:** June 2026 | **Basis:** FY2024 reported segment financials (latest full year audited 10-K) | **Status:** Indicative / discussion draft
 
+> **Sourcing note.** Every figure is classified in the Excel workbook's *Sources & Methodology* tab as **REPORTED** (from a primary filing/press source, with URL), **DERIVED** (calculated, e.g. EV ÷ sales), or **ESTIMATE** (analyst judgement). The key estimates are: (i) **segment EBITDA** — Abbott discloses segment *operating margin* (Nutrition 17.9%, EPD 23.7%) but **not** segment EBITDA, so EBITDA is operating earnings + an estimated D&A add-back (3.75% of sales for Nutrition, 2.75% for EPD), benchmarked to Abbott's FY24 group D&A of ~$3.2bn (~7.7% of sales; amortization concentrated in Med Devices/Diagnostics, hence lower segment add-backs); and (ii) the **selected multiple ranges**, which discount/position the comp set by judgement. Comp multiples shown as "n/d" are not reliably sourced and are excluded from medians/means.
+
 > **Purpose & caveat.** This is a precedent-transaction (comparable M&A) valuation screen intended to frame an indicative enterprise value (EV) range for a potential sale or carve-out of Abbott's Nutrition and Established Pharmaceuticals (EPD) segments. Target financials are taken from Abbott's public segment reporting; **segment EBITDA is estimated** (Abbott does not disclose EBITDA by segment) by grossing up disclosed segment operating margin for depreciation & amortization. Figures are indicative and for discussion only — not investment advice or a fairness opinion. A confirmatory analysis would require management-adjusted, carve-out (stand-alone) financials, allocation of stranded/corporate costs, tax structuring, and a data-room–based quality-of-earnings review.
 
 ---
@@ -65,7 +67,7 @@ Abbott does not publish segment EBITDA. We approximate:
 | Date | Acquirer | Target | Enterprise Value | EV / Sales | EV / EBITDA | Notes |
 |---|---|---|---|---|---|---|
 | 2007 | Danone | Numico | ~€12.3bn (~$16.8bn) | ~4.5x | **~22x** | Baby + medical nutrition; peak strategic multiple |
-| 2007 | Nestlé | Gerber (from Novartis) | $5.5bn | ~2.8x | ~20x (est.) | Made Nestlé #1 in baby food |
+| 2007 | Nestlé | Gerber (from Novartis) | $5.5bn | ~2.8x | **15.7x** (FY07e, reported) | Made Nestlé #1 in baby food |
 | 2012 | Nestlé | Pfizer Nutrition | $11.85bn | ~5.0x | **~20–24x** | Infant nutrition; EM (China) entry; ~$2.1bn sales / ~$0.5bn EBITDA (2011) |
 | 2016/17 | Danone | WhiteWave | $12.5bn | ~2.7x | ~20x (FY16e) | Organic/plant-based; not infant — lower-multiple bookend |
 | 2017 | Reckitt Benckiser | Mead Johnson | $17.9bn | ~4.4x (FY15) / 4.9x (FY16) | **17.4x** (≈14x w/ synergies) | Pure-play infant formula; closest single comp |
