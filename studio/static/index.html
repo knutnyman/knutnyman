@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Studio — produce with Claude</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🎹 AI Studio</h1>
+    <p class="tag">Describe a vibe — Claude composes an editable loop you can play, tweak, and export as MIDI.</p>
+  </header>
+
+  <section class="prompt-bar">
+    <input id="prompt" type="text" placeholder="e.g. dreamy lo-fi with jazzy chords, 75 BPM"
+           value="dreamy lo-fi with jazzy chords" />
+    <label>Bars
+      <select id="bars">
+        <option>2</option>
+        <option selected>4</option>
+        <option>8</option>
+      </select>
+    </label>
+    <button id="generate">Generate</button>
+  </section>
+
+  <section class="transport">
+    <button id="play" disabled>▶ Play</button>
+    <button id="stop" disabled>■ Stop</button>
+    <label>Tempo <input id="bpm" type="number" min="40" max="220" value="120" /> BPM</label>
+    <span id="info" class="info"></span>
+    <button id="export" disabled>⤓ Export MIDI</button>
+  </section>
+
+  <div id="status" class="status"></div>
+
+  <main>
+    <section class="panel">
+      <h2>Melody <span class="hint">click a cell to add/remove a note</span></h2>
+      <div id="pianoroll-wrap" class="roll-wrap">
+        <canvas id="pianoroll"></canvas>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Chords</h2>
+      <div id="chord-list" class="chord-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Drums <span class="hint">click steps to toggle</span></h2>
+      <div id="drums"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
