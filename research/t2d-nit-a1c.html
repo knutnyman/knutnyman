@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Average HbA1c — Non-Insulin-Treated Type 2 Diabetes</title>
+<style>
+  :root{
+    --bg:#0e1726; --panel:#16213a; --panel2:#1d2b48; --ink:#e8eef7; --muted:#9fb0c8;
+    --line:#2b3a5c; --nit:#3ba776; --nittrial:#e0a32e; --ins:#e0563b; --accent:#5b9bff;
+    --good:#3ba776; --warn:#e0a32e; --bad:#e0563b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(180deg,#0b1220,#0e1726 240px);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:40px 24px 80px}
+  header h1{font-size:30px;margin:0 0 6px;letter-spacing:-.5px}
+  header .sub{color:var(--muted);font-size:14px;margin-bottom:8px}
+  .pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--muted);
+    font-size:12px;padding:3px 10px;border-radius:999px;margin:2px 4px 2px 0}
+  h2{font-size:20px;margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:15px;margin:0 0 12px;color:var(--ink)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:16px 0;
+    box-shadow:0 8px 30px rgba(0,0,0,.25)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  /* Two-number hero */
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .num{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center;position:relative;overflow:hidden}
+  .num.left{border-top:3px solid var(--nit)}
+  .num.right{border-top:3px solid var(--nittrial)}
+  .num .big{font-size:46px;font-weight:800;letter-spacing:-1px;line-height:1}
+  .num.left .big{color:var(--nit)} .num.right .big{color:var(--nittrial)}
+  .num .unit{font-size:14px;color:var(--muted);margin-top:6px}
+  .num .lbl{font-size:13px;color:var(--ink);margin-top:14px;font-weight:600}
+  .num .desc{font-size:12px;color:var(--muted);margin-top:4px}
+  .note{font-size:13px;color:var(--muted);margin-top:14px;padding:12px 14px;background:rgba(91,155,255,.08);
+    border-left:3px solid var(--accent);border-radius:6px}
+  /* bar chart */
+  .bar-row{display:grid;grid-template-columns:190px 1fr 66px;align-items:center;gap:12px;margin:9px 0;font-size:13px}
+  .bar-row .name{color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .track{background:#0e1726;border-radius:6px;height:22px;position:relative;border:1px solid var(--line);overflow:hidden}
+  .fill{height:100%;border-radius:5px 0 0 5px;display:flex;align-items:center;transition:width .3s}
+  .val{font-weight:700;text-align:left;font-variant-numeric:tabular-nums}
+  .axis{display:grid;grid-template-columns:190px 1fr 66px;gap:12px;margin-top:6px;font-size:11px;color:var(--muted)}
+  .axis .ticks{display:flex;justify-content:space-between}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:4px 0 16px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  /* gradient bars (target attainment) */
+  .seg{display:flex;height:26px;border-radius:6px;overflow:hidden;border:1px solid var(--line);font-size:11px}
+  .seg div{display:flex;align-items:center;justify-content:center;color:#0b1220;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  td.n{font-variant-numeric:tabular-nums;color:var(--nittrial);font-weight:700;white-space:nowrap}
+  td a{color:var(--accent);text-decoration:none} td a:hover{text-decoration:underline}
+  .tag{font-size:10px;padding:2px 7px;border-radius:999px;font-weight:700}
+  .tag.nit{background:rgba(59,167,118,.16);color:var(--nit)}
+  .tag.trial{background:rgba(224,163,46,.16);color:var(--nittrial)}
+  .tag.ins{background:rgba(224,86,59,.16);color:var(--ins)}
+  ul.caveats{list-style:none;padding:0;margin:0}
+  ul.caveats li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--line);font-size:13.5px}
+  ul.caveats li:last-child{border-bottom:none}
+  ul.caveats li::before{content:"⚠";position:absolute;left:4px;top:9px;color:var(--warn)}
+  .phrase{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;font-size:13.5px}
+  .phrase .k{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px}
+  .phrase em{color:var(--ink);font-style:italic}
+  footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .refs{font-size:12.5px;color:var(--muted)} .refs a{color:var(--accent);text-decoration:none}
+  .refs li{margin:5px 0}
+  .miscite{background:rgba(224,86,59,.10);border:1px solid rgba(224,86,59,.4);border-radius:10px;padding:12px 16px;font-size:13px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Average HbA1c of a Non-Insulin-Treated (NIT) Type 2 Diabetes Patient</h1>
+    <div class="sub">Compiled 2026-06-07 · clinical trials + real-world registries + CGM/market sources · figures cross-checked against PubMed</div>
+    <span class="pill">NHANES</span><span class="pill">UK NDA</span><span class="pill">Swedish NDR</span>
+    <span class="pill">German DPV</span><span class="pill">IMMEDIATE</span><span class="pill">Dexcom CONNECT</span>
+    <span class="pill">SUSTAIN / AWARD / EMPA-REG</span>
+  </header>
+
+  <!-- HERO: two numbers -->
+  <h2>The headline — two correct answers, pick by context</h2>
+  <div class="card">
+    <div class="hero">
+      <div class="num left">
+        <div class="big">~7.2%</div>
+        <div class="unit">≈ 55 mmol/mol &nbsp;·&nbsp; range 7.0–7.6%</div>
+        <div class="lbl">True population average</div>
+        <div class="desc">All NIT T2D patients — mostly oral-agent, reasonably controlled</div>
+      </div>
+      <div class="num right">
+        <div class="big">~8.6–8.8%</div>
+        <div class="unit">≈ 70–73 mmol/mol</div>
+        <div class="lbl">Inadequately-controlled NIT</div>
+        <div class="desc">CGM / intervention-trial target population (selected above an A1c floor)</div>
+      </div>
+    </div>
+    <div class="note"><b>Why the gap?</b> Pure <b>selection bias</b>. Trials enrol patients above an A1c threshold
+      (commonly ≥7.5%), so their baselines overstate the true population mean. Never quote the 8.6% trial
+      baseline as the population average — state which population you mean.</div>
+  </div>
+
+  <!-- CHART 1: where each population sits -->
+  <h2>Where each population sits on the A1c scale</h2>
+  <div class="card">
+    <div class="legend">
+      <span><i class="dot" style="background:var(--nit)"></i> NIT — population</span>
+      <span><i class="dot" style="background:var(--nittrial)"></i> NIT — inadequately controlled (trials)</span>
+      <span><i class="dot" style="background:var(--ins)"></i> Insulin-treated (contrast)</span>
+    </div>
+    <!-- scale 6% to 9.5% mapped to 0-100%. fillpct = (v-6)/3.5*100 -->
+    <div class="bar-row"><div class="name">Diet / lifestyle only</div>
+      <div class="track"><div class="fill" style="width:22.9%;background:var(--nit)"></div></div><div class="val">6.8%</div></div>
+    <div class="bar-row"><div class="name">All NIT (typical)</div>
+      <div class="track"><div class="fill" style="width:34.3%;background:var(--nit)"></div></div><div class="val">7.2%</div></div>
+    <div class="bar-row"><div class="name">NIT needing intensification</div>
+      <div class="track"><div class="fill" style="width:42.9%;background:var(--nit)"></div></div><div class="val">7.5%</div></div>
+    <div class="bar-row"><div class="name">Wada CGM RCT (looser entry)</div>
+      <div class="track"><div class="fill" style="width:52.3%;background:var(--nittrial)"></div></div><div class="val">7.8%</div></div>
+    <div class="bar-row"><div class="name">Drug-trial baselines (avg)</div>
+      <div class="track"><div class="fill" style="width:60.0%;background:var(--nittrial)"></div></div><div class="val">8.1%</div></div>
+    <div class="bar-row"><div class="name">IMMEDIATE CGM RCT</div>
+      <div class="track"><div class="fill" style="width:74.3%;background:var(--nittrial)"></div></div><div class="val">8.6%</div></div>
+    <div class="bar-row"><div class="name">Dexcom CONNECT RCT</div>
+      <div class="track"><div class="fill" style="width:80.0%;background:var(--nittrial)"></div></div><div class="val">8.8%</div></div>
+    <div class="bar-row"><div class="name">Insulin-treated T2D</div>
+      <div class="track"><div class="fill" style="width:74.3%;background:var(--ins)"></div></div><div class="val">8.6%</div></div>
+    <div class="axis"><div></div><div class="ticks"><span>6.0%</span><span>6.9%</span><span>7.7%</span><span>8.6%</span><span>9.5%</span></div><div></div></div>
+  </div>
+
+  <!-- CHART 2: target attainment gradient -->
+  <h2>The treatment gradient — % reaching A1c target</h2>
+  <div class="card">
+    <p style="margin:0 0 16px;color:var(--muted);font-size:13px">The lighter the therapy, the better the control —
+      diet&nbsp;&gt;&nbsp;oral&nbsp;&gt;&nbsp;insulin. (Partly <b>confounded by indication</b>: insulin is started in
+      longer / more severe disease, so this is not a causal effect of therapy.)</p>
+
+    <h3>NHANES III — % achieving HbA1c &lt;7%</h3>
+    <div class="bar-row"><div class="name">Diet alone</div>
+      <div class="track"><div class="fill" style="width:71%;background:var(--good)"></div></div><div class="val">71%</div></div>
+    <div class="bar-row"><div class="name">Oral agents (NIT)</div>
+      <div class="track"><div class="fill" style="width:44%;background:var(--warn)"></div></div><div class="val">44%</div></div>
+    <div class="bar-row"><div class="name">Insulin</div>
+      <div class="track"><div class="fill" style="width:27%;background:var(--bad)"></div></div><div class="val">27%</div></div>
+
+    <h3 style="margin-top:22px">Population target-attainment anchors</h3>
+    <table>
+      <tr><th>Source</th><th>Metric</th><th>Result</th></tr>
+      <tr><td>NHANES 1999–2004</td><td>T2D &lt;7%</td><td class="n">52.2%</td></tr>
+      <tr><td>NHANES — metformin monotherapy</td><td>&lt;7%</td><td class="n">62.2%</td></tr>
+      <tr><td>UK National Diabetes Audit 24/25</td><td>≤7.5% (≤58 mmol/mol)</td><td class="n">64.7%</td></tr>
+      <tr><td>NHANES insulin users (2013–20)</td><td>&lt;7%</td><td class="n">27.5%</td></tr>
+    </table>
+  </div>
+
+  <!-- Evidence tables -->
+  <h2>Source evidence</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Real-world registries &amp; surveys <span class="tag nit">POPULATION</span></h3>
+      <table>
+        <tr><th>Source</th><th>A1c / metric</th></tr>
+        <tr><td>Swedish NDR (whole T2D)</td><td class="n">~6.7–7.0%</td></tr>
+        <tr><td>German DPV/DIVE (median)</td><td class="n">~7.1–7.2%</td></tr>
+        <tr><td>NHANES 1999–2004</td><td class="n">52% &lt;7%</td></tr>
+        <tr><td>UK NDA 24/25</td><td class="n">65% ≤7.5%</td></tr>
+        <tr><td>CPRD/MASTERMIND (intensify)</td><td class="n">&gt;7.5%</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--muted);margin:12px 0 0">Synthesis → <b style="color:var(--nit)">≈7.2% (55 mmol/mol)</b></p>
+    </div>
+    <div class="card">
+      <h3>CGM / intervention RCTs <span class="tag trial">TRIAL BASELINE</span></h3>
+      <table>
+        <tr><th>Trial</th><th>Baseline</th><th>N</th></tr>
+        <tr><td>IMMEDIATE 2023</td><td class="n">8.6%</td><td>116</td></tr>
+        <tr><td>Dexcom CONNECT 2026</td><td class="n">8.8%</td><td>283</td></tr>
+        <tr><td>Martens 2025</td><td class="n">~8.5%</td><td>72</td></tr>
+        <tr><td>Vigersky 2012</td><td class="n">~8.7%</td><td>100</td></tr>
+        <tr><td>Wada 2020</td><td class="n">7.8%</td><td>100</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--muted);margin:12px 0 0">Synthesis → <b style="color:var(--nittrial)">8.6–8.8% (70–73 mmol/mol)</b></p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Pharma RCT baselines — oral / GLP-1 / SGLT2i / DPP-4 add-on <span class="tag trial">TRIAL BASELINE</span></h3>
+    <table>
+      <tr><th>Trial</th><th>Background</th><th>Baseline A1c</th><th>N</th></tr>
+      <tr><td>AWARD-3 (2014)</td><td>monotherapy / drug-naive</td><td class="n">~7.6%</td><td>807</td></tr>
+      <tr><td>EMPA-REG MET (2014)</td><td>metformin only</td><td class="n">7.9%</td><td>637</td></tr>
+      <tr><td>DPP-4 + metformin (2006)</td><td>metformin</td><td class="n">~8.0%</td><td>701</td></tr>
+      <tr><td>SUSTAIN 2 (2017)</td><td>metformin / TZD</td><td class="n">8.1%</td><td>1,225</td></tr>
+      <tr><td>SUSTAIN 8 (2019)</td><td>metformin only</td><td class="n">8.3%</td><td>788</td></tr>
+      <tr><td>LEAD-3 (liraglutide)</td><td>monotherapy</td><td class="n">8.3%</td><td>~746</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin:12px 0 0">Add-on-for-inadequate-control cluster <b>7.9–8.3%</b>; monotherapy runs lower (~7.6%).</p>
+    <div class="miscite"><b style="color:var(--ins)">⚠ Common miscitation:</b> <b>MOBILE</b> (JAMA 2021, baseline 9.1%) and the
+      <b>DIAMOND&nbsp;T2D</b> cohort are <b>basal/MDI-insulin-treated</b> <span class="tag ins">INSULIN</span> — <b>not</b> NIT.
+      Exclude them from NIT figures despite their frequent appearance in "CGM in T2D" searches.</div>
+  </div>
+
+  <!-- Recommended phrasing -->
+  <h2>Recommended phrasing</h2>
+  <div class="card">
+    <div class="phrase"><span class="k">Honest population statement</span>
+      <em>"The average non-insulin-treated T2D patient has an HbA1c of roughly 7.2% (55 mmol/mol),
+      versus ~8.6% (70 mmol/mol) for insulin-treated patients."</em></div>
+    <div class="phrase"><span class="k">Device / market deck</span>
+      <em>"Inadequately-controlled non-insulin T2D — the CGM target population — has a baseline A1c of
+      ~8.6–8.8% (IMMEDIATE, CONNECT); CGM lowers A1c by ~0.3–0.9% vs control."</em></div>
+  </div>
+
+  <!-- Caveats -->
+  <h2>Caveats — read before quoting any number</h2>
+  <div class="card">
+    <ul class="caveats">
+      <li><b>Two populations, two numbers</b> — never quote the 8.6% trial baseline as the population average.</li>
+      <li><b>Selection bias</b> inflates every trial baseline (entry floors of A1c ≥7.1–7.5%).</li>
+      <li><b>"Non-insulin" is heterogeneous</b> — diet-only (~6.5–7.0%) &lt; metformin-only &lt; multi-oral/GLP-1.</li>
+      <li><b>Confounding by indication</b> drives the NIT-vs-insulin gap (disease stage, not therapy).</li>
+      <li><b>MOBILE / DIAMOND-T2D are insulin-treated</b> — exclude from NIT figures.</li>
+      <li><b>CONNECT is press-sourced</b> (ADA 2026); reconfirm exact figures vs the peer-reviewed manuscript.</li>
+      <li><b>No clean NIT-specific A1c distribution</b> (NHANES-style %&lt;7/7–8/8–9/&gt;9) was verifiable; the population mean is a reasoned synthesis, not a single published figure.</li>
+    </ul>
+  </div>
+
+  <!-- References -->
+  <h2>Key references</h2>
+  <div class="card refs">
+    <ol style="margin:0;padding-left:20px">
+      <li>Aronson R et al. <b>IMMEDIATE</b> — isCGM in non-insulin T2D. <i>Diabetes Obes Metab</i> 2023;25(4):1024–31. <a href="https://doi.org/10.1111/dom.14949">DOI</a> (PMID 36546594)</li>
+      <li>Wada E et al. Flash GM vs SMBG, non-insulin T2D. <i>BMJ Open Diab Res Care</i> 2020;8(1):e001115. <a href="https://doi.org/10.1136/bmjdrc-2019-001115">DOI</a></li>
+      <li>Martens TW et al. CGM to guide food choices, non-insulin T2D. <i>Diabetes Technol Ther</i> 2025;27:261–70. <a href="https://doi.org/10.1089/dia.2024.0579">DOI</a></li>
+      <li>Dodd AH et al. Treatment approach &amp; A1c control, NHANES 1999–2004. <i>Curr Med Res Opin</i> 2009. <a href="https://doi.org/10.1185/03007990902973300">DOI</a></li>
+      <li>Hankosky ER et al. A1c targets, insulin-treated, NHANES 2009–2020. <i>Diabetes Ther</i> 2023. <a href="https://doi.org/10.1007/s13300-023-01399-0">DOI</a></li>
+      <li>Venkatraman S et al. Glycemic control in insulin users, NHANES 1988–2020. <i>JAMA Netw Open</i> 2022. <a href="https://doi.org/10.1001/jamanetworkopen.2022.47656">DOI</a></li>
+      <li>Whyte MB et al. Glycaemic control disparities, T2D England (CPRD). <i>PLoS Med</i> 2019. <a href="https://doi.org/10.1371/journal.pmed.1002942">DOI</a></li>
+      <li>Rawshani A et al. Newly-diagnosed T2D, Swedish NDR. <i>BMJ Open</i> 2015. <a href="https://doi.org/10.1136/bmjopen-2015-007599">DOI</a></li>
+      <li>Dexcom CONNECT (ADA 2026) — <a href="https://investors.dexcom.com/news/news-details/2026/Dexcom-CONNECT-Study-The-Most-Significant-Clinical-Study-Demonstrating-CGM-Benefits-for-People-with-Type-2-Diabetes-Not-Using-Insulin/default.aspx">Dexcom IR</a>; <a href="https://diabetes.org/newsroom/press-releases/82-adults-type-2-diabetes-not-insulin-improve-blood-glucose-levels">ADA</a></li>
+      <li>UK National Diabetes Audit — <a href="https://digital.nhs.uk/data-and-information/publications/statistical/national-diabetes-audit-yt2">digital.nhs.uk</a></li>
+      <li>ADA Standards of Care 2025 — <a href="https://diabetes.org/newsroom/press-releases/american-diabetes-association-releases-standards-care-diabetes-2025">diabetes.org</a></li>
+    </ol>
+  </div>
+
+  <footer>
+    Peer-reviewed figures cross-checked against PubMed; press-sourced figures (CONNECT) flagged.
+    Unit conversion: mmol/mol = (% − 2.15) × 10.929 (NGSP/DCCT ↔ IFCC).
+    Bar-chart positions are illustrative mappings of the cited point estimates onto a 6.0–9.5% scale.
+  </footer>
+
+</div>
+</body>
+</html>
