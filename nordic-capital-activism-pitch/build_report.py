@@ -496,6 +496,48 @@ table(
     widths=[1.3, 2.6, 2.9],
 )
 
+doc.add_heading("8.1 Market exposure: hedged or unhedged?", level=2)
+p("A deliberate design choice with real economics attached. Three models were considered:")
+table(
+    ["Model", "Mechanics", "Assessment"],
+    [
+        ["Long-only, unhedged (Cevian model)",
+         "Net exposure ~100%; returns = market beta + engagement alpha.",
+         "Simple, cheap, matches LP expectations for engaged equity. Full drawdown "
+         "participation in risk-off years; campaign mid-life is exposed."],
+        ["Long with tactical beta overlay (recommended)",
+         "Net exposure 80–100% by default; IC may hedge up to ~30% of NAV notionally via "
+         "index futures/options under defined stress triggers; FX systematically hedged "
+         "to USD.",
+         "Keeps the equity risk premium and the catalyst optionality, but caps tail "
+         "drawdowns cheaply at portfolio level — practical for a 6–8 name book where "
+         "idiosyncratic risk dominates anyway."],
+        ["Market-neutral activist (hedge-fund model)",
+         "Permanent index/sector shorts isolate campaign alpha; net exposure ~0–30%.",
+         "Rejected: 150–300bps annual hedge drag compounds against multi-year campaign "
+         "horizons; sector shorts in concentrated books add basis risk, not protection; "
+         "and a structural short book sits awkwardly with a constructive, board-seat "
+         "brand."],
+    ],
+    widths=[1.7, 2.6, 2.5],
+)
+bullets([
+    ("Recommendation: ", "run the book predominantly unhedged (net 80–100%), with a "
+     "tactical index-hedge overlay at Investment Committee discretion — pre-defined "
+     "triggers (drawdown thresholds, spread of book value-gap vs market), capped at ~30% "
+     "of NAV, implemented in liquid index futures and options only."),
+    ("Never single-name shorts. ", "No shorting of engagement targets or their peers — "
+     "the conflict, disclosure and reputational costs outweigh any hedging value; this "
+     "is also an explicit LP-facing commitment (Section 4.4)."),
+    ("Currency: ", "USD base; SEK/EUR/GBP/CHF/DKK exposures systematically hedged at the "
+     "share-class level so LP returns reflect engagement outcomes, not FX."),
+    ("Why this is the right trade: ", "the strategy's alpha is idiosyncratic and "
+     "catalyst-driven; entry discounts of 30%+ are the primary downside protection. "
+     "Paying a permanent hedge premium to neutralise the beta LPs are deliberately "
+     "buying would lower net returns ~2–3% p.a. for protection the evergreen structure "
+     "(3-year lock, gates) already provides against forced selling."),
+])
+
 # ---------- 9. Team ----------
 doc.add_heading("9. Team & Organisation", level=1)
 p("A deliberately small, senior team of 11–13 at launch, split between Stockholm and New "
@@ -680,9 +722,10 @@ table(
         ["Metso (FI)", "2013–20",
          "Supported Valmet demerger, then Metso Outotec merger and Neles separation.",
          "Win"],
-        ["ABB (CH/SE)", "2015–c.22",
+        ["ABB (CH/SE)", "2015–25",
          "Power Grids exit (sold to Hitachi 2020), decentralisation, buybacks, leadership "
-         "change; long hold, solid re-rating.", "Win (slow)"],
+         "change; long-held position finally sold down in 2025 after a strong multi-year "
+         "re-rating.", "Win (slow)"],
         ["Wolseley / Ferguson (UK→US)", "2016–c.21",
          "US focus, name change, listing migration to NYSE; strong re-rating.", "Win"],
         ["Autoliv (SE)", "2017–c.21",
@@ -698,9 +741,10 @@ table(
         ["Nordea (FI/SE)", "2019–c.24",
          "Cost discipline and capital returns; large buybacks and re-rating followed.",
          "Win"],
-        ["Pearson (UK)", "2020–c.23",
+        ["Pearson (UK)", "2020–",
          "Backed digital turnaround; re-rated under new CEO; Apollo approaches (2022) "
-         "rejected above-market.", "Modest win"],
+         "rejected above-market; Cevian has since lifted its stake to ~18% — its largest "
+         "disclosed percentage holding.", "Win, ongoing"],
         ["Vodafone (UK)", "2021–c.23",
          "Consolidation and portfolio agenda; change came too slowly; reported exit "
          "around flat-to-negative.", "Failure"],
@@ -715,12 +759,20 @@ table(
          "2025 (completed December 2025); Cevian sold to Patria at ~CHF 184 vs ~CHF 130 "
          "entry (~+40%).", "Win"],
         ["Smith+Nephew (UK)", "2024–",
-         "~5%; margin recovery and structural options including a US listing review; "
-         "shares up since disclosure.", "Ongoing"],
+         "Entered ~5% in 2024; conviction has grown with the campaign — stake lifted "
+         "above 10% by mid-2026 (>USD 1.3bn position). Margin recovery and structural "
+         "options including a US listing review; shares up since disclosure.", "Ongoing"],
+        ["Akzo Nobel (NL)", "c.2024–",
+         "Coatings margin gap vs US peers and consolidation thesis; stake doubled to "
+         "~10.2% in late 2025 as part of a portfolio reshape funded by the ABB exit.",
+         "Ongoing"],
+        ["SIG Group (CH)", "2025–",
+         "New position in the Swiss food-packaging maker disclosed late 2025; "
+         "de-rated quality franchise, self-help thesis.", "Ongoing"],
     ],
     widths=[1.5, 0.9, 3.6, 0.8],
 )
-p("Read-across: roughly three clear failures in ~20 disclosed campaigns, with the wins "
+p("Read-across: roughly three clear failures in ~23 disclosed campaigns, with the wins "
   "concentrated where a transaction or separation crystallised value (Skandia, RSA, "
   "Panalpina, Alent, Autoliv/Veoneer, Baloise) — supporting this strategy's M&A-archetype "
   "weighting. The failures share a fingerprint our screens are built to exclude: fragile "
@@ -745,20 +797,36 @@ bullets([
      "structure so positions are never liquidated on a fund clock at the bottom."),
 ])
 
-doc.add_heading("A.3 KKR – Henry Schein — sponsor activism validated", level=2)
+doc.add_heading("A.3 Sponsors entering public-market activism", level=2)
+p("Governance commentators now track “occasional activists” — sponsors and strategics "
+  "using activist tactics — as a defining trend of the 2025–26 cycle. The pattern: a "
+  "modest minority stake plus operating credibility converts into board influence within "
+  "months, often alongside or after a conventional activist.")
 bullets([
-    ("Set-up: ", "Ananym Capital ran a conventional activist campaign in late 2024 "
-     "(board refresh, cost cuts, succession, portfolio review) at the US dental/medical "
-     "distributor."),
-    ("Sponsor entry: ", "In January 2025 Henry Schein announced a USD 250m strategic "
-     "investment from KKR with two board seats (Dan Daniel, ex-Danaher; Max Lin, KKR "
-     "Healthcare); completed May 2025 with KKR at ~12% — the largest non-index holder, "
-     "with permission to build to 14.9%."),
-    ("Read-across: ", "a PE sponsor converted a modest minority stake into board "
-     "influence within months, in our core healthcare sector, with the activist "
-     "publicly supportive — proof that operating credibility plus board seats is the "
-     "winning currency in the universal-proxy era, and a signal that sponsors are "
-     "moving into this space now."),
+    ("KKR – Henry Schein (2025) — the template. ", "Ananym Capital ran a conventional "
+     "campaign in late 2024 (board refresh, cost cuts, succession, portfolio review). In "
+     "January 2025 Henry Schein announced a USD 250m strategic investment from KKR with "
+     "two board seats (Dan Daniel, ex-Danaher; Max Lin, KKR Healthcare); completed May "
+     "2025 with KKR at ~12% — the largest non-index holder, with clearance to build to "
+     "14.9%. Sponsor activism, in our core healthcare sector, with the activist publicly "
+     "supportive."),
+    ("KKR – US Foods (2020). ", "USD 500m PIPE at the COVID trough with a board seat; "
+     "patient sponsor capital entered alongside activist pressure (Sachem Head later won "
+     "seats) and exited into the recovery with strong reported returns."),
+    ("Silver Lake – Expedia / Twitter / Airbnb (2020). ", "Crisis PIPEs with board "
+     "representation — demonstrating sponsors can underwrite public minority positions "
+     "at speed and govern through the board rather than control."),
+    ("Apollo – Western Digital (2023). ", "USD 900m convertible preferred while Elliott "
+     "publicly pushed the flash/HDD separation; the split completed in 2025 (SanDisk "
+     "spin). Sponsor structured capital riding an activist catalyst."),
+    ("Warburg Pincus – ESR Group (2022–25). ", "Long-held minority stake in the listed "
+     "Asian logistics platform converted into co-leading the ~USD 7bn take-private — "
+     "the toehold-to-buyout path this strategy's take-private protocol formalises."),
+    ("Read-across: ", "operating credibility plus board seats is the winning currency of "
+     "the universal-proxy era, sponsors are arriving now, and the toehold-to-influence "
+     "(and occasionally to-control) path is repeatable. Nordic Capital would be early "
+     "among European sponsors — but not first in the world, which de-risks the LP "
+     "conversation."),
 ])
 
 doc.add_heading("A.4 Other relevant signals", level=2)

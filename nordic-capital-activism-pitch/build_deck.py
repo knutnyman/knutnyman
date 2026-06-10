@@ -489,6 +489,44 @@ table_slide(slide, Inches(0.55), Inches(1.3), Inches(12.3),
             ],
             [2.4, 9.9], row_h=0.68, size=12)
 
+# ============ 12b. Hedged or unhedged ============
+slide = new_slide("Run it hedged or unhedged?", "Structure")
+hedge_opts = [
+    ("Long-only, unhedged", "The Cevian model",
+     "Net ~100%; returns = beta + engagement alpha. Simple, cheap, matches LP "
+     "expectations for engaged equity — but fully exposed in risk-off years, mid-campaign.",
+     False),
+    ("Long + tactical overlay", "RECOMMENDED",
+     "Net 80–100% by default. IC may hedge up to ~30% of NAV via liquid index "
+     "futures/options under pre-defined stress triggers. FX systematically hedged to "
+     "USD. Keeps the risk premium and catalyst optionality; caps tail drawdowns cheaply.",
+     True),
+    ("Market-neutral activist", "Rejected",
+     "Permanent shorts isolate campaign alpha at 150–300bps annual drag — compounding "
+     "against multi-year horizons; basis risk in a 6–8 name book; a structural short "
+     "book sits awkwardly with a constructive board-seat brand.",
+     False),
+]
+for i, (t, tag, b, rec) in enumerate(hedge_opts):
+    x = Inches(0.55 + i * 4.18)
+    add_rect(slide, x, Inches(1.3), Inches(3.95), Inches(3.4), NAVY if rec else LIGHT)
+    add_rect(slide, x, Inches(1.3), Inches(3.95), Pt(4), GOLD)
+    add_text(slide, x + Inches(0.2), Inches(1.5), Inches(3.55), Inches(0.7), t,
+             size=15.5, color=GOLD if rec else NAVY, bold=True)
+    add_text(slide, x + Inches(0.2), Inches(2.2), Inches(3.55), Inches(0.35), tag,
+             size=11, color=(RGBColor(0x9A, 0xA4, 0xB2) if not rec else WHITE), bold=True)
+    add_text(slide, x + Inches(0.2), Inches(2.6), Inches(3.55), Inches(2.0), b,
+             size=11.5, color=WHITE if rec else GREY, line_spacing=1.12)
+bullet_box(slide, Inches(0.55), Inches(5.0), Inches(12.3), Inches(1.8), [
+    ("Why: ", "the alpha is idiosyncratic and catalyst-driven; entry discounts ≥30% are "
+     "the primary downside protection. A permanent hedge premium would cost ~2–3% p.a. "
+     "to neutralise the beta LPs are deliberately buying — protection the evergreen "
+     "structure (3-year lock, gates) already provides against forced selling."),
+    ("Hard rule: ", "no single-name shorts, ever — not on targets, not on peers "
+     "(conflicts, disclosure, reputation). Hedge P&L stays inside the performance-fee "
+     "benchmark; the 50/50 S&P 500 / MSCI Europe hurdle is unchanged."),
+], size=12, gap=6)
+
 # ============ 13. Team ============
 slide = new_slide("Team & organisation: small, senior, transatlantic, conflict-proofed", "Team")
 add_rect(slide, Inches(4.3), Inches(1.2), Inches(4.7), Inches(0.72), NAVY)
@@ -618,71 +656,88 @@ slide = new_slide("Appendix — Precedents (1/2): Cevian, the constructive model
 table_slide(slide, Inches(0.55), Inches(1.2), Inches(12.3),
             ["Campaign", "Period", "What happened", "Result"],
             [
-                ["Skandia", "2002–06", "Governance overhaul, pushed sale; acquired by Old "
-                 "Mutual 2006", "Win"],
                 ["Volvo Group", "2006–17", "Portfolio focus, cost discipline; stake sold to "
                  "Geely for ~USD 3.9bn — reported among its most profitable", "Win"],
-                ["Danske Bank", "2011–c.15", "Post-crisis efficiency & capital agenda; "
-                 "strong recovery into exit", "Win"],
-                ["Bilfinger", "2011–c.20", "Transformation thesis; profit warnings, CEO "
-                 "churn, a decade for little value", "Failure"],
                 ["ThyssenKrupp", "2013–c.22", "Break-up thesis; Elevator sale (EUR 17bn) "
                  "vindicated SOTP but fragile balance sheet destroyed equity en route",
                  "Failure"],
                 ["RSA Insurance", "2013–21", "Focus & disposals, then sale; Intact/Tryg "
                  "takeover at ~50% premium", "Win"],
-                ["ABB", "2015–c.22", "Power Grids exit to Hitachi, decentralisation, "
-                 "buybacks; solid re-rating over a long hold", "Win"],
+                ["ABB", "2015–25", "Power Grids exit to Hitachi, decentralisation, "
+                 "buybacks; long hold sold down 2025 after a strong re-rating", "Win"],
                 ["Ericsson", "2017–c.23", "Chair change, cost focus; doubled into 2021, "
                  "compliance issues gave much back", "Mixed+"],
                 ["Panalpina", "2018–19", "Pushed sale; DSV takeover at a substantial "
                  "premium within ~18 months", "Win"],
+                ["Pearson", "2020–", "Backed digital turnaround; Apollo approaches "
+                 "rejected above-market; stake since lifted to ~18% — largest disclosed",
+                 "Win, ongoing"],
                 ["Aviva", "2021–c.24", "Demanded ~GBP 5bn capital return; delivered, "
                  "re-rated", "Win"],
                 ["UBS", "2023–25", "Post-CS re-rating bet; reported ~2x on early tranches "
                  "at 2025 sales", "Win"],
                 ["Baloise", "2023–25", "Strategy reset, vote caps removed; Helvetia merger "
                  "2025; sold ~CHF 184 vs ~CHF 130 entry (~+40%)", "Win"],
+                ["Smith+Nephew", "2024–", "Entered ~5%, lifted above 10% by mid-2026 "
+                 "(>USD 1.3bn); margin recovery, structural options incl. US listing "
+                 "review", "Ongoing"],
+                ["Akzo Nobel", "c.2024–", "Coatings margin gap & consolidation; doubled "
+                 "to ~10.2% late 2025, funded by the ABB exit", "Ongoing"],
+                ["SIG Group", "2025–", "New stake in the Swiss packaging maker; de-rated "
+                 "quality, self-help thesis", "Ongoing"],
             ],
-            [1.7, 1.0, 8.4, 1.2], row_h=0.42, size=9.5)
-add_text(slide, Inches(0.55), Inches(6.7), Inches(12.3), Inches(0.4),
-         [("Also: Tieto, Cookson/Vesuvius–Alent, Metso, Wolseley/Ferguson, Autoliv/Veoneer, "
-           "Nordea, Pearson (wins/modest wins); Vodafone (failure); Smith+Nephew (ongoing). "
-           "~3 clear failures in ~20 campaigns; reported low-to-mid-teens net annualised "
-           "since 2002. Wins cluster where a transaction crystallised value — our M&A "
-           "archetype.", {"size": 10, "color": GREY, "italic": True, "line_spacing": 1.05})])
+            [1.7, 1.0, 8.4, 1.2], row_h=0.4, size=9)
+add_text(slide, Inches(0.55), Inches(6.85), Inches(12.3), Inches(0.35),
+         [("Also: Skandia, Danske Bank, Tieto, Cookson/Vesuvius–Alent, Metso, "
+           "Wolseley/Ferguson, Autoliv/Veoneer, Nordea (wins); Bilfinger, Vodafone "
+           "(failures). ~3 clear failures in ~23 campaigns; reported low-to-mid-teens net "
+           "annualised since 2002; wins cluster where a transaction crystallised value — "
+           "our M&A archetype.",
+           {"size": 9.5, "color": GREY, "italic": True, "line_spacing": 1.0})])
 
 # ============ A2. Appendix: sponsor precedents ============
-slide = new_slide("Appendix — Precedents (2/2): sponsors in public markets", "Appendix")
-card(slide, Inches(0.55), Inches(1.25), Inches(6.1), Inches(2.9),
+slide = new_slide("Appendix — Precedents (2/2): sponsors entering public-market activism",
+                  "Appendix")
+card(slide, Inches(0.55), Inches(1.2), Inches(6.1), Inches(2.35),
      "EQT Public Value (2018–24) — the cautionary tale",
-     "Listed Nordic mid-cap strategy: Securitas, BHG, Storebrand, BioGaia, AFRY, and ~10% "
-     "of Storytel (Sep 2021, became largest shareholder). Never reached scale, no "
-     "board-seat engagement playbook, growth-momentum entries; the 2022 de-rating crushed "
-     "the book and the fund was liquidated — the entire Storytel stake sold in Aug 2024.",
-     body_size=11)
-card(slide, Inches(6.85), Inches(1.25), Inches(6.0), Inches(2.9),
-     "KKR – Henry Schein (2025) — sponsor activism validated",
+     "Listed Nordic mid-caps: Securitas, BHG, Storebrand, BioGaia, AFRY, ~10% of Storytel "
+     "(Sep 2021, became largest shareholder). Never reached scale, no board-seat "
+     "playbook, growth-momentum entries; the 2022 de-rating crushed the book and the fund "
+     "was liquidated — the Storytel stake sold Aug 2024.", body_size=10.5)
+card(slide, Inches(6.85), Inches(1.2), Inches(6.0), Inches(2.35),
+     "KKR – Henry Schein (2025) — the template",
      "After Ananym Capital's late-2024 campaign, Henry Schein announced a USD 250m "
      "strategic investment from KKR (Jan 2025): two board seats (Dan Daniel ex-Danaher; "
-     "Max Lin, KKR Healthcare), completed May 2025 with KKR at ~12% and clearance to build "
-     "to 14.9%. A sponsor converted a modest stake into board influence within months — in "
-     "our core sector.", body_size=11)
-add_rect(slide, Inches(0.55), Inches(4.35), Inches(12.3), Inches(2.3), NAVY)
-add_text(slide, Inches(0.85), Inches(4.5), Inches(11.8), Inches(0.35),
-         [("What the precedents are designed into", {"size": 12, "color": GOLD,
+     "Max Lin, KKR Healthcare), completed May 2025 with KKR at ~12%, clearance to 14.9%. "
+     "A modest stake became board influence within months — in our core sector.",
+     body_size=10.5)
+add_rect(slide, Inches(0.55), Inches(3.7), Inches(12.3), Inches(1.35), LIGHT)
+add_rect(slide, Inches(0.55), Inches(3.7), Pt(4), Inches(1.35), GOLD)
+add_text(slide, Inches(0.85), Inches(3.78), Inches(11.8), Inches(0.3),
+         [("More sponsor entries — “occasional activists” are a defining 2025–26 trend",
+           {"size": 11.5, "color": NAVY, "bold": True})])
+add_text(slide, Inches(0.85), Inches(4.1), Inches(11.8), Inches(0.9),
+         [("KKR–US Foods (2020): USD 500m PIPE + board seat at the COVID trough, strong "
+           "reported exit  ·  Silver Lake–Expedia/Twitter/Airbnb (2020): crisis PIPEs with "
+           "board representation  ·  Apollo–Western Digital (2023): USD 900m convertible "
+           "riding Elliott's separation push (SanDisk spin completed 2025)  ·  Warburg "
+           "Pincus–ESR (2022–25): minority toehold converted into co-leading the ~USD 7bn "
+           "take-private  ·  Triton–Caverion (2022–23): stake-build → tender battle → "
+           "take-private at a large premium",
+           {"size": 10.5, "color": GREY, "line_spacing": 1.15})])
+add_rect(slide, Inches(0.55), Inches(5.25), Inches(12.3), Inches(1.55), NAVY)
+add_text(slide, Inches(0.85), Inches(5.35), Inches(11.8), Inches(0.3),
+         [("What the precedents are designed into", {"size": 11.5, "color": GOLD,
                                                      "bold": True})])
-add_text(slide, Inches(0.85), Inches(4.9), Inches(11.8), Inches(1.7),
-         [("Scale + seed from day one (EUR 150–200m GP commitment) — not EQT PV's subscale "
-           "drift  ·  Partner-level activist leadership and a US campaign Principal — not "
-           "PE generalists  ·  Stakes sized for influence (nomination committees / "
-           "universal proxy) — not passive minorities  ·  ≥30% value-gap entries — not "
-           "growth momentum  ·  Evergreen capital — never forced to liquidate at the "
-           "bottom  ·  Screens exclude the Cevian failure fingerprint: fragile balance "
-           "sheets, political stakeholders, catalysts outside shareholders' control. "
-           "Triton–Caverion (2022–23) shows the take-private optionality; Active Value "
-           "Partners (2026) shows the window is closing.",
-           {"size": 12, "color": WHITE, "line_spacing": 1.2})])
+add_text(slide, Inches(0.85), Inches(5.68), Inches(11.8), Inches(1.05),
+         [("Scale + seed from day one — not EQT PV's subscale drift  ·  Partner-level "
+           "activist leadership and a US campaign Principal — not PE generalists  ·  "
+           "Stakes sized for influence — not passive minorities  ·  ≥30% value-gap "
+           "entries — not growth momentum  ·  Evergreen capital — never forced to sell at "
+           "the bottom  ·  Screens exclude the Cevian failure fingerprint: fragile "
+           "balance sheets, political stakeholders, catalysts outside shareholders' "
+           "control.",
+           {"size": 11, "color": WHITE, "line_spacing": 1.15})])
 
 prs.save("/home/user/knutnyman/nordic-capital-activism-pitch/Nordic_Capital_Engaged_Equities_Deck.pptx")
 print("Deck saved with", len(prs.slides.__iter__.__self__._sldIdLst), "slides.")
