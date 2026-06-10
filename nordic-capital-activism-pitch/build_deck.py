@@ -612,5 +612,77 @@ add_text(slide, Inches(1.2), Inches(6.5), Inches(11), Inches(0.6),
          "only · Not investment advice", size=9, color=RGBColor(0x8A, 0x96, 0xA6),
          align=PP_ALIGN.CENTER)
 
+# ============ A1. Appendix: Cevian record ============
+slide = new_slide("Appendix — Precedents (1/2): Cevian, the constructive model at scale",
+                  "Appendix")
+table_slide(slide, Inches(0.55), Inches(1.2), Inches(12.3),
+            ["Campaign", "Period", "What happened", "Result"],
+            [
+                ["Skandia", "2002–06", "Governance overhaul, pushed sale; acquired by Old "
+                 "Mutual 2006", "Win"],
+                ["Volvo Group", "2006–17", "Portfolio focus, cost discipline; stake sold to "
+                 "Geely for ~USD 3.9bn — reported among its most profitable", "Win"],
+                ["Danske Bank", "2011–c.15", "Post-crisis efficiency & capital agenda; "
+                 "strong recovery into exit", "Win"],
+                ["Bilfinger", "2011–c.20", "Transformation thesis; profit warnings, CEO "
+                 "churn, a decade for little value", "Failure"],
+                ["ThyssenKrupp", "2013–c.22", "Break-up thesis; Elevator sale (EUR 17bn) "
+                 "vindicated SOTP but fragile balance sheet destroyed equity en route",
+                 "Failure"],
+                ["RSA Insurance", "2013–21", "Focus & disposals, then sale; Intact/Tryg "
+                 "takeover at ~50% premium", "Win"],
+                ["ABB", "2015–c.22", "Power Grids exit to Hitachi, decentralisation, "
+                 "buybacks; solid re-rating over a long hold", "Win"],
+                ["Ericsson", "2017–c.23", "Chair change, cost focus; doubled into 2021, "
+                 "compliance issues gave much back", "Mixed+"],
+                ["Panalpina", "2018–19", "Pushed sale; DSV takeover at a substantial "
+                 "premium within ~18 months", "Win"],
+                ["Aviva", "2021–c.24", "Demanded ~GBP 5bn capital return; delivered, "
+                 "re-rated", "Win"],
+                ["UBS", "2023–25", "Post-CS re-rating bet; reported ~2x on early tranches "
+                 "at 2025 sales", "Win"],
+                ["Baloise", "2023–25", "Strategy reset, vote caps removed; Helvetia merger "
+                 "2025; sold ~CHF 184 vs ~CHF 130 entry (~+40%)", "Win"],
+            ],
+            [1.7, 1.0, 8.4, 1.2], row_h=0.42, size=9.5)
+add_text(slide, Inches(0.55), Inches(6.7), Inches(12.3), Inches(0.4),
+         [("Also: Tieto, Cookson/Vesuvius–Alent, Metso, Wolseley/Ferguson, Autoliv/Veoneer, "
+           "Nordea, Pearson (wins/modest wins); Vodafone (failure); Smith+Nephew (ongoing). "
+           "~3 clear failures in ~20 campaigns; reported low-to-mid-teens net annualised "
+           "since 2002. Wins cluster where a transaction crystallised value — our M&A "
+           "archetype.", {"size": 10, "color": GREY, "italic": True, "line_spacing": 1.05})])
+
+# ============ A2. Appendix: sponsor precedents ============
+slide = new_slide("Appendix — Precedents (2/2): sponsors in public markets", "Appendix")
+card(slide, Inches(0.55), Inches(1.25), Inches(6.1), Inches(2.9),
+     "EQT Public Value (2018–24) — the cautionary tale",
+     "Listed Nordic mid-cap strategy: Securitas, BHG, Storebrand, BioGaia, AFRY, and ~10% "
+     "of Storytel (Sep 2021, became largest shareholder). Never reached scale, no "
+     "board-seat engagement playbook, growth-momentum entries; the 2022 de-rating crushed "
+     "the book and the fund was liquidated — the entire Storytel stake sold in Aug 2024.",
+     body_size=11)
+card(slide, Inches(6.85), Inches(1.25), Inches(6.0), Inches(2.9),
+     "KKR – Henry Schein (2025) — sponsor activism validated",
+     "After Ananym Capital's late-2024 campaign, Henry Schein announced a USD 250m "
+     "strategic investment from KKR (Jan 2025): two board seats (Dan Daniel ex-Danaher; "
+     "Max Lin, KKR Healthcare), completed May 2025 with KKR at ~12% and clearance to build "
+     "to 14.9%. A sponsor converted a modest stake into board influence within months — in "
+     "our core sector.", body_size=11)
+add_rect(slide, Inches(0.55), Inches(4.35), Inches(12.3), Inches(2.3), NAVY)
+add_text(slide, Inches(0.85), Inches(4.5), Inches(11.8), Inches(0.35),
+         [("What the precedents are designed into", {"size": 12, "color": GOLD,
+                                                     "bold": True})])
+add_text(slide, Inches(0.85), Inches(4.9), Inches(11.8), Inches(1.7),
+         [("Scale + seed from day one (EUR 150–200m GP commitment) — not EQT PV's subscale "
+           "drift  ·  Partner-level activist leadership and a US campaign Principal — not "
+           "PE generalists  ·  Stakes sized for influence (nomination committees / "
+           "universal proxy) — not passive minorities  ·  ≥30% value-gap entries — not "
+           "growth momentum  ·  Evergreen capital — never forced to liquidate at the "
+           "bottom  ·  Screens exclude the Cevian failure fingerprint: fragile balance "
+           "sheets, political stakeholders, catalysts outside shareholders' control. "
+           "Triton–Caverion (2022–23) shows the take-private optionality; Active Value "
+           "Partners (2026) shows the window is closing.",
+           {"size": 12, "color": WHITE, "line_spacing": 1.2})])
+
 prs.save("/home/user/knutnyman/nordic-capital-activism-pitch/Nordic_Capital_Engaged_Equities_Deck.pptx")
 print("Deck saved with", len(prs.slides.__iter__.__self__._sldIdLst), "slides.")
