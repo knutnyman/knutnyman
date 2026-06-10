@@ -735,9 +735,9 @@ table(
          "Chair change (Leten), cost and portfolio focus; stock roughly doubled into "
          "2021, then compliance issues gave much back; reported net positive but bumpy.",
          "Mixed+"],
-        ["Panalpina (CH)", "2018–19",
-         "~12%; pushed sale; DSV all-share takeover 2019 at a substantial premium within "
-         "~18 months.", "Win (fast)"],
+        ["Panalpina (CH)", "c.2013–19",
+         "Long-held ~12% position frustrated for years by the anchor foundation; pushed "
+         "sale; DSV all-share takeover 2019 at a substantial premium.", "Win"],
         ["Nordea (FI/SE)", "2019–c.24",
          "Cost discipline and capital returns; large buybacks and re-rating followed.",
          "Win"],
@@ -762,10 +762,10 @@ table(
          "Entered ~5% in 2024; conviction has grown with the campaign — stake lifted "
          "above 10% by mid-2026 (>USD 1.3bn position). Margin recovery and structural "
          "options including a US listing review; shares up since disclosure.", "Ongoing"],
-        ["Akzo Nobel (NL)", "c.2024–",
-         "Coatings margin gap vs US peers and consolidation thesis; stake doubled to "
-         "~10.2% in late 2025 as part of a portfolio reshape funded by the ABB exit.",
-         "Ongoing"],
+        ["Akzo Nobel (NL)", "2025–",
+         "Built ~5% during 2025 pressing for a strategy reset; publicly backed the USD "
+         "25bn all-stock Axalta merger of equals (announced November 2025), then doubled "
+         "to ~10.2% funded by the ABB exit.", "Ongoing"],
         ["SIG Group (CH)", "2025–",
          "New position in the Swiss food-packaging maker disclosed late 2025; "
          "de-rated quality franchise, self-help thesis.", "Ongoing"],
@@ -779,22 +779,180 @@ p("Read-across: roughly three clear failures in ~23 disclosed campaigns, with th
   "balance sheets, stakeholder/political complexity, and catalysts outside shareholders' "
   "control (ThyssenKrupp, Bilfinger, Vodafone).", italic=True)
 
-doc.add_heading("A.2 EQT Public Value — the cautionary precedent", level=2)
+doc.add_heading("A.1.1 Selected Cevian campaigns in depth", level=3)
+
+p("Volvo Group (2006–17) — the franchise-maker.", bold=True)
 bullets([
-    ("What it was: ", "EQT's attempt to apply its toolbox to listed Nordic mid-caps, "
-     "launched 2018–19. Disclosed holdings included Securitas, BHG Group, Storebrand, "
-     "BioGaia, AFRY and Storytel — where it built ~10% in September 2021 and became the "
-     "largest shareholder."),
-    ("What happened: ", "Fundraising never reached scale, the strategy lacked a "
-     "board-seat-driven engagement playbook and senior activist leadership, and the fund "
-     "was ultimately liquidated — its entire Storytel holding sold in August 2024, after "
-     "the 2021-vintage growth entry had been crushed in the 2022 de-rating."),
-    ("Lessons designed into this proposal: ", "scale and seed from day one (EUR 150–200m "
-     "GP commitment, USD 1.5bn target); a partner-level activist hire and US campaign "
-     "leadership rather than PE generalists; stakes sized for influence (nomination "
-     "committees / universal proxy), not passive minority positions; entry discipline "
-     "anchored on ≥30% upside to intrinsic value, not growth momentum; and an evergreen "
-     "structure so positions are never liquidated on a fund clock at the bottom."),
+    "Built one of its largest-ever positions (via the Violet Partners vehicle) in a "
+    "conglomerate then spanning trucks, construction equipment, buses, marine and "
+    "aerospace, trading at a deep discount to focused peers.",
+    "Agenda over a decade: portfolio focus (Volvo Aero divested 2012), repeated cost and "
+    "margin programs, governance renewal, and capital discipline through the truck cycle.",
+    "Exit: the 8.2%/A-share stake was sold to Geely in December 2017 for ~USD 3.9bn — "
+    "publicly reported as among Cevian's most profitable investments (~2x over the hold, "
+    "with substantial dividends on top). Lesson: in cyclical industrials, the value plan "
+    "must survive two downcycles; patience plus board influence eventually compounds.",
+], level=1)
+
+p("ThyssenKrupp (2013–c.22) — the instructive failure.", bold=True)
+bullets([
+    "Entered 2013 and built to ~18%, the second-largest holder, with a board seat; thesis: "
+    "a classic conglomerate break-up (steel, elevators, automotive, plant engineering) at "
+    "a large SOTP discount.",
+    "What went wrong: chronically weak cash generation and pension liabilities meant the "
+    "company, not the shareholder, controlled the timetable; management resisted for "
+    "years (CEO and chair both exited 2018 amid the pressure); German stakeholder politics "
+    "(labour co-determination, foundation anchor) blunted every escalation.",
+    "The Elevator sale (EUR 17.2bn to Advent/Cinven, February 2020) finally proved the "
+    "SOTP — but proceeds plugged holes rather than reaching shareholders, and the shares "
+    "had collapsed from ~EUR 25 (2017) to single digits. Cevian sold down through "
+    "2020–22 at a significant reported loss.",
+    "Lesson encoded in our Screen 3: no fragile balance sheets, no politically anchored "
+    "registers, no catalysts the company cannot afford to execute.",
+], level=1)
+
+p("RSA Insurance (2013–21) — underwrite the end-game.", bold=True)
+bullets([
+    "Entered around the 2013–14 crisis (Irish reserving scandal, dividend cut, rights "
+    "issue) and built to ~14%, becoming the largest shareholder with board "
+    "representation.",
+    "Agenda: exit non-core geographies, fix underwriting discipline, return capital — "
+    "executed under the Hester management team over several years while Cevian publicly "
+    "kept a sale on the table.",
+    "Exit: the Intact/Tryg consortium takeover (agreed November 2020, completed 2021) at "
+    "685p — ~50% above the undisturbed price — split the group between the buyers. A "
+    "template for our M&A archetype: operational repair first, strategic premium second.",
+], level=1)
+
+p("ABB (2015–25) — the slow win.", bold=True)
+bullets([
+    "~6% built from 2015; demands: exit Power Grids, decentralise the matrix organisation, "
+    "lift margins, return capital. Management initially kept Power Grids after a 2016 "
+    "review; Cevian persisted, gaining board representation and, after a CEO change, the "
+    "Power Grids sale to Hitachi (USD 11bn enterprise value, completed 2020) with proceeds "
+    "returned via buybacks.",
+    "The decentralised operating model under new leadership drove a multi-year re-rating; "
+    "Cevian's long-held position was finally sold down in 2025, funding new positions "
+    "(Akzo Nobel, SIG).",
+    "Lesson: a ten-year hold can still be a win at scale, but it argues for our evergreen "
+    "structure and for milestone-based campaign reviews.",
+], level=1)
+
+p("Ericsson (2017–c.23) — right plan, exogenous shock.", bold=True)
+bullets([
+    "Built ~9% economic exposure (shares plus instruments) in 2017 at crisis prices; "
+    "demands: new chair (Ronnie Leten arrived 2018), radical cost reduction, focus on "
+    "networks, no value-destructive M&A.",
+    "The plan worked: margins recovered and the shares roughly doubled into 2021; Cevian "
+    "reportedly sold down much of the position near the highs.",
+    "The 2022 compliance disclosures (Iraq) and the Vonage acquisition — the exact M&A "
+    "pattern Cevian had warned against — gave back much of the re-rating. Net outcome "
+    "reported positive. Lesson: take profits when the underwrite is achieved; do not "
+    "re-underwrite a new thesis by inertia.",
+], level=1)
+
+p("Aviva (2021–c.24) — the capital-return campaign.", bold=True)
+bullets([
+    "Disclosed ~5% in June 2021 behind a precise, public ask: return GBP 5bn of excess "
+    "capital by mid-2022 and cut GBP 300m of costs, supporting the new CEO's disposal "
+    "program (eight non-core geographies sold).",
+    "Aviva returned ~GBP 4.75bn (B-share scheme plus buybacks) and hit the cost targets; "
+    "the stock re-rated and Cevian exited with a solid reported gain inside ~2–3 years.",
+    "A template for the capital-allocation archetype: a demand the company can fund, "
+    "stated in numbers, aligned with management's own logic.",
+], level=1)
+
+p("UBS (2023–25) — the special-situation re-rate.", bold=True)
+bullets([
+    "Bought ~1.3% (~EUR 1.2bn) in late 2023 after the Credit Suisse rescue; thesis "
+    "stated publicly: integration plus capital return could double the value toward "
+    "Morgan Stanley-class multiples.",
+    "No campaign was needed — the position was a valuation bet with engagement "
+    "optionality. The shares re-rated sharply; sales in 2025 reportedly realised ~2x on "
+    "early tranches, recycling capital into Smith+Nephew and Akzo Nobel.",
+], level=1)
+
+p("Baloise (2023–25) — governance unlock, Swiss edition.", bold=True)
+bullets([
+    "Built 9.4% from 2023 (entry ~CHF 130); demands: abandon the diversification "
+    "strategy, refocus on core insurance, lift margins — and remove the statutory 2% "
+    "vote-registration cap, which shareholders duly scrapped in 2024, unlocking the "
+    "register.",
+    "Outcome: the Helvetia–Baloise merger of equals (announced April 2025, completed "
+    "December 2025, ~CHF 8.3bn) — Cevian sold its stake to Patria (Helvetia's anchor) at "
+    "~CHF 184 to clear the path: ~+40% plus dividends in under three years.",
+    "Lesson: governance plumbing (vote caps, registration rules) is often the real "
+    "barrier; removing it is itself a catalyst.",
+], level=1)
+
+p("Akzo Nobel (2025–) — the live M&A-archetype case.", bold=True)
+bullets([
+    "Built ~5% during 2025, publicly pressing for a strategy reset at the perennial "
+    "coatings underperformer; in November 2025 Akzo and Axalta announced a USD 25bn "
+    "all-stock merger of equals (Akzo side ~55%, future US listing flagged).",
+    "Cevian publicly backed the deal and doubled its stake to ~10.2% in December 2025, "
+    "funded by the ABB exit — buying more after the catalyst, underwriting the synergy "
+    "and re-listing case through completion (expected H2 2026+).",
+], level=1)
+
+p("Smith+Nephew (2024–) — conviction compounding.", bold=True)
+bullets([
+    "Disclosed ~5% in July 2024 as the largest shareholder; agenda: close the margin gap "
+    "to Stryker-class peers, fix orthopaedics execution, and evaluate structural options "
+    "— including separating underperforming franchises and a US listing review.",
+    "13D filings show ~USD 1.1bn invested for 9.6% by early 2026; the position crossed "
+    "10% in March 2026 and was increased again in June 2026 — Cevian's standard pattern "
+    "of adding as milestones are met. Shares up meaningfully since disclosure; campaign "
+    "ongoing.",
+], level=1)
+
+p("Bilfinger (2011–c.20) and Vodafone (2021–c.23) — the other failures, briefly. ",
+  bold=True)
+bullets([
+    "Bilfinger: built to ~26% behind a services-transformation thesis; absorbed repeated "
+    "profit warnings, compliance problems and a revolving door of CEOs; roughly a decade "
+    "for approximately nothing. Lesson: transformation theses need transformation-grade "
+    "management — underwrite the people, not just the plan.",
+    "Vodafone: pushed market consolidation, portfolio separation and board change at a "
+    "structurally challenged telco; change arrived (towers monetisation, UK merger) but "
+    "after Cevian had reportedly exited around flat-to-negative. Lesson: avoid situations "
+    "where the catalyst requires regulators and counterparties the shareholder cannot "
+    "move.",
+], level=1)
+
+doc.add_heading("A.2 EQT Public Value — the cautionary precedent", level=2)
+p("The closest structural precedent to this proposal — a top-tier Nordic sponsor applying "
+  "its toolbox to listed mid-caps — and therefore the most important one to study, because "
+  "it failed on design, not on concept.")
+bullets([
+    ("The set-up (2018–19): ", "EQT launched Public Value to invest in listed Nordic "
+     "mid-caps “with the EQT toolbox.” External fundraising met lukewarm LP reception and "
+     "never reached intended scale; the strategy continued at sub-scale rather than being "
+     "re-designed or shelved — the first compounding error."),
+    ("The book: ", "disclosed holdings included Securitas (services), BHG Group "
+     "(e-commerce home improvement), Storebrand (savings/insurance), BioGaia (probiotics), "
+     "AFRY (engineering services) and Storytel (audiobook streaming). Note the drift: from "
+     "value-gap candidates (Securitas, Storebrand) toward growth-momentum names (BHG, "
+     "Storytel) as the cycle inflated."),
+    ("The Storytel position — the case study within the case study: ", "6.6 million shares "
+     "(~10%) bought in September 2021 — second-largest, later largest shareholder — at the "
+     "top of the audiobook-growth multiple. No board-seat agenda, no value plan the "
+     "company was asked to execute; the position was a quality-growth bet held in an "
+     "engagement wrapper. The 2022 rate-driven de-rating cut the stock by ~80% peak to "
+     "trough."),
+    ("The ending: ", "the fund was wound down, with the entire Storytel holding sold in "
+     "August 2024 — a forced, fund-clock liquidation at a fraction of entry, into a thin "
+     "register, by which time the strategy had quietly consumed six years of franchise "
+     "attention."),
+    ("Why it failed — four design flaws: ", "(1) sub-scale capital, so positions were "
+     "passive minorities without an influence path; (2) no activist leadership — PE "
+     "professionals running a public book without campaign mechanics; (3) entry discipline "
+     "anchored on quality and momentum rather than a value gap with a closable catalyst; "
+     "(4) a finite fund clock that forced selling at the cycle bottom."),
+    ("How this proposal answers each: ", "EUR 150–200m GP seed plus a USD 1.5bn target "
+     "(scale); a partner-level activist Head plus a US campaign Principal (leadership); "
+     "≥30% value-gap entries with named catalysts (discipline); and an evergreen "
+     "structure with a 3-year lock (no forced bottom-tick exits)."),
 ])
 
 doc.add_heading("A.3 Sponsors entering public-market activism", level=2)
@@ -802,39 +960,65 @@ p("Governance commentators now track “occasional activists” — sponsors and
   "using activist tactics — as a defining trend of the 2025–26 cycle. The pattern: a "
   "modest minority stake plus operating credibility converts into board influence within "
   "months, often alongside or after a conventional activist.")
+doc.add_heading("KKR – Henry Schein (2024–26): the full template, step by step", level=3)
 bullets([
-    ("KKR – Henry Schein (2025) — the template. ", "Ananym Capital ran a conventional "
-     "campaign in late 2024 (board refresh, cost cuts, succession, portfolio review). In "
-     "January 2025 Henry Schein announced a USD 250m strategic investment from KKR with "
-     "two board seats (Dan Daniel, ex-Danaher; Max Lin, KKR Healthcare); completed May "
-     "2025 with KKR at ~12% — the largest non-index holder, with clearance to build to "
-     "14.9%. Sponsor activism, in our core healthcare sector, with the activist publicly "
-     "supportive."),
-    ("KKR – US Foods (2020). ", "USD 500m PIPE at the COVID trough with a board seat; "
-     "patient sponsor capital entered alongside activist pressure (Sachem Head later won "
-     "seats) and exited into the recovery with strong reported returns."),
-    ("Silver Lake – Expedia / Twitter / Airbnb (2020). ", "Crisis PIPEs with board "
-     "representation — demonstrating sponsors can underwrite public minority positions "
-     "at speed and govern through the board rather than control."),
-    ("Apollo – Western Digital (2023). ", "USD 900m convertible preferred while Elliott "
-     "publicly pushed the flash/HDD separation; the split completed in 2025 (SanDisk "
-     "spin). Sponsor structured capital riding an activist catalyst."),
-    ("Warburg Pincus – ESR Group (2022–25). ", "Long-held minority stake in the listed "
-     "Asian logistics platform converted into co-leading the ~USD 7bn take-private — "
-     "the toehold-to-buyout path this strategy's take-private protocol formalises."),
+    ("Step 1 — activist opens (Nov 2024): ", "Ananym Capital discloses a position in the "
+     "US dental/medical distributor and presses for board refreshment, cost reduction, a "
+     "CEO succession plan (Stanley Bergman had led since 1989) and a review of the "
+     "medical distribution business."),
+    ("Step 2 — sponsor enters (Jan 2025): ", "Henry Schein announces a USD 250m strategic "
+     "investment from KKR plus two board seats — Dan Daniel (ex-Danaher EVP) and Max Lin "
+     "(head of KKR Americas healthcare) — with clearance to buy in the open market to "
+     "14.9%. The activist publicly supports the outcome."),
+    ("Step 3 — influence converts (2025–26): ", "investment completes May 2025 with KKR "
+     "at ~12%; Bergman announces retirement in July 2025; Frederick Lowery (ex-Thermo "
+     "Fisher EVP) is appointed CEO effective March 2026; Dan Daniel — KKR's nominee — "
+     "becomes Independent Chairman in May 2026; the 2026 proxy shows KKR at 16.4% and a "
+     "smaller board."),
+    ("Read-across: ", "in roughly fifteen months a sponsor went from zero to largest "
+     "active shareholder, the chairmanship, a hand-picked CEO transition and a reshaped "
+     "board — without a tender offer, in our core healthcare distribution sector. This "
+     "is the playbook this strategy industrialises."),
+])
+doc.add_heading("Other sponsor entries", level=3)
+bullets([
+    ("KKR – US Foods (2020–22). ", "USD 500m convertible preferred PIPE at the COVID "
+     "trough (April 2020) with a board seat, entering alongside activist pressure "
+     "(Sachem Head separately won representation). Patient capital into a dislocated "
+     "quality franchise; exited into the recovery with strong reported returns."),
+    ("Silver Lake – Twitter (2020). ", "USD 1bn convertible plus a board seat for Egon "
+     "Durban, negotiated in the middle of Elliott's campaign — sponsor capital arriving "
+     "as the stabilising partner in an activist situation, the same dual role Nordic "
+     "Capital can play."),
+    ("Silver Lake & Apollo – Expedia (2020). ", "USD 1.2bn of preferred plus warrants "
+     "with board representation in a crisis raise — speed and governance through the "
+     "board, not control."),
+    ("Apollo – Western Digital (2023–25). ", "USD 900m convertible preferred while "
+     "Elliott publicly pushed the flash/HDD separation; the SanDisk spin completed in "
+     "February 2025. Structured sponsor capital riding an activist catalyst to "
+     "completion."),
+    ("Warburg Pincus – ESR Group (2022–25). ", "Co-founder and long-time large minority "
+     "holder of the HK-listed logistics platform, ultimately co-leading the ~USD 7bn "
+     "take-private consortium (with Starwood and others), delisted 2025 — the "
+     "toehold-to-buyout path this strategy's take-private protocol formalises."),
     ("Read-across: ", "operating credibility plus board seats is the winning currency of "
-     "the universal-proxy era, sponsors are arriving now, and the toehold-to-influence "
-     "(and occasionally to-control) path is repeatable. Nordic Capital would be early "
-     "among European sponsors — but not first in the world, which de-risks the LP "
+     "the universal-proxy era; sponsors are arriving now, and the toehold-to-influence "
+     "(occasionally to-control) path is repeatable. Nordic Capital would be early among "
+     "European sponsors — but not first in the world, which de-risks the LP "
      "conversation."),
 ])
 
 doc.add_heading("A.4 Other relevant signals", level=2)
 bullets([
-    ("Triton – Caverion (FI, 2022–23): ", "sponsor stake-building in a listed Nordic "
-     "services company escalated into a competing tender battle (Bain consortium vs "
-     "Triton), completed 2023 at a large premium to the undisturbed price — evidence "
-     "that public stakes create take-private optionality at premium outcomes."),
+    ("Triton – Caverion (FI, 2022–23) — the Nordic take-private bidding war: ", "a Bain "
+     "Capital-led consortium (North Holdings) launched a tender offer for the Finnish "
+     "building-services group in November 2022; Triton's Crayfish BidCo countered in "
+     "January 2023 at ~EUR 1.09bn; Bain improved on 24 January; Triton improved again on "
+     "24 February to ~EUR 1.22bn equity value. Bain's matching right expired on 4 April "
+     "2023 without a raise, the board switched its recommendation to Triton, and the "
+     "offer was declared unconditional in October 2023 (with a minor FCCA remedy). "
+     "Evidence that listed Nordic mid-caps can ignite sponsor bidding wars — a toehold "
+     "position participates in that premium escalation rather than paying it."),
     ("Active Value Partners (2026): ", "ex-Cevian partners launched a Nordic/European "
      "engagement strategy, confirming institutional LP appetite — and starting the clock "
      "on the competitive window this proposal addresses."),

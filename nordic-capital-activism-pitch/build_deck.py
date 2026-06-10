@@ -667,8 +667,8 @@ table_slide(slide, Inches(0.55), Inches(1.2), Inches(12.3),
                  "buybacks; long hold sold down 2025 after a strong re-rating", "Win"],
                 ["Ericsson", "2017–c.23", "Chair change, cost focus; doubled into 2021, "
                  "compliance issues gave much back", "Mixed+"],
-                ["Panalpina", "2018–19", "Pushed sale; DSV takeover at a substantial "
-                 "premium within ~18 months", "Win"],
+                ["Panalpina", "c.2013–19", "Long-held ~12%; pushed sale; DSV takeover "
+                 "2019 at a substantial premium", "Win"],
                 ["Pearson", "2020–", "Backed digital turnaround; Apollo approaches "
                  "rejected above-market; stake since lifted to ~18% — largest disclosed",
                  "Win, ongoing"],
@@ -681,8 +681,8 @@ table_slide(slide, Inches(0.55), Inches(1.2), Inches(12.3),
                 ["Smith+Nephew", "2024–", "Entered ~5%, lifted above 10% by mid-2026 "
                  "(>USD 1.3bn); margin recovery, structural options incl. US listing "
                  "review", "Ongoing"],
-                ["Akzo Nobel", "c.2024–", "Coatings margin gap & consolidation; doubled "
-                 "to ~10.2% late 2025, funded by the ABB exit", "Ongoing"],
+                ["Akzo Nobel", "2025–", "Built ~5% pressing for reset; backed the USD "
+                 "25bn Axalta merger (Nov 2025), doubled to ~10.2%", "Ongoing"],
                 ["SIG Group", "2025–", "New stake in the Swiss packaging maker; de-rated "
                  "quality, self-help thesis", "Ongoing"],
             ],
@@ -705,11 +705,11 @@ card(slide, Inches(0.55), Inches(1.2), Inches(6.1), Inches(2.35),
      "playbook, growth-momentum entries; the 2022 de-rating crushed the book and the fund "
      "was liquidated — the Storytel stake sold Aug 2024.", body_size=10.5)
 card(slide, Inches(6.85), Inches(1.2), Inches(6.0), Inches(2.35),
-     "KKR – Henry Schein (2025) — the template",
-     "After Ananym Capital's late-2024 campaign, Henry Schein announced a USD 250m "
-     "strategic investment from KKR (Jan 2025): two board seats (Dan Daniel ex-Danaher; "
-     "Max Lin, KKR Healthcare), completed May 2025 with KKR at ~12%, clearance to 14.9%. "
-     "A modest stake became board influence within months — in our core sector.",
+     "KKR – Henry Schein (2024–26) — the template",
+     "Ananym campaigns (Nov 2024) → KKR USD 250m investment + 2 board seats (Jan 2025) → "
+     "~12% completed May 2025 → CEO succession: Lowery, ex-Thermo Fisher (Mar 2026) → "
+     "KKR's Dan Daniel becomes Independent Chairman (May 2026), KKR at 16.4%. Zero to "
+     "largest active holder + chairmanship in ~15 months, in our core sector.",
      body_size=10.5)
 add_rect(slide, Inches(0.55), Inches(3.7), Inches(12.3), Inches(1.35), LIGHT)
 add_rect(slide, Inches(0.55), Inches(3.7), Pt(4), Inches(1.35), GOLD)
