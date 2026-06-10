@@ -170,7 +170,7 @@ add_text(slide, Inches(1), Inches(2.0), Inches(11.3), Inches(1.0),
          "Nordic Capital Engaged Equities", size=44, color=WHITE, bold=True,
          align=PP_ALIGN.CENTER)
 add_text(slide, Inches(1), Inches(3.0), Inches(11.3), Inches(0.5),
-         "A constructive activism strategy for the Nordic public markets",
+         "A constructive activism strategy for US and European public markets",
          size=19, color=RGBColor(0xC9, 0xD3, 0xE0), align=PP_ALIGN.CENTER)
 add_text(slide, Inches(1), Inches(4.05), Inches(11.3), Inches(0.4),
          "Proposal for a USD 1.5bn engaged public-equities vehicle",
@@ -183,81 +183,85 @@ add_text(slide, Inches(1), Inches(5.9), Inches(11.3), Inches(0.8),
 slide = new_slide("Executive summary", "The proposal")
 bullet_box(slide, Inches(0.55), Inches(1.25), Inches(7.4), Inches(5.6), [
     ("Launch “Nordic Capital Engaged Equities”: ", "a USD 1.5bn (cap USD 2.0bn) "
-     "constructive-activism fund taking 4–10% stakes in 6–8 listed Nordic mid-caps "
-     "(EUR 1–10bn market cap)."),
+     "constructive-activism fund taking 2–10% stakes in 6–8 listed US and European "
+     "companies (USD 2–15bn market cap) in the firm's core sectors."),
     ("Apply the firm's PE playbook in public markets: ", "operational improvement, "
-     "portfolio separation, capital-allocation reform — executed via nomination "
-     "committees and board seats, not public fights."),
-    ("The window is open: ", "record global activism, an M&A-heavy campaign mix that "
-     "favours a PE sponsor, persistent 30–50% value gaps in under-covered Nordic "
-     "mid-caps — and only one established practitioner (Cevian) in the region."),
-    ("Nordic Capital's edge is structural: ", "operating credibility, the region's best "
-     "director bench, domestic legitimacy, and sector depth in healthcare, tech & "
-     "payments, financial services and industrials."),
+     "portfolio separation, capital-allocation reform — via nomination committees and "
+     "board seats in Europe, universal-proxy-backed engagement in the US."),
+    ("The window is open: ", "record global activism with an M&A-heavy mix that favours "
+     "a PE sponsor, 30–50% value gaps in de-rated quality mid-caps on both continents — "
+     "and no practitioner combining operating depth with a transatlantic mandate."),
+    ("Nordic Capital's edge is structural: ", "operating credibility, the best director "
+     "bench in Europe, a New York platform, and sector depth in healthcare, tech & "
+     "payments, financial services and industrials. US campaign strategy led by Knut "
+     "Nyman, joining from Elliott."),
     ("Platform synergies compound: ", "take-private and PIPE pipeline for the buyout "
      "funds, carve-out deal flow, and a new fee stream — accretive from year two."),
 ], size=13.5, gap=12)
 add_rect(slide, Inches(8.35), Inches(1.25), Inches(4.4), Inches(5.6), NAVY)
 stat(slide, Inches(8.5), Inches(1.55), Inches(4.1), "USD 1.5bn", "Target size (hard cap USD 2.0bn)")
-stat(slide, Inches(8.5), Inches(2.85), Inches(4.1), "6–8", "Concentrated core positions, 4–10% stakes")
+stat(slide, Inches(8.5), Inches(2.85), Inches(4.1), "6–8", "Core positions · ~50/50 US & Europe · 2–10% stakes")
 stat(slide, Inches(8.5), Inches(4.15), Inches(4.1), "15%+", "Target net IRR over a cycle")
 stat(slide, Inches(8.5), Inches(5.45), Inches(4.1), "H2 2027", "First close & initial deployment")
 
 # ============ 3. Why now ============
-slide = new_slide("Why now: the opening for a second Nordic engagement franchise", "Opportunity")
+slide = new_slide("Why now: the opening for a transatlantic engagement franchise", "Opportunity")
 card(slide, Inches(0.55), Inches(1.3), Inches(6.1), Inches(1.7), "Record activism, M&A-centric",
      "2025 set a record for global activist campaigns; ~6 in 10 late-2025 campaigns carried "
      "M&A demands (break-ups, divestitures, sale processes) — terrain where a private equity "
      "sponsor has advantages no hedge-fund activist can match.")
-card(slide, Inches(6.85), Inches(1.3), Inches(6.0), Inches(1.7), "Persistent Nordic value gaps",
-     "Nordic mid-caps are structurally under-covered post-MiFID II; quality franchises trade "
-     "at 30–50% discounts to intrinsic value on SOTP / normalised margins — below the entry "
-     "multiples our buyout funds pay in auctions.")
-card(slide, Inches(0.55), Inches(3.2), Inches(6.1), Inches(1.7), "Thin dedicated competition",
-     "Cevian is the only institutional-scale practitioner and has migrated toward pan-European "
-     "large-caps. The EUR 1–10bn mid-cap band is underserved — and the 2026 launch of Active "
-     "Value Partners (ex-Cevian) confirms institutional appetite for the space.")
+card(slide, Inches(6.85), Inches(1.3), Inches(6.0), Inches(1.7), "Value gaps on both continents",
+     "Europe: structural discount to the US, compounded in under-covered mid-caps. US: the "
+     "post-2021 de-rating left fallen-angel quality in medtech, payments and software at "
+     "30–50% discounts — below the multiples our buyout funds pay in auctions.")
+card(slide, Inches(0.55), Inches(3.2), Inches(6.1), Inches(1.7), "Mis-shaped competition",
+     "US activism is crowded at the mega-cap end but thin in operationally complex mid-caps; "
+     "in Europe, Cevian has drifted large-cap and has no US book. Nobody combines PE operating "
+     "depth with a transatlantic mandate.")
 card(slide, Inches(6.85), Inches(3.2), Inches(6.0), Inches(1.7), "Supportive shareholder base",
-     "Nordic institutions, AP funds and universal owners increasingly back well-argued "
+     "Index funds and pension institutions on both continents increasingly back well-argued "
      "engagement agendas — lowering the cost of building winning coalitions.")
 add_rect(slide, Inches(0.55), Inches(5.15), Inches(12.3), Inches(1.55), NAVY)
 add_text(slide, Inches(0.85), Inches(5.38), Inches(11.8), Inches(1.2),
          [("The strategic point", {"size": 12, "color": GOLD, "bold": True}),
-          ("The category-defining domestic engagement franchise in the Nordics has not yet been "
-           "built. Nordic Capital can build it — with advantages Cevian never had: a buyout "
-           "platform behind the engagement and an operating bench measured in hundreds of "
-           "professionals.", {"size": 14, "color": WHITE, "line_spacing": 1.1})])
+          ("The category-defining sponsor-backed engagement franchise spanning the US and "
+           "Europe has not yet been built. Nordic Capital can build it — with advantages "
+           "neither Cevian nor the US funds have: a buyout platform behind the engagement and "
+           "an operating bench measured in hundreds of professionals.",
+           {"size": 14, "color": WHITE, "line_spacing": 1.1})])
 
 # ============ 4. Nordic governance ============
-slide = new_slide("The Nordics: the most activist-friendly governance model in the world", "Opportunity")
+slide = new_slide("Two engagement regimes, one playbook", "Opportunity")
 table_slide(slide, Inches(0.55), Inches(1.35), Inches(12.3),
-            ["Feature", "Mechanism", "What it means for us"],
+            ["Dimension", "Europe / Nordics (home field)", "United States"],
             [
-                ["Nomination committees",
-                 "Board nominations controlled by the largest shareholders (top 3–4 as of "
-                 "Aug/Sep records) — not by the board",
-                 "A 4–8% stake routinely earns direct influence over board composition — no "
-                 "proxy fight needed"],
-                ["Low EGM threshold",
-                 "10% of shares can call an extraordinary general meeting (Sweden; similar "
-                 "across the region)",
-                 "Credible escalation path that rarely needs to be used"],
-                ["Ownership transparency",
-                 "Public shareholder registers (e.g. Euroclear Sweden), frequently updated",
-                 "Precise coalition mapping before and during campaigns"],
-                ["Consensus board culture",
-                 "Boards and ownership spheres respond to well-researched private engagement",
-                 "Lower campaign cost, faster outcomes, brand-compatible conduct"],
-                ["Spheres & dual-class shares",
-                 "Families, foundations and investment companies anchor many issuers",
-                 "Screened ex ante; sphere-free mid-caps are exceptionally open to engagement"],
+                ["Path to the board",
+                 "Shareholder-elected nomination committees (Nordics: top 3–4 holders as of "
+                 "Aug/Sep records); sphere engagement; 4–8% wins influence without a proxy "
+                 "fight",
+                 "Universal proxy card (2022) slashed the cost of board challenges; most "
+                 "campaigns settle for seats; 2–6% stakes suffice with a credible slate"],
+                ["Escalation tools",
+                 "Low EGM thresholds (10% in Sweden); public shareholder registers enable "
+                 "precise coalition mapping",
+                 "13D platform; precision proxy contests; settlement negotiation; deep "
+                 "advisor ecosystem"],
+                ["Culture & cost",
+                 "Consensus boards; private argumentation usually sufficient; low campaign "
+                 "cost",
+                 "Faster, transactional; settlements within 6–12 months; higher cost, "
+                 "higher liquidity"],
+                ["Our edge",
+                 "Domestic legitimacy of a 30-year Stockholm-rooted owner; Europe's best "
+                 "director bench; Cevian-validated model, no second practitioner",
+                 "Sector operating credibility US activists lack; PE-grade separation "
+                 "expertise; campaign leadership hired from the US activist front line"],
             ],
-            [2.3, 5.2, 4.8], row_h=0.78, size=11.5)
-add_text(slide, Inches(0.55), Inches(5.75), Inches(12.3), Inches(1.0),
-         [("Proof of concept: Cevian's two decades of board-seat-driven engagement across the "
-           "region — and returns in the low-to-mid teens net over cycles — demonstrate the "
-           "model. Timing discipline: stakes must be built before the Q3 ownership snapshots "
-           "that seat the following spring's nomination committees.",
+            [1.8, 5.3, 5.2], row_h=0.95, size=11)
+add_text(slide, Inches(0.55), Inches(5.85), Inches(12.3), Inches(1.0),
+         [("Same underwriting, same value plans, different influence mechanics. Timing "
+           "discipline in both: Q3 ownership snapshots seat Nordic nomination committees; "
+           "US nomination windows gate the proxy season.",
            {"size": 12.5, "color": GREY, "italic": True, "line_spacing": 1.15})])
 
 # ============ 5. Why Nordic Capital ============
@@ -269,12 +273,12 @@ cards = [
     ("The director bench", "An unmatched network of Nordic chairs, former CEOs and "
      "operating advisors to propose as board candidates — the resource that decides "
      "outcomes in a nomination-committee system."),
-    ("Domestic legitimacy", "Institutions, family spheres and governments engage "
-     "differently with a Stockholm-rooted owner than with a New York or London activist. "
-     "Lower friction = cheaper, faster, quieter wins."),
+    ("Legitimacy + US credibility", "European spheres and institutions trust a "
+     "Stockholm-rooted owner; in the US, our New York platform and a campaign team hired "
+     "from the activist front line give standing European funds never built."),
     ("Sector underwriting edge", "Healthcare, tech & payments, financial services, "
-     "industrials — the listed mid-cap universe is full of businesses we have studied, "
-     "bid on or competed against."),
+     "industrials — the same lens in Boston, Amsterdam and Stockholm; a universe of "
+     "businesses we have studied, bid on or competed against."),
     ("Two-way PE pipeline", "Engagement surfaces take-privates and PIPEs for the flagship "
      "funds; activist-catalysed carve-outs create proprietary deal flow (strict info "
      "barriers; see governance slide)."),
@@ -289,17 +293,18 @@ for i, (t, b) in enumerate(cards):
 # ============ 6. Strategy ============
 slide = new_slide("Investment strategy: constructive activism, board-led", "Strategy")
 add_text(slide, Inches(0.55), Inches(1.2), Inches(12.3), Inches(0.85),
-         [("Take 4–10% positions in 6–8 listed Nordic companies (EUR 1–10bn market cap) with "
-           "≥30% upside to intrinsic value, and close the gap in 2–4 years through actions the "
-           "company itself can take — driven from the nomination committee and the boardroom.",
+         [("Take 2–10% positions in 6–8 listed US and European companies (USD 2–15bn market "
+           "cap) with ≥30% upside to intrinsic value, and close the gap in 2–4 years through "
+           "actions the company itself can take — driven from the boardroom under each "
+           "market's governance regime.",
            {"size": 14.5, "color": NAVY, "bold": True, "line_spacing": 1.15})])
 steps = [
     ("1. Underwrite", "M 0–4", "PE-grade diligence; operational benchmark; SOTP; red-team; "
      "≥30% upside with limited structural downside"),
-    ("2. Accumulate", "M 3–9", "4–10% via market + blocks, timed to Q3 ownership snapshots; "
-     "chair meeting before crossing 5%"),
-    ("3. Engage", "M 6–18", "Private value plan to board & anchors; nomination-committee "
-     "seat; propose 1–2 directors from our bench"),
+    ("2. Accumulate", "M 3–9", "2–10% via market + blocks, timed to each market's board "
+     "calendar; chair meeting before crossing 5%"),
+    ("3. Engage", "M 6–18", "Private value plan to board & anchors; EU: nomination-committee "
+     "seat; US: negotiated refreshment under universal-proxy optionality"),
     ("4. Execute", "M 12–36", "Margin program / separation / balance-sheet reset; quarterly "
      "milestones vs the underwrite"),
     ("5. Realise", "M 24–48", "Re-rating, strategic sale — or conflict-cleared take-private "
@@ -326,15 +331,15 @@ arch = [
     ("Margin-gap operators", "40–50% of book",
      "Quality franchises running 300–600bps below achievable margins (execution, supply "
      "chain, quality systems — not market position). Value plan: board-sponsored "
-     "operational program with hard milestones.", "Examples: Elekta, Getinge"),
+     "operational program with hard milestones.", "Examples: Elekta, Smith+Nephew"),
     ("Conglomerate / SOTP discounts", "30–40% of book",
      "Multi-division companies where separation, divestiture or monetisation of hidden "
      "assets unlocks 30–60% upside. Plays to the record M&A-activism mix and our carve-out "
-     "expertise.", "Examples: GN Store Nord, Orkla"),
+     "expertise.", "Examples: Philips, Baxter"),
     ("Capital allocation & strategic catalysts", "15–25% of book",
      "Lazy balance sheets, value-destructive M&A patterns, or companies that should start "
      "or accept strategic processes; often overlaps the other archetypes.",
-     "Example: Tieto (completing its break-up)"),
+     "Examples: Global Payments, Zimmer Biomet"),
 ]
 for i, (t, w, b, ex) in enumerate(arch):
     x = Inches(0.55 + i * 4.18)
@@ -351,18 +356,20 @@ for i, (t, w, b, ex) in enumerate(arch):
 add_text(slide, Inches(0.55), Inches(6.35), Inches(12.3), Inches(0.5),
          [("Sector focus mirrors the PE franchise: Healthcare & MedTech 30–40% · Industrials & "
            "Business Services 25–35% · Tech, Software & Payments 15–25% · Financial Services "
-           "10–20%. Geography: SE ~40–50%, DK ~20–25%, FI ~15–20%, NO ~10–15%.",
+           "10–20%. Geography: US 40–50% · Europe 50–60% (of which Nordics 20–30%).",
            {"size": 11.5, "color": GREY, "italic": True})])
 
 # ============ 8. Funnel ============
 slide = new_slide("Target universe: a disciplined funnel", "Universe")
 funnel = [
-    ("~1,400", "Nordic-listed companies", 12.3),
-    ("~150", "EUR 1–10bn market cap, post liquidity screens", 10.2),
-    ("~60", "Quality screen: defensible position, sound gross margins, clear peer set", 8.1),
-    ("~25–30", "Value gap ≥30% on normalised margins or SOTP", 6.0),
-    ("~15–20", "Path to influence: register open, no hostile blocking sphere", 4.2),
-    ("6–8", "Funded positions (after MNPI / conflicts clearance)", 2.6),
+    ("~1,300", "US & European listed names in our four core sectors, USD 2–15bn, "
+     "post liquidity screens (~55% US / 45% EU)", 12.3),
+    ("~300", "Quality screen: defensible position, sound gross margins, clear peer set", 10.2),
+    ("~80–100", "Value gap ≥30% on normalised margins or SOTP", 8.1),
+    ("~40", "Path to influence: open register, no hostile blocker, no defeating "
+     "defence structures", 6.0),
+    ("12–16", "Live underwritten pipeline (after MNPI / conflicts clearance)", 4.2),
+    ("6–8", "Funded core positions", 2.6),
 ]
 y = 1.3
 for i, (n, label, w) in enumerate(funnel):
@@ -376,31 +383,33 @@ for i, (n, label, w) in enumerate(funnel):
              size=12.5, color=WHITE if i < 5 else NAVY)
     y += 0.88
 add_text(slide, Inches(0.55), Inches(6.7), Inches(12.3), Inches(0.5),
-         [("EUR 1.5bn across 6–8 cores = EUR 180–280m per position = 4–10% of EUR 2–6bn "
-           "companies — exactly the band where nomination-committee seats are won and "
-           "dedicated competition is thinnest.", {"size": 12.5, "color": NAVY, "bold": True})])
+         [("USD 1.5bn across 6–8 cores = USD 180–280m per position = 4–10% of a USD 3–6bn "
+           "European mid-cap or 2–5% of a USD 5–15bn US name — influential under both "
+           "regimes, in the band where competition is thinnest.",
+           {"size": 12.5, "color": NAVY, "bold": True})])
 
 # ============ 9–11. Pipeline ============
 slide = new_slide("Illustrative pipeline (1/2) — public information only", "Pipeline")
 pipe1 = [
-    ("Elekta  ·  SE  ·  MedTech", "Margin-gap operator",
+    ("Elekta  ·  Sweden  ·  MedTech", "Margin-gap operator",
      "Global #2 in radiation oncology in a growing oligopoly; heavily de-rated, with "
      "third-party fair-value estimates implying ~50%+ discounts during 2026. FY25/26 adj. "
      "EBIT margin ~12% vs mid-to-high teens at Siemens Healthineers/Varian.",
      "Board-sponsored margin program; order-to-revenue execution reset; service "
-     "acceleration; strategic optionality. Healthcare is our home turf."),
-    ("Getinge  ·  SE  ·  MedTech", "Margin recovery & portfolio focus",
-     "Profitability recovering (profit margin ~6.5% in 2025 vs ~4.7% in 2024) as quality "
-     "costs roll off, but far below peers; three loosely related business areas invite "
-     "portfolio review.",
-     "Complete the quality agenda with board accountability; drive Life Science separation "
-     "review; normalise margins toward double-digit EBITA."),
-    ("GN Store Nord  ·  DK  ·  Hearing & Audio", "Separation thesis",
-     "Two-business structure (hearing care; enterprise/consumer audio) with limited "
-     "synergy; separation long debated while leverage suppressed action; register "
-     "unusually open for a Danish large-cap.",
-     "Deleverage milestones, then a formal separation review — both units have natural "
-     "strategic and sponsor buyers."),
+     "acceleration; strategic optionality. Home-field nomination-committee engagement."),
+    ("Smith+Nephew  ·  UK  ·  MedTech", "Margin gap & structural options",
+     "Quality ortho/sports-med/wound franchise lagging peers on margin and execution for "
+     "years; engagement validated (Cevian on the register since 2024) with the turnaround "
+     "only partly delivered.",
+     "Hold the board to peer-level margins; evaluate separation of underperforming "
+     "franchises and a US listing review — a second credible engaged owner can be "
+     "decisive."),
+    ("Philips  ·  Netherlands  ·  HealthTech", "Recovery & SOTP",
+     "Emerging from the Respironics recall era (US litigation settled) with margins well "
+     "below pre-crisis levels and peers; anchor shareholder (Exor) shows the register is "
+     "open to engaged owners.",
+     "Margin normalisation with board accountability; portfolio review of Personal Health "
+     "vs the healthcare core — force the SOTP into the price."),
 ]
 y = 1.3
 for name, arch_t, sit, plan in pipe1:
@@ -419,52 +428,59 @@ for name, arch_t, sit, plan in pipe1:
 
 slide = new_slide("Illustrative pipeline (2/2) — public information only", "Pipeline")
 pipe2 = [
-    ("Tieto  ·  FI  ·  Software & IT Services", "Completing the break-up",
-     "Tietoevry has validated the separation path: Banking demerger toward a Helsinki "
-     "listing announced; Tech Services sold to Agilitas for EUR 300m (closed Sep 2025) with "
-     "proceeds to debt.",
-     "Support and accelerate value realisation; enforce capital-return discipline; position "
-     "the remaining Nordic software core for consolidation — as buyer or seller."),
-    ("Orkla  ·  NO  ·  Branded Consumer / Holding", "Conglomerate discount",
-     "Self-declared industrial investment company with ~12 portfolio companies, a ~42.6% "
-     "Jotun stake (world-class hidden asset) and hydropower; equity persistently below "
-     "credible SOTP.",
-     "Accelerate announced monetisations; capital-return framework tied to disposal "
-     "proceeds; transparent per-asset reporting that forces the SOTP into the price."),
+    ("Baxter International  ·  US  ·  MedTech", "Completing the simplification",
+     "Multi-year simplification in motion (BioPharma Solutions sold; Vantive kidney-care "
+     "divested to Carlyle, early 2025), yet the equity kept de-rating amid execution "
+     "stumbles and a CEO transition — a fallen angel far below peer multiples.",
+     "Finish the job: complete the separation program, reset the cost base, refresh the "
+     "board, disciplined capital-return framework. Classic universal-proxy-era engagement."),
+    ("Global Payments  ·  US  ·  Payments", "Capital allocation & credibility reset",
+     "Scaled merchant-acquiring franchise at a deeply depressed multiple after the poorly "
+     "received 2025 Worldpay / Issuer Solutions restructuring; activist interest publicly "
+     "reported — the value gap is recognised.",
+     "Integration milestones with board accountability; divest non-core; binding "
+     "capital-return commitments post-deleveraging; payments operating expertise to the "
+     "board (our Nets/Nexi heritage)."),
+    ("Zimmer Biomet  ·  US  ·  MedTech", "Capital-allocation catalyst",
+     "Orthopaedics leader compounding modestly at a structurally depressed multiple; "
+     "investor confidence eroded by guidance resets and M&A choices.",
+     "Capital-allocation framework (organic + buybacks over dilutive M&A); prune subscale "
+     "adjacencies; margin program toward peer levels."),
 ]
 y = 1.3
 for name, arch_t, sit, plan in pipe2:
-    add_rect(slide, Inches(0.55), Inches(y), Inches(12.3), Inches(1.78), LIGHT)
-    add_rect(slide, Inches(0.55), Inches(y), Pt(4), Inches(1.78), GOLD)
-    add_text(slide, Inches(0.8), Inches(y + 0.08), Inches(5.2), Inches(0.35), name,
-             size=13.5, color=NAVY, bold=True)
-    add_text(slide, Inches(8.6), Inches(y + 0.08), Inches(4.1), Inches(0.35), arch_t,
-             size=11, color=GOLD, bold=True, align=PP_ALIGN.RIGHT)
-    add_text(slide, Inches(0.8), Inches(y + 0.45), Inches(6.6), Inches(1.3),
-             [("Situation: " + sit, {"size": 10.5, "color": GREY, "line_spacing": 1.06})])
-    add_text(slide, Inches(7.6), Inches(y + 0.45), Inches(5.1), Inches(1.3),
-             [("Value plan: " + plan, {"size": 10.5, "color": RGBColor(0x2B, 0x33, 0x40),
-                                       "line_spacing": 1.06})])
-    y += 1.92
-add_rect(slide, Inches(0.55), Inches(5.25), Inches(12.3), Inches(1.45), NAVY)
-add_text(slide, Inches(0.85), Inches(5.45), Inches(11.8), Inches(1.1),
-         [("Watchlist (survives screens 1–3)", {"size": 12, "color": GOLD, "bold": True}),
-          ("Securitas (self-help largely delivered — a model of the re-rating we underwrite) · "
-           "Demant · Ambu · Dometic · Thule · Huhtamäki · Valmet · Storebrand · ISS",
-           {"size": 13, "color": WHITE, "line_spacing": 1.15})])
+    add_rect(slide, Inches(0.55), Inches(y), Inches(12.3), Inches(1.5), LIGHT)
+    add_rect(slide, Inches(0.55), Inches(y), Pt(4), Inches(1.5), GOLD)
+    add_text(slide, Inches(0.8), Inches(y + 0.06), Inches(5.6), Inches(0.32), name,
+             size=13, color=NAVY, bold=True)
+    add_text(slide, Inches(8.6), Inches(y + 0.06), Inches(4.1), Inches(0.32), arch_t,
+             size=10.5, color=GOLD, bold=True, align=PP_ALIGN.RIGHT)
+    add_text(slide, Inches(0.8), Inches(y + 0.40), Inches(6.6), Inches(1.05),
+             [("Situation: " + sit, {"size": 9.8, "color": GREY, "line_spacing": 1.03})])
+    add_text(slide, Inches(7.6), Inches(y + 0.40), Inches(5.1), Inches(1.05),
+             [("Value plan: " + plan, {"size": 9.8, "color": RGBColor(0x2B, 0x33, 0x40),
+                                       "line_spacing": 1.03})])
+    y += 1.64
+add_rect(slide, Inches(0.55), Inches(6.25), Inches(12.3), Inches(0.85), NAVY)
+add_text(slide, Inches(0.85), Inches(6.33), Inches(11.8), Inches(0.7),
+         [("Watchlist (survives screens 1–3)", {"size": 10.5, "color": GOLD, "bold": True,
+                                                "space_after": 1}),
+          ("EU: Getinge · GN Store Nord · Orkla · Tieto · Demant · Securitas · ISS · Valmet · "
+           "Storebrand   |   US: Teleflex · Henry Schein · Fiserv · specialty insurers",
+           {"size": 11, "color": WHITE, "line_spacing": 1.05})])
 
 # ============ 12. Fund terms ============
 slide = new_slide("Vehicle, size & terms", "Structure")
 table_slide(slide, Inches(0.55), Inches(1.3), Inches(12.3),
             ["Parameter", "Recommendation"],
             [
-                ["Target size", "USD 1.5bn target; USD 2.0bn hard cap — sized to the EUR 1–10bn "
-                 "mid-cap band where influence is cheap and competition thin"],
+                ["Target size", "USD 1.5bn target; USD 2.0bn hard cap — sized to the USD 2–15bn "
+                 "transatlantic mid-cap band where influence is cheap and competition thin"],
                 ["Structure", "Luxembourg RAIF (AIFMD); evergreen with 3-year soft lock, then "
                  "quarterly liquidity with 25% investor-level gates"],
                 ["GP commitment", "EUR 150–200m from balance sheet + partners/employees"],
-                ["Fees", "1.25–1.50% management; 17.5% performance over max(MSCI Nordic + "
-                 "200bps, 5% absolute); 3-year crystallisation; high-water mark"],
+                ["Fees", "1.25–1.50% management; 17.5% performance over max(50/50 S&P 500 / "
+                 "MSCI Europe + 200bps, 5% absolute); 3-year crystallisation; high-water mark"],
                 ["Concentration", "Max 25% NAV per position at cost (35% at market); max 2 "
                  "concurrent public-escalation campaigns"],
                 ["Co-invest", "Sleeves for oversized situations and take-private bridges"],
@@ -474,38 +490,50 @@ table_slide(slide, Inches(0.55), Inches(1.3), Inches(12.3),
             [2.4, 9.9], row_h=0.68, size=12)
 
 # ============ 13. Team ============
-slide = new_slide("Team & organisation: small, senior, conflict-proofed", "Team")
-add_rect(slide, Inches(4.3), Inches(1.25), Inches(4.7), Inches(0.75), NAVY)
-add_text(slide, Inches(4.3), Inches(1.36), Inches(4.7), Inches(0.5),
-         "Head of Engaged Equities (Partner)\nEx-Cevian / top activist franchise · ExCo member",
-         size=11.5, color=WHITE, bold=True, align=PP_ALIGN.CENTER)
+slide = new_slide("Team & organisation: small, senior, transatlantic, conflict-proofed", "Team")
+add_rect(slide, Inches(4.3), Inches(1.2), Inches(4.7), Inches(0.72), NAVY)
+add_text(slide, Inches(4.3), Inches(1.29), Inches(4.7), Inches(0.5),
+         "Head of Engaged Equities (Partner)\nEx-Cevian / top activist franchise · ExCo · Stockholm",
+         size=11, color=WHITE, bold=True, align=PP_ALIGN.CENTER)
+# Knut Nyman — highlighted founding role
+add_rect(slide, Inches(0.55), Inches(2.08), Inches(12.3), Inches(0.95), NAVY2)
+add_rect(slide, Inches(0.55), Inches(2.08), Pt(4), Inches(0.95), GOLD)
+add_text(slide, Inches(0.85), Inches(2.16), Inches(11.8), Inches(0.35),
+         [("Knut Nyman — Principal, US Situations & Campaign Strategy  ·  New York  ·  "
+           "joining from Elliott Investment Management",
+           {"size": 12.5, "color": GOLD, "bold": True})])
+add_text(slide, Inches(0.85), Inches(2.52), Inches(11.8), Inches(0.45),
+         [("Owns the US book: idea generation & underwriting · 13D and universal-proxy "
+           "playbook · settlement negotiation · US advisor network. Co-leads 1–2 campaigns "
+           "per year; campaign lead from year two; path to Partner; carry from day one.",
+           {"size": 10.5, "color": WHITE, "line_spacing": 1.05})])
 boxes = [
     ("Deputy PM / Head of Research", "Underwriting standards · red-team owner"),
-    ("Sector Principal — Healthcare/MedTech", "Campaign lead"),
-    ("Sector Principal — Industrials/Tech", "Campaign lead"),
-    ("4–5 Investment professionals", "Modelling · register analytics · benchmarking"),
+    ("Sector Principal — Healthcare/MedTech", "Campaign lead (one per region)"),
+    ("Sector Principal — Industrials/Tech", "Campaign lead (one per region)"),
+    ("4–5 Investment professionals", "Modelling · register analytics · split SHB/NY"),
     ("Head of Stewardship & Governance", "Nomination committees · director sourcing · proxy"),
     ("Dedicated Compliance Officer", "Owns the info barrier · reports to Group GC"),
 ]
 for i, (t, b) in enumerate(boxes):
     x = Inches(0.55 + (i % 3) * 4.18)
-    y = Inches(2.35 + (i // 3) * 1.25)
-    add_rect(slide, x, y, Inches(3.95), Inches(1.05), LIGHT)
-    add_rect(slide, x, y, Pt(3.5), Inches(1.05), GOLD)
-    add_text(slide, x + Inches(0.15), y + Inches(0.08), Inches(3.7), Inches(0.4), t,
-             size=11.5, color=NAVY, bold=True)
-    add_text(slide, x + Inches(0.15), y + Inches(0.52), Inches(3.7), Inches(0.45), b,
-             size=10, color=GREY)
-bullet_box(slide, Inches(0.55), Inches(5.05), Inches(12.3), Inches(1.8), [
+    y = Inches(3.18 + (i // 3) * 1.12)
+    add_rect(slide, x, y, Inches(3.95), Inches(0.98), LIGHT)
+    add_rect(slide, x, y, Pt(3.5), Inches(0.98), GOLD)
+    add_text(slide, x + Inches(0.15), y + Inches(0.06), Inches(3.7), Inches(0.4), t,
+             size=11, color=NAVY, bold=True)
+    add_text(slide, x + Inches(0.15), y + Inches(0.5), Inches(3.7), Inches(0.42), b,
+             size=9.5, color=GREY)
+bullet_box(slide, Inches(0.55), Inches(5.55), Inches(12.3), Inches(1.5), [
     ("Conflicts framework (make-or-break): ", "hard information barrier vs the PE business; "
      "restricted-list screening before any accumulation; wall-crossing only via documented "
      "GC approval."),
     ("Take-private protocol: ", "pre-agreed, LPAC-disclosed terms (independent pricing, "
      "roll-or-cash optionality, conflicted-party abstentions) if a position becomes a "
      "buyout target."),
-    ("Reputation committee: ", "Managing Partner sign-off required for any public "
-     "escalation, media engagement or EGM requisition."),
-], size=11.5, gap=6)
+    ("Reputation committee: ", "Managing Partner sign-off for any public escalation, media "
+     "engagement or EGM/proxy action."),
+], size=10.5, gap=4)
 
 # ============ 14. Economics & risks ============
 slide = new_slide("Platform economics, risks & mitigants", "Economics & risk")
@@ -526,8 +554,9 @@ table_slide(slide, Inches(0.55), Inches(2.85), Inches(12.3),
                  "Hard info barrier; dedicated compliance; LPAC-disclosed take-private protocol"],
                 ["Sphere control blocks change",
                  "Screened out ex ante; engage spheres as allies where present"],
-                ["Mid-cap liquidity (SEK/NOK/DKK)",
-                 "ADV-tied sizing; evergreen + gates; co-invest sleeves; event-driven exits"],
+                ["European mid-cap liquidity (thinner than US lines)",
+                 "ADV-tied sizing; larger tickets in US names; evergreen + gates; co-invest "
+                 "sleeves; event-driven exits"],
                 ["Key-person dependence",
                  "Co-PM structure; institutional IC; management-company equity"],
                 ["Talent competition (Active Value Partners et al.)",
@@ -542,14 +571,14 @@ phases = [
      "ExCo approval · conflicts framework with GC · regulatory scoping (Lux RAIF / AIFM "
      "passport) · launch Head search"),
     ("Phase 1 — Build", "Oct 2026 – Mar 2027",
-     "Head + Deputy hired · core team of 6 · EUR 150–200m seed closed · 10–14 underwritten "
-     "names · LP pre-marketing"),
+     "Head + Deputy hired · Knut Nyman & NY pod on board · core team of 7 · EUR 150–200m "
+     "seed closed · 12–16 underwritten names · LP pre-marketing"),
     ("Phase 2 — First close & deploy", "Apr–Sep 2027",
-     "First close ~USD 750m · 2–3 positions built against Q3-2027 ownership snapshots "
-     "(seats 2028 nomination committees)"),
+     "First close ~USD 750m · 2–3 positions built against the board calendar (Q3-2027 "
+     "Nordic snapshots; US nomination windows for the 2028 proxy season)"),
     ("Phase 3 — Scale", "Oct 2027 – Dec 2028",
-     "Final close USD 1.5–2.0bn · 6–8 positions · first board seats at the 2028 AGM "
-     "season · first realisations 2029"),
+     "Final close USD 1.5–2.0bn · 6–8 positions across both regions · first board seats "
+     "and settlements in the 2028 cycles · first realisations 2029"),
 ]
 for i, (t, when, b) in enumerate(phases):
     x = Inches(0.55 + i * 3.14)
@@ -573,7 +602,7 @@ slide = prs.slides.add_slide(BLANK)
 add_rect(slide, 0, 0, SW, SH, NAVY)
 add_rect(slide, 0, Inches(3.1), SW, Pt(3), GOLD)
 add_text(slide, Inches(1.2), Inches(2.0), Inches(11), Inches(1.0),
-         "The Nordic engagement franchise has not been built yet.",
+         "The transatlantic engagement franchise has not been built yet.",
          size=30, color=WHITE, bold=True, align=PP_ALIGN.CENTER)
 add_text(slide, Inches(1.2), Inches(3.35), Inches(11), Inches(0.6),
          "Nordic Capital is the firm to build it.", size=22, color=GOLD, bold=True,

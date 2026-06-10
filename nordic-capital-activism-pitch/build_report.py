@@ -102,7 +102,7 @@ p("STRICTLY PRIVATE & CONFIDENTIAL", bold=True, size=10, color=GOLD,
   align=WD_ALIGN_PARAGRAPH.CENTER)
 p("Nordic Capital Engaged Equities", bold=True, size=28, color=NAVY,
   align=WD_ALIGN_PARAGRAPH.CENTER)
-p("A Constructive Activism Strategy for the Nordic Public Markets",
+p("A Constructive Activism Strategy for US and European Public Markets",
   size=14, color=GREY, align=WD_ALIGN_PARAGRAPH.CENTER)
 doc.add_paragraph()
 p("Proposal to launch a USD 1.5 billion engaged public-equities vehicle",
@@ -121,56 +121,65 @@ doc.add_page_break()
 doc.add_heading("1. Executive Summary", level=1)
 p("We propose that Nordic Capital launch a dedicated public-markets strategy — "
   "“Nordic Capital Engaged Equities” — a USD 1.5 billion (hard cap USD 2.0 billion) "
-  "vehicle pursuing constructive activism in listed Nordic mid-caps. The strategy applies "
-  "the firm's private equity value-creation playbook — operational improvement, portfolio "
-  "simplification, disciplined capital allocation and strategic M&A — to a concentrated book "
-  "of 6–8 public companies where Nordic Capital takes 4–10% ownership stakes, secures "
-  "nomination-committee and board influence, and drives a 2–4 year value plan.")
+  "vehicle pursuing constructive activism in listed US and European mid-caps. The strategy "
+  "applies the firm's private equity value-creation playbook — operational improvement, "
+  "portfolio simplification, disciplined capital allocation and strategic M&A — to a "
+  "concentrated book of 6–8 public companies in the firm's core sectors, where Nordic "
+  "Capital takes 2–10% ownership stakes, secures board-level influence, and drives a "
+  "2–4 year value plan. Europe (including the Nordic home market) is expected to carry "
+  "50–60% of the book and the United States 40–50%, with allocation following sector "
+  "opportunity rather than geographic quota.")
 bullets([
-    ("The market gap is real. ", "Cevian Capital has demonstrated for two decades that "
-     "board-seat-driven engagement in Nordic and European equities generates durable alpha, "
-     "yet dedicated Nordic activist capital remains scarce relative to the opportunity. The "
-     "2026 launch of Active Value Partners by former Cevian partners confirms growing "
-     "institutional appetite for the space — and the window to establish the category-defining "
-     "domestic franchise is open now."),
     ("Activism is at record levels and increasingly M&A-driven. ", "2025 was a record year "
      "for global shareholder campaigns, and an unusually high share of recent campaigns carry "
      "M&A demands — terrain where a private equity sponsor has structural advantages no "
-     "hedge-fund activist can match."),
-    ("Nordic governance is structurally activist-friendly. ", "Shareholder-elected nomination "
-     "committees, low EGM thresholds (10% in Sweden), exceptional ownership transparency and a "
-     "consensus-driven board culture mean a 5% holder can achieve influence that requires 15%+ "
-     "and a proxy fight elsewhere."),
-    ("Nordic Capital is uniquely positioned. ", "Three decades of operating credibility, deep "
-     "sector franchises in healthcare, technology & payments, financial services and "
-     "industrials, and an unrivalled network of Nordic chairs, CEOs and operating advisors. "
-     "Critically, Nordic Capital will be received as a constructive domestic owner — not a "
-     "foreign raider — which materially lowers the cost and friction of every campaign."),
+     "hedge-fund activist can match. The US remains the deepest activism market; Europe is "
+     "the fastest-growing and least crowded."),
+    ("Two regimes, one playbook. ", "In Europe — and above all in the Nordic home market — "
+     "shareholder-elected nomination committees, low EGM thresholds and ownership "
+     "transparency let a 4–8% holder win board influence quietly. In the US, the universal "
+     "proxy card has structurally lowered the cost of board challenges, making credible, "
+     "well-resourced engagement effective at 2–6% stakes. The same value plans work in "
+     "both; only the influence mechanics differ."),
+    ("The sector lens travels; the competition doesn't. ", "Nordic Capital's underwriting "
+     "edge in healthcare & medtech, technology & payments, financial services and "
+     "industrials applies identically to a Philadelphia medtech and a Stockholm one. "
+     "Operationally credible, sponsor-backed engagement capital is scarce on both sides of "
+     "the Atlantic — Cevian dominates constructive activism in Europe but has no US book, "
+     "while US activists lack operating benches and European legitimacy."),
+    ("Nordic Capital is uniquely positioned. ", "Three decades of operating credibility, "
+     ">EUR 31bn AUM, a New York presence and a growing North American investment record in "
+     "healthcare and technology, and an unrivalled bench of chairs, CEOs and operating "
+     "advisors to propose as directors — the single hardest resource for any activist to "
+     "assemble."),
     ("Strategic synergies compound the core P&L. ", "The public strategy becomes a pipeline "
      "for take-privates and structured PIPEs, a catalyst for carve-outs the buyout funds can "
      "acquire, and an extension of LP relationships into a new product line — diversifying "
      "fee streams beyond the flagship buyout franchise."),
 ])
 p("We recommend a phased launch: internal approval and conflicts framework in H2 2026, a "
-  "founding team of 10–12 led by a partner-level Head of Engaged Equities, a EUR 150–200m "
-  "GP/employee seed commitment, first close of ~USD 750m in mid-2027 and stake-building "
-  "timed to the Q3 ownership snapshots that determine 2028 AGM nomination committees. "
-  "Target net returns of 15%+ over a cycle, with management economics accretive to the "
-  "platform from year two.")
+  "founding team of 11–13 led by a partner-level Head of Engaged Equities — with US "
+  "situations and campaign strategy led by Knut Nyman, joining from Elliott Investment "
+  "Management — a EUR 150–200m GP/employee seed commitment, first close of ~USD 750m in "
+  "mid-2027, and initial deployment timed to the 2028 board cycles in both regions. Target "
+  "net returns of 15%+ over a cycle, with management economics accretive to the platform "
+  "from year two.")
 doc.add_page_break()
 
 # ---------- 2. Why now ----------
 doc.add_heading("2. The Opportunity: Why Public-Market Activism, Why Now", level=1)
 doc.add_heading("2.1 The valuation gap has become a strategic opening", level=2)
-p("European equities continue to trade at a persistent discount to US peers, and Nordic "
-  "mid-caps — under-covered after a decade of sell-side consolidation and MiFID II research "
-  "unbundling — trade at a further discount to European large-caps despite superior "
-  "governance and profitability. A meaningful cohort of quality Nordic franchises trades at "
-  "30–50% discounts to intrinsic value on sum-of-the-parts or normalised-margin bases. "
-  "Public-market multiples for Nordic mid-caps sit well below the entry multiples Nordic "
-  "Capital's buyout funds routinely pay in competitive private processes — in effect, the "
-  "public market is offering the firm's core hunting ground at a discount, without an "
-  "auction.")
+p("On both sides of the Atlantic, a large cohort of quality mid-cap franchises in Nordic "
+  "Capital's core sectors trades at 30–50% discounts to intrinsic value on sum-of-the-parts "
+  "or normalised-margin bases. In Europe, the discount is structural: persistent "
+  "under-valuation versus US peers, compounded in mid-caps by a decade of sell-side "
+  "consolidation and MiFID II research unbundling. In the US, the post-2021 de-rating of "
+  "medtech, payments and software left a generation of fallen-angel quality compounders at "
+  "private-market discounts even as indices set records — and the activism toolkit there "
+  "has never been stronger. In both regions, public-market multiples for these companies "
+  "sit below the entry multiples Nordic Capital's buyout funds routinely pay in competitive "
+  "private processes — the public market is offering the firm's core hunting ground at a "
+  "discount, without an auction.")
 doc.add_heading("2.2 Activism has gone mainstream — and M&A-centric", level=2)
 bullets([
     "2025 set a record for global activist campaigns, with activity broadening across "
@@ -179,50 +188,50 @@ bullets([
     "divestitures, sale processes) — the highest share in five years. M&A-driven activism "
     "plays directly to a private equity sponsor's strengths: valuing businesses, running "
     "separations, and standing ready as a buyer or financing partner.",
-    "Universal owners (index funds, Nordic institutions, AP funds) increasingly support "
-    "well-argued engagement agendas, lowering the vote-getting cost of campaigns.",
-    "Dedicated Nordic engagement capital remains thin: Cevian (pan-European, increasingly "
-    "large-cap), a handful of small Nordic engagement funds, and episodic visits from US "
-    "activists with limited local standing. The mid-cap segment (EUR 1–10bn) is "
-    "structurally underserved.",
+    "Universal owners (index funds, pension institutions) increasingly support well-argued "
+    "engagement agendas on both continents, lowering the vote-getting cost of campaigns.",
+    "Competition is mis-shaped, not absent: US activism is crowded at the mega-cap end but "
+    "thin in operationally complex mid-caps; in Europe, Cevian (constructive, large-cap "
+    "drift) and episodic US visitors leave the EUR 2–10bn segment structurally underserved. "
+    "Operationally credible, sponsor-backed engagement capital is scarce everywhere.",
 ])
-doc.add_heading("2.3 Why the Nordics are the best activism jurisdiction in the world", level=2)
-p("The Nordic governance model was effectively designed for engaged ownership:")
+doc.add_heading("2.3 Two engagement regimes, one playbook", level=2)
+p("The strategy runs the same underwriting and the same value plans in both regions; only "
+  "the influence mechanics differ:")
 table(
-    ["Feature", "Mechanism", "Implication for the strategy"],
+    ["Dimension", "Europe / Nordics (home field)", "United States"],
     [
-        ["Nomination committees",
-         "Board nominations are controlled by committees composed of the largest "
-         "shareholders (typically top 3–4 as of Aug/Sep ownership records), not by the board "
-         "itself.",
-         "A 4–8% stake in a mid-cap routinely earns a nomination-committee seat — direct "
-         "influence over board composition without a proxy fight."],
-        ["Low EGM threshold",
-         "10% of shares can requisition an extraordinary general meeting in Sweden (similar "
-         "thresholds across the region).",
-         "Credible escalation path that rarely needs to be used."],
-        ["Ownership transparency",
-         "Public shareholder registers (e.g., Euroclear Sweden) updated frequently.",
-         "Precise coalition mapping; no guessing who holds the register."],
-        ["Consensus culture",
-         "Boards and ownership spheres respond to well-researched private argumentation; "
-         "public hostility is rare and usually unnecessary.",
-         "Lower campaign cost, faster outcomes, brand-compatible conduct."],
-        ["Dual-class shares & spheres",
-         "Founding families, foundations and investment companies (Wallenberg/Investor, "
-         "Industrivärden, Lundberg, Maersk family, Danish foundations) anchor many issuers.",
-         "Screens out uninvestable names early; conversely, sphere-free mid-caps are "
-         "exceptionally open to engagement."],
+        ["Path to the board",
+         "Shareholder-elected nomination committees (Nordics: top 3–4 holders as of Aug/Sep "
+         "records) and constructive sphere engagement; a 4–8% stake routinely wins direct "
+         "influence without a proxy fight.",
+         "Universal proxy card (2022) structurally lowered the cost of board challenges; "
+         "most campaigns now settle for seats. Credible slates + 2–6% stakes suffice."],
+        ["Escalation tools",
+         "Low EGM thresholds (10% in Sweden); ownership transparency (public registers) "
+         "enables precise coalition mapping.",
+         "13D platform, precision proxy contests, settlement negotiation; deep advisor "
+         "ecosystem (solicitors, banks, law firms)."],
+        ["Culture & cost",
+         "Consensus boards; private argumentation usually sufficient; low campaign cost; "
+         "brand-compatible conduct.",
+         "Faster, more transactional; settlements common within 6–12 months; higher "
+         "campaign cost, higher liquidity."],
+        ["Our edge",
+         "Domestic legitimacy of a 30-year Stockholm-rooted owner; the region's best "
+         "director bench; Cevian-validated model with no second practitioner.",
+         "Sector operating credibility US activists lack; PE-grade separation expertise "
+         "for the M&A-heavy campaign mix; team hired from the US activist front line."],
     ],
-    widths=[1.5, 2.7, 2.6],
+    widths=[1.3, 2.8, 2.7],
 )
-p("Cevian's two-decade record — board seats across the region, low-to-mid-teens net returns "
-  "over cycles, and outcomes such as the value created around Danske Bank, ABB, Ericsson and "
-  "numerous Nordic industrials — is the proof of concept. The constructive, board-led model "
-  "works in this region better than anywhere else. What the region lacks is a second "
-  "institutional-scale practitioner. Nordic Capital can be that firm, with advantages Cevian "
-  "never had: a buyout balance sheet behind the engagement, and operating resources measured "
-  "in hundreds of professionals.")
+p("Proof of concept exists in both regimes: Cevian's two-decade, board-seat-driven record "
+  "in Europe (low-to-mid-teens net over cycles), and the post-universal-proxy wave of US "
+  "settlements showing that well-resourced engagement now converts to board influence at "
+  "historically small stakes. What does not yet exist is a practitioner combining PE "
+  "operating depth with a transatlantic mandate. Nordic Capital can be that firm, with "
+  "advantages neither Cevian nor the US funds have: a buyout balance sheet behind the "
+  "engagement, and operating resources measured in hundreds of professionals.")
 doc.add_page_break()
 
 # ---------- 3. Why Nordic Capital ----------
@@ -237,14 +246,17 @@ bullets([
      "operating advisors who can be proposed as board candidates — the single hardest "
      "resource for any activist to assemble, and the one that decides outcomes in a "
      "nomination-committee system."),
-    ("Domestic legitimacy. ", "Nordic institutions, family spheres and governments engage "
-     "very differently with a Stockholm-rooted owner of 30 years than with a New York or "
-     "London activist. Lower friction means cheaper, faster, quieter wins — and access to "
-     "situations foreign activists cannot touch."),
-    ("Sector depth = underwriting edge. ", "The firm's diligence pattern-recognition in "
-     "medtech, software, payments and specialty financials applies directly to the listed "
-     "mid-cap universe, much of which comprises businesses Nordic Capital has studied, "
-     "bid on, or competed against."),
+    ("Legitimacy in Europe, credibility in the US. ", "European institutions, family "
+     "spheres and governments engage very differently with a Stockholm-rooted owner of 30 "
+     "years than with a hedge-fund activist — lower friction means cheaper, faster, quieter "
+     "wins. In the US, the firm's New York presence, North American healthcare and "
+     "technology investments, and a campaign team hired from the US activist front line "
+     "give it standing that European engagement funds have never built."),
+    ("Sector depth = underwriting edge, in both regions. ", "The firm's diligence "
+     "pattern-recognition in medtech, software, payments and specialty financials applies "
+     "identically to listed mid-caps in Boston, Amsterdam and Stockholm — much of the "
+     "universe comprises businesses Nordic Capital has studied, bid on, or competed "
+     "against."),
     ("Two-way pipeline with the buyout franchise. ", "Public engagement surfaces "
      "take-private and PIPE opportunities for the flagship funds; conversely, activism that "
      "catalyses carve-outs creates proprietary deal flow. (Subject to the information-barrier "
@@ -259,14 +271,15 @@ bullets([
 # ---------- 4. Strategy ----------
 doc.add_heading("4. Investment Strategy", level=1)
 doc.add_heading("4.1 Strategy statement", level=2)
-p("Acquire 4–10% positions in 6–8 listed Nordic companies with EUR 1–10bn market "
-  "capitalisation, where a clearly identifiable gap exists between market price and "
-  "intrinsic value, and where that gap can be closed within 2–4 years through actions the "
-  "company itself can take: operational improvement, portfolio separation or divestiture, "
-  "capital-allocation reform, or strategic transactions. Influence is exercised through the "
-  "Nordic governance machinery — nomination-committee participation, board representation, "
-  "and private engagement with management, boards and anchor owners — with public pressure "
-  "reserved as an escalation, not a default.", )
+p("Acquire 2–10% positions in 6–8 listed US and European companies with USD 2–15bn market "
+  "capitalisation, in Nordic Capital's core sectors, where a clearly identifiable gap "
+  "exists between market price and intrinsic value, and where that gap can be closed "
+  "within 2–4 years through actions the company itself can take: operational improvement, "
+  "portfolio separation or divestiture, capital-allocation reform, or strategic "
+  "transactions. Influence is exercised through each market's governance machinery — "
+  "nomination committees, board representation and sphere engagement in Europe; "
+  "universal-proxy-backed private engagement and negotiated board refreshment in the US — "
+  "with public pressure reserved as an escalation, not a default.", )
 doc.add_heading("4.2 The engagement playbook", level=2)
 table(
     ["Phase", "Months", "Actions"],
@@ -276,13 +289,14 @@ table(
          "survive an internal “red team” and clear a 30%+ upside to base-case "
          "intrinsic value with limited structural downside."],
         ["2. Accumulate", "3–9",
-         "Build 4–10% via open market and blocks, timed against Q3 ownership snapshots that "
-         "seat nomination committees. Disclose at thresholds; first private meeting with "
-         "chair before crossing 5%."],
+         "Build 2–10% via open market and blocks, timed to the board calendar: Q3 ownership "
+         "snapshots for Nordic nomination committees; nomination windows for US slates. "
+         "Disclose at thresholds; first private meeting with chair before crossing 5%."],
         ["3. Engage", "6–18",
-         "Present value plan privately to board and anchor shareholders. Secure "
-         "nomination-committee seat at the next cycle; propose 1–2 directors from the "
-         "operating network. Align with domestic institutions and AP funds."],
+         "Present value plan privately to board and anchor shareholders. Europe: secure "
+         "nomination-committee seat; propose 1–2 directors from the operating network. US: "
+         "negotiate board refreshment under credible universal-proxy optionality. Align "
+         "with index funds and domestic institutions."],
         ["4. Execute", "12–36",
          "Board-level sponsorship of the plan: margin program, separation/divestiture, "
          "balance-sheet reset, management upgrades where needed. Quarterly milestones "
@@ -321,60 +335,65 @@ doc.add_page_break()
 
 # ---------- 5. Focus areas ----------
 doc.add_heading("5. Focus Areas", level=1)
-p("Sector focus mirrors the firm's private equity franchises, weighted to where the listed "
-  "Nordic mid-cap universe offers depth:")
+p("Sector focus mirrors the firm's private equity franchises, applied across both regions; "
+  "geography follows the sector opportunity rather than a quota:")
 table(
-    ["Sector", "Indicative weight", "Why", "Illustrative listed universe"],
+    ["Sector", "Indicative weight", "Why", "Illustrative listed universe (US & EU)"],
     [
         ["Healthcare & MedTech", "30–40%",
-         "Nordic Capital's deepest franchise; the region hosts a dense cluster of "
-         "global-niche medtech and pharma-services leaders, several in margin or "
-         "execution repair.",
-         "Elekta, Getinge, Demant, GN Store Nord, Ambu, Coloplast-adjacent suppliers"],
+         "Nordic Capital's deepest franchise; on both continents, quality medtech "
+         "franchises sit in margin or execution repair at deep discounts.",
+         "Elekta, Smith+Nephew, Philips, Getinge, GN Store Nord / Baxter, Zimmer Biomet, "
+         "Teleflex, Henry Schein"],
         ["Industrials & Business Services", "25–35%",
-         "Largest segment of the listed universe; rich in conglomerate discounts and "
-         "self-help stories.",
-         "Orkla, SKF, Dometic, Thule, ISS, Securitas, Valmet, Huhtamäki"],
+         "Largest segment of the listed universe; rich in conglomerate discounts, "
+         "separations and self-help stories.",
+         "Orkla, SKF, Dometic, ISS, Valmet / mid-cap US multi-industry and services "
+         "names in separation or margin repair"],
         ["Technology, Software & Payments", "15–25%",
-         "Post-2021 de-ratings left quality Nordic software and IT-services assets at "
+         "Post-2021 de-ratings left quality software, IT-services and payments assets at "
          "private-market discounts; consolidation logic is strong.",
-         "Tieto, Crayon-adjacent, Nexi-linked Nordic payment assets, Kahoot-class "
-         "de-rated SaaS"],
+         "Tieto, Nexi-linked European payment assets / Global Payments, Fiserv-class "
+         "de-rated US payments and vertical software"],
         ["Financial Services", "10–20%",
          "Specialty finance, insurance and savings platforms with capital-return and "
          "consolidation angles.",
-         "Storebrand, Sampo-adjacent, specialty lenders"],
+         "Storebrand, European specialty lenders / US specialty insurers and savings "
+         "platforms"],
     ],
-    widths=[1.5, 1.0, 2.4, 1.9],
+    widths=[1.4, 0.9, 2.2, 2.3],
 )
-p("Geographic spread: Sweden ~40–50% (deepest market, most activist-friendly mechanics), "
-  "Denmark ~20–25%, Finland ~15–20%, Norway ~10–15% (sphere- and state-heavy, more "
-  "selective).")
+p("Geographic spread: Europe 50–60% of the book — of which the Nordics 20–30% (home-field "
+  "mechanics, deepest networks), UK/Benelux/DACH the balance — and the United States "
+  "40–50% (deepest and most liquid activism market; universal proxy regime). Single-name "
+  "limits apply uniformly; FX hedged to the fund's USD base.")
 
 # ---------- 6. Target universe ----------
 doc.add_heading("6. Target Universe & Screening", level=1)
 bullets([
-    ("Universe: ", "~1,400 Nordic-listed companies; ~150 in the EUR 1–10bn sweet spot "
-     "after liquidity screens."),
+    ("Universe: ", "US and European listed companies in the firm's four core sectors; "
+     "~1,300 names in the USD 2–15bn band after liquidity screens (roughly 55% US, "
+     "45% Europe)."),
     ("Screen 1 — Quality: ", "defensible market position, structurally sound gross "
-     "margins, identifiable best-in-class peer set. (~60 names survive.)"),
+     "margins, identifiable best-in-class peer set. (~300 names survive.)"),
     ("Screen 2 — Value gap: ", ">30% upside to intrinsic value on normalised margins or "
-     "SOTP. (~25–30 names.)"),
-    ("Screen 3 — Path to influence: ", "free-float and register structure permitting a "
-     "4–10% stake with nomination-committee relevance; no blocking sphere hostile to "
-     "change. (~15–20 names.)"),
+     "SOTP. (~80–100 names.)"),
+    ("Screen 3 — Path to influence: ", "register structure permitting an influential "
+     "stake — nomination-committee relevance in Europe, credible universal-proxy "
+     "optionality in the US; no blocking holder hostile to change; no poison-pill or "
+     "staggered-board structure that defeats the thesis timeline. (~40 names.)"),
     ("Screen 4 — Conflict check: ", "no MNPI contamination from current PE processes; "
-     "cleared by compliance before any accumulation. (Live pipeline: 10–14 names, of "
+     "cleared by compliance before any accumulation. (Live pipeline: 12–16 names, of "
      "which 6–8 funded.)"),
 ])
-p("A EUR 1.5bn book across 6–8 core positions implies EUR 180–280m per position — i.e., "
-  "4–10% of companies with EUR 2–6bn market caps, precisely the band where nomination-"
-  "committee seats are won and where dedicated competition is thinnest.")
+p("A USD 1.5bn book across 6–8 core positions implies USD 180–280m per position — i.e., "
+  "4–10% of a USD 3–6bn European mid-cap, or 2–5% of a USD 5–15bn US company, both "
+  "sufficient for board-level influence under the respective regimes.")
 doc.add_page_break()
 
 # ---------- 7. Illustrative pipeline ----------
 doc.add_heading("7. Illustrative Pipeline (Public Information Only)", level=1)
-p("The following five situations illustrate the strategy's archetypes using publicly "
+p("The following six situations illustrate the strategy's archetypes using publicly "
   "available information as of early/mid 2026. They are illustrations for discussion, not "
   "recommendations, and would each require full underwriting and conflict clearance.",
   italic=True)
@@ -383,55 +402,64 @@ doc.add_heading("7.1 Elekta (Sweden — MedTech) — Margin-gap operator", level
 bullets([
     "Global #2 in radiation oncology, a structurally growing oligopoly, yet the stock has "
     "de-rated dramatically; third-party fair-value estimates have placed the discount at "
-    "~50%+ at points in 2026.",
-    "FY2025/26 adjusted EBIT margin of ~12% versus mid-to-high-teens at Siemens "
-    "Healthineers' Varian — a 400–600bps gap attributable to supply chain, order execution "
-    "and mix, not market position.",
+    "~50%+ at points in 2026. FY2025/26 adjusted EBIT margin of ~12% versus "
+    "mid-to-high-teens at Siemens Healthineers' Varian — a gap attributable to supply "
+    "chain, order execution and mix, not market position.",
     "Value plan: board-sponsored margin program, order-to-revenue execution reset, "
-    "service-revenue acceleration; strategic optionality given consolidation logic in "
-    "medtech. Healthcare is Nordic Capital's home turf — credibility here is immediate.",
+    "service-revenue acceleration; strategic optionality given medtech consolidation "
+    "logic. Home-field engagement via the Swedish nomination-committee system.",
 ])
-doc.add_heading("7.2 Getinge (Sweden — MedTech) — Margin recovery & portfolio focus", level=2)
+doc.add_heading("7.2 Smith+Nephew (UK — MedTech) — Margin gap & structural options", level=2)
 bullets([
-    "Profitability is recovering (profit margin ~6.5% in 2025 vs ~4.7% in 2024) as "
-    "quality-remediation costs roll off, but remains far below medtech peer levels.",
-    "Three loosely related business areas (Acute Care Therapies, Life Science, Surgical "
-    "Workflows) invite portfolio review; a Life Science separation is a credible SOTP "
-    "catalyst.",
-    "Value plan: complete the quality agenda with board-level accountability, then drive "
-    "portfolio focus and margin normalisation toward double-digit EBITA.",
+    "Quality orthopaedics/sports-medicine/wound franchise that has lagged peers on margin "
+    "and execution for years; an established engagement situation (Cevian on the register "
+    "since 2024) validating the value gap, with the turnaround only partly delivered.",
+    "Value plan: hold the board to peer-level margins; evaluate structural options "
+    "including separation of underperforming franchises and a US listing review — a "
+    "live debate where a second credible engaged owner can be decisive.",
 ])
-doc.add_heading("7.3 GN Store Nord (Denmark — Hearing & Audio) — Separation thesis", level=2)
+doc.add_heading("7.3 Philips (Netherlands — HealthTech) — Recovery & SOTP", level=2)
 bullets([
-    "Long-standing two-business structure (hearing care and enterprise/consumer audio) with "
-    "limited synergy; separation has been publicly debated for years while leverage from "
-    "the Steelseries era suppressed action.",
-    "Value plan: deleverage milestones, then formal separation review; both businesses have "
-    "natural strategic and sponsor buyers. Classic M&A-activism archetype in a "
-    "foundation-light register that is unusually open for a Danish large-cap.",
+    "Global healthtech franchise emerging from the Respironics recall era (US litigation "
+    "settled), with margins still well below pre-crisis levels and peers; anchor "
+    "shareholder (Exor) already on the register demonstrates openness to engaged owners.",
+    "Value plan: margin normalisation with board accountability; portfolio review of "
+    "Personal Health versus the healthcare core — a separation long argued by analysts "
+    "that would force the SOTP into the price.",
 ])
-doc.add_heading("7.4 Tieto (Finland — Software & IT Services) — Completing the break-up", level=2)
+doc.add_heading("7.4 Baxter International (US — MedTech) — Completing the simplification", level=2)
 bullets([
-    "Tietoevry has already validated the separation path: Banking demerger toward a "
-    "Nasdaq Helsinki listing announced, Tech Services sold to Agilitas for EUR 300m "
-    "(closed September 2025), proceeds applied to debt.",
-    "Value plan: support and accelerate completion of the value-realisation program, "
-    "enforce capital-return discipline on proceeds, and position the remaining Nordic "
-    "software core (Industry/Care) for consolidation — as buyer or seller.",
+    "Multi-year portfolio simplification already in motion (BioPharma Solutions sold; "
+    "Vantive kidney-care divested to Carlyle in early 2025), yet the equity has continued "
+    "to de-rate amid execution stumbles and a CEO transition — a fallen angel trading far "
+    "below medtech peer multiples.",
+    "Value plan: finish the job — complete the separation program, reset the cost base of "
+    "the remaining core, refresh the board, and apply divestiture proceeds to a "
+    "disciplined capital-return framework. Classic universal-proxy-era US engagement.",
 ])
-doc.add_heading("7.5 Orkla (Norway — Branded Consumer / Holding) — Conglomerate discount", level=2)
+doc.add_heading("7.5 Global Payments (US — Payments) — Capital allocation & credibility reset",
+                level=2)
 bullets([
-    "Self-declared transition to an “industrial investment company” with ~12 "
-    "portfolio companies, a ~42.6% stake in Jotun (paints — a world-class hidden asset), "
-    "hydropower assets and net cash optionality; the equity persistently trades below "
-    "credible SOTP.",
-    "Value plan: accelerate announced portfolio monetisations, establish a capital-return "
-    "framework tied to disposal proceeds, and push for transparent per-asset reporting that "
-    "forces the SOTP into the price.",
+    "Scaled merchant-acquiring franchise trading at a deeply depressed multiple after the "
+    "poorly received 2025 Worldpay/Issuer Solutions restructuring; activist interest has "
+    "been publicly reported, underscoring the value gap.",
+    "Value plan: integration milestones with board-level accountability, divestiture of "
+    "non-core assets, binding capital-return commitments post-deleveraging, and board "
+    "refreshment with payments operating expertise — squarely within Nordic Capital's "
+    "payments franchise (Nets/Nexi heritage).",
 ])
-p("Watchlist (further candidates surviving Screens 1–3): Securitas (self-help largely "
-  "delivered — instructive as a model of the re-rating we underwrite), Demant, Ambu, "
-  "Dometic, Thule, Huhtamäki, Valmet, Storebrand, ISS.", italic=True)
+doc.add_heading("7.6 Zimmer Biomet (US — MedTech) — Capital-allocation catalyst", level=2)
+bullets([
+    "Orthopaedics leader compounding modestly but trading at a structurally depressed "
+    "multiple, with investor confidence eroded by guidance resets and M&A choices.",
+    "Value plan: capital-allocation framework (organic investment and buybacks over "
+    "dilutive M&A), portfolio pruning of subscale adjacencies, and margin program toward "
+    "peer levels.",
+])
+p("Watchlist (further candidates surviving Screens 1–3): Europe — Getinge, GN Store Nord, "
+  "Orkla, Tieto, Demant, Securitas (self-help largely delivered — a model of the re-rating "
+  "we underwrite), ISS, Valmet, Storebrand. US — Teleflex (separation announced), Henry "
+  "Schein, Fiserv, mid-cap specialty insurers.", italic=True)
 doc.add_page_break()
 
 # ---------- 8. Fund structure ----------
@@ -440,8 +468,9 @@ table(
     ["Parameter", "Recommendation", "Rationale"],
     [
         ["Target size", "USD 1.5bn (hard cap USD 2.0bn)",
-         "Sized to the EUR 1–10bn mid-cap band: large enough for 6–8 influential stakes, "
-         "small enough to stay in the under-fished segment and exit without market impact."],
+         "Sized to the USD 2–15bn transatlantic mid-cap band: large enough for 6–8 "
+         "influential stakes, small enough to stay in the under-fished segment and exit "
+         "without market impact."],
         ["Structure", "Luxembourg RAIF (AIFMD), evergreen with 3-year soft lock, "
          "quarterly liquidity thereafter with 25% investor-level gates",
          "Engagement horizons of 2–4 years require patient capital; evergreen structure "
@@ -449,8 +478,8 @@ table(
         ["GP commitment", "EUR 150–200m (balance sheet + partners/employees)",
          "Anchors alignment; signals conviction to LPs and to target boards."],
         ["Management fee", "1.25–1.50% on NAV", "Mid-cap engaged-equity market standard."],
-        ["Performance fee", "17.5% over the higher of MSCI Nordic + 200bps and a 5% "
-         "absolute hurdle; 3-year crystallisation; high-water mark",
+        ["Performance fee", "17.5% over the higher of a 50/50 S&P 500 / MSCI Europe "
+         "blend + 200bps and a 5% absolute hurdle; 3-year crystallisation; high-water mark",
          "Pays only for engagement alpha, not beta; long crystallisation matches the "
          "campaign cycle."],
         ["Concentration limits", "Max 25% NAV per position at cost; max 35% at market; "
@@ -469,28 +498,32 @@ table(
 
 # ---------- 9. Team ----------
 doc.add_heading("9. Team & Organisation", level=1)
-p("A deliberately small, senior team of 10–12 at launch, structured for PE-grade "
-  "underwriting and board-level engagement:")
+p("A deliberately small, senior team of 11–13 at launch, split between Stockholm and New "
+  "York, structured for PE-grade underwriting and board-level engagement in both regimes:")
 table(
     ["Role", "#", "Profile"],
     [
         ["Head of Engaged Equities (Partner)", "1",
          "Senior hire with 15+ years in engaged/activist investing (Cevian, European "
-         "activist franchise, or top-tier event-driven background) plus Nordic board "
-         "credibility. Sits on Nordic Capital's Executive Committee; co-PM with the "
-         "Deputy."],
+         "activist franchise, or top-tier event-driven background) plus board credibility. "
+         "Sits on Nordic Capital's Executive Committee; co-PM with the Deputy. Based "
+         "Stockholm."],
         ["Deputy PM / Head of Research", "1",
          "Internal transfer or hire; owns underwriting standards and the red-team "
          "process."],
+        ["Principal — US Situations & Campaign Strategy: Knut Nyman", "1",
+         "Founding hire from Elliott Investment Management. Owns the US side of the book: "
+         "idea generation and underwriting for US names, the universal-proxy campaign "
+         "playbook, and the US advisor network. Based New York. See 9.1 below."],
         ["Sector Principals", "2",
          "Healthcare/MedTech and Industrials/Technology; principal-level, each capable "
-         "of leading a campaign end-to-end."],
+         "of leading a campaign end-to-end. One based in each region."],
         ["Investment professionals", "4–5",
          "Associate/VP level; modelling, register analytics, peer benchmarking. Mix of "
-         "PE, equity research and special-situations backgrounds."],
+         "PE, equity research and special-situations backgrounds; split across offices."],
         ["Head of Stewardship & Governance", "1",
-         "Drives nomination-committee work, director sourcing from the operating-advisor "
-         "bench, proxy strategy and engagement documentation."],
+         "Drives nomination-committee work in Europe, director sourcing from the "
+         "operating-advisor bench, proxy strategy and engagement documentation."],
         ["Dedicated Compliance Officer", "1",
          "Owns the information barrier with the PE business; reports to Group GC, not to "
          "the PM."],
@@ -499,7 +532,27 @@ table(
     ],
     widths=[2.1, 0.4, 4.3],
 )
-doc.add_heading("9.1 Governance & conflicts framework (the make-or-break design issue)", level=2)
+doc.add_heading("9.1 Knut Nyman — Principal, US Situations & Campaign Strategy", level=2)
+p("The US half of the mandate requires someone who has run the modern US activism "
+  "playbook from inside the most effective practitioner of it. Knut Nyman joins from "
+  "Elliott Investment Management as a founding member of the investment team, with the "
+  "following mandate:")
+bullets([
+    ("US idea generation and underwriting. ", "Owns the US screen (Section 6) and "
+     "presents US situations to the Investment Committee; leads diligence on US names "
+     "alongside the sector principals."),
+    ("Campaign strategy. ", "Designs and runs the US engagement mechanics: 13D strategy "
+     "and disclosure sequencing, universal-proxy slate construction, settlement "
+     "negotiation, and coordination of proxy solicitors, banks, litigation counsel and "
+     "communications advisors."),
+    ("Bridge between regimes. ", "Translates the firm's constructive European model into "
+     "US board dynamics — and brings US-style campaign rigour (precision materials, "
+     "shareholder-base analytics, settlement optionality) to the European book."),
+    ("Progression. ", "Co-leads one to two campaigns per year from launch, with campaign "
+     "lead responsibility from the second fund year and a defined path to Partner; "
+     "participates in management-company carry from day one."),
+])
+doc.add_heading("9.2 Governance & conflicts framework (the make-or-break design issue)", level=2)
 bullets([
     ("Information barrier: ", "the public-equities team sits outside the PE deal-flow "
      "perimeter; no access to live PE process information; restricted-list screening before "
@@ -510,8 +563,9 @@ bullets([
     ("Reputation committee: ", "any public escalation, media engagement or EGM requisition "
      "requires sign-off from a committee including the Managing Partner — the firm's "
      "30-year brand is the strategy's key asset and is governed accordingly."),
-    ("Investment Committee: ", "Head of Engaged Equities, Deputy PM, one PE Partner "
-     "(conflict-cleared per situation), Managing Partner ex-officio."),
+    ("Investment Committee: ", "Head of Engaged Equities, Deputy PM, Principal — US "
+     "Situations (for US names), one PE Partner (conflict-cleared per situation), "
+     "Managing Partner ex-officio."),
 ])
 doc.add_page_break()
 
@@ -541,9 +595,10 @@ table(
         ["Sphere control blocks change (dual-class shares, foundations)",
          "Screen 3 excludes hostile-controller situations ex ante; where spheres are "
          "present, engage them as allies first."],
-        ["Liquidity in SEK/NOK/DKK mid-caps",
-         "Position sizing tied to ADV; evergreen structure with gates; co-invest sleeves "
-         "absorb size; exits often via strategic events rather than market sales."],
+        ["Liquidity in European mid-caps (SEK/NOK/DKK/EUR lines thinner than US)",
+         "Position sizing tied to ADV; US names carry the larger tickets; evergreen "
+         "structure with gates; co-invest sleeves absorb size; exits often via strategic "
+         "events rather than market sales."],
         ["Key-person dependence on the Head of Engaged Equities",
          "Co-PM structure, institutional IC process, equity in the management company."],
         ["Cycle risk: a Nordic downturn delays re-rating",
@@ -563,15 +618,17 @@ table(
          "Executive Committee approval; conflicts framework drafted with GC; regulatory "
          "scoping (Lux RAIF / AIFM passport); search mandate for Head of Engaged Equities."],
         ["1. Build", "Oct 2026 – Mar 2027",
-         "Head + Deputy hired; core team of 6; seed commitment EUR 150–200m closed; "
-         "pipeline of 10–14 underwritten names; LP pre-marketing under existing "
-         "relationships."],
+         "Head + Deputy hired; Knut Nyman and the New York pod on board; core team of 7; "
+         "seed commitment EUR 150–200m closed; pipeline of 12–16 underwritten names; LP "
+         "pre-marketing under existing relationships."],
         ["2. First close & deploy", "Apr–Sep 2027",
-         "First close ~USD 750m; 2–3 positions accumulated against the Q3 2027 ownership "
-         "snapshots that seat 2028 nomination committees."],
+         "First close ~USD 750m; 2–3 positions accumulated against the board calendar: "
+         "Q3 2027 ownership snapshots for 2028 Nordic nomination committees, and US "
+         "nomination windows for the 2028 proxy season."],
         ["3. Scale", "Oct 2027 – Dec 2028",
-         "Final close USD 1.5–2.0bn; 6–8 positions; first nomination-committee seats and "
-         "director appointments at the 2028 AGM season; first realisation events 2029."],
+         "Final close USD 1.5–2.0bn; 6–8 positions across both regions; first "
+         "nomination-committee seats, settlements and director appointments in the 2028 "
+         "board cycles; first realisation events 2029."],
     ],
     widths=[1.5, 1.4, 3.9],
 )
