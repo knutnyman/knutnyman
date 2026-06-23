@@ -651,7 +651,7 @@ add_text(slide, Inches(1.2), Inches(6.5), Inches(11), Inches(0.6),
          align=PP_ALIGN.CENTER)
 
 # ============ A1. Appendix: Cevian record ============
-slide = new_slide("Appendix — Precedents (1/2): Cevian, the constructive model at scale",
+slide = new_slide("Appendix — Precedents (1/3): Cevian, the constructive model at scale",
                   "Appendix")
 table_slide(slide, Inches(0.55), Inches(1.2), Inches(12.3),
             ["Campaign", "Period", "What happened", "Result"],
@@ -696,7 +696,7 @@ add_text(slide, Inches(0.55), Inches(6.85), Inches(12.3), Inches(0.35),
            {"size": 9.5, "color": GREY, "italic": True, "line_spacing": 1.0})])
 
 # ============ A2. Appendix: sponsor precedents ============
-slide = new_slide("Appendix — Precedents (2/2): sponsors entering public-market activism",
+slide = new_slide("Appendix — Precedents (2/3): sponsors entering public-market activism",
                   "Appendix")
 card(slide, Inches(0.55), Inches(1.2), Inches(6.1), Inches(2.35),
      "EQT Public Value (2018–24) — the cautionary tale",
@@ -738,6 +738,79 @@ add_text(slide, Inches(0.85), Inches(5.68), Inches(11.8), Inches(1.05),
            "balance sheets, political stakeholders, catalysts outside shareholders' "
            "control.",
            {"size": 11, "color": WHITE, "line_spacing": 1.15})])
+
+# ============ A3. EQT Public Value deep-dive + Irenic / Ananym ============
+slide = new_slide("Appendix — Precedents (3/3): the model that fails vs the models that work",
+                  "Appendix")
+
+# Left column: EQT Public Value case study
+add_rect(slide, Inches(0.55), Inches(1.2), Inches(6.05), Inches(5.5), LIGHT)
+add_rect(slide, Inches(0.55), Inches(1.2), Pt(4), Inches(5.5), RGBColor(0xB0, 0x3A, 0x2E))
+add_text(slide, Inches(0.75), Inches(1.32), Inches(5.7), Inches(0.4),
+         "EQT Public Value (2018–24) — what NOT to do", size=14, color=NAVY, bold=True)
+add_text(slide, Inches(0.75), Inches(1.78), Inches(5.7), Inches(0.95),
+         [("The closest analogue to this proposal — a top-tier Nordic PE sponsor in listed "
+           "mid-caps — and it failed on design, not concept. Book drifted from value (Securitas, "
+           "Storebrand) to momentum (BHG, Storytel: ~10% bought Sep 2021, ~80% de-rating, "
+           "force-sold Aug 2024 on the fund clock).",
+           {"size": 10.5, "color": GREY, "line_spacing": 1.08})])
+flaws = [
+    ("Sub-scale capital", "Influence-sized stakes (2–10%) + EUR 150–200m seed"),
+    ("No activist leadership", "Partner Head + US Campaign Principal (Knut Nyman)"),
+    ("Quality/momentum entries", "≥30% value-gap with a named catalyst; no momentum"),
+    ("Finite fund clock", "Evergreen + 3-yr lock — never a forced seller"),
+]
+yy = 2.85
+add_text(slide, Inches(0.75), yy - 0.18, Inches(5.7), Inches(0.25),
+         [("Four flaws → this proposal's answers", {"size": 10.5, "color": NAVY, "bold": True})])
+for flaw, fix in flaws:
+    add_text(slide, Inches(0.75), Inches(yy + 0.05), Inches(5.7), Inches(0.7),
+             [("✗ " + flaw, {"size": 10, "color": RGBColor(0xB0, 0x3A, 0x2E), "bold": True,
+                             "space_after": 1}),
+              ("→ " + fix, {"size": 10, "color": RGBColor(0x1E, 0x6B, 0x3A)})])
+    yy += 0.74
+add_text(slide, Inches(0.75), Inches(yy + 0.0), Inches(5.7), Inches(0.55),
+         [("Lesson: a sponsor's public vehicle only works if built as an engagement platform "
+           "from day one — not a long-only fund with a famous logo.",
+           {"size": 10, "color": NAVY, "italic": True, "line_spacing": 1.05})])
+
+# Right column: Irenic & Ananym
+add_text(slide, Inches(6.85), Inches(1.2), Inches(6.0), Inches(0.35),
+         [("New-generation strategic activists — the model that WORKS",
+           {"size": 14, "color": NAVY, "bold": True})])
+add_text(slide, Inches(6.85), Inches(1.58), Inches(6.0), Inches(0.5),
+         [("Concentrated separation/sale theses (our SOTP archetype), constructive-first, "
+           "run by Elliott / JANA / Engine No. 1 alumni — the talent pool this team draws on.",
+           {"size": 10, "color": GREY, "line_spacing": 1.05})])
+add_text(slide, Inches(6.85), Inches(2.15), Inches(6.0), Inches(0.3),
+         [("Irenic Capital (est. 2021, Adam Katz ex-Elliott) — ~$335m → ~$2.5bn AUM; "
+           "+14/19/17% '23–'25", {"size": 10.5, "color": GOLD, "bold": True})])
+irenic = [
+    ["Barnes Group", "Aerospace SOTP → sale", "Board seats; sold to Apollo"],
+    ["News Corp", "Split real estate from media", "Special-committee review"],
+    ["Integer Holdings", "Board refresh + sale", "2 seats; strategic review '26"],
+    ["Atkore / Workiva", "Sale / ops + 2 seats", "Ongoing"],
+    ["Reservoir, Snap, HPE", "Strategic review / costs", "Ongoing"],
+]
+table_slide(slide, Inches(6.85), Inches(2.5), Inches(6.0),
+            ["Target", "Thesis", "Outcome"], irenic, [1.6, 2.5, 1.9],
+            row_h=0.36, size=8.5)
+add_text(slide, Inches(6.85), Inches(4.75), Inches(6.0), Inches(0.3),
+         [("Ananym Capital (est. 2024, Penner ex-Engine No. 1/Exxon + Silver) — ~$260m, "
+           "~10 names", {"size": 10.5, "color": GOLD, "bold": True})])
+ananym = [
+    ["Henry Schein", "Costs, CEO, board (≤6 seats)", "Catalysed KKR deal"],
+    ["Baker Hughes", "Spin off oilfield services", "Ongoing (≥60% upside)"],
+    ["Siemens Energy", "Separate wind (Gamesa)", "Ongoing"],
+    ["LKQ", "Divest Europe", "Ongoing"],
+]
+table_slide(slide, Inches(6.85), Inches(5.1), Inches(6.0),
+            ["Target", "Thesis", "Outcome"], ananym, [1.6, 2.5, 1.9],
+            row_h=0.36, size=8.5)
+add_text(slide, Inches(6.85), Inches(6.95), Inches(6.0), Inches(0.3),
+         [("Edge vs them: they have the craft but no operating platform, no EU "
+           "nomination-committee home field, no buyout balance sheet for take-privates.",
+           {"size": 9, "color": NAVY, "italic": True})])
 
 prs.save("/home/user/knutnyman/nordic-capital-activism-pitch/Nordic_Capital_Engaged_Equities_Deck.pptx")
 print("Deck saved with", len(prs.slides.__iter__.__self__._sldIdLst), "slides.")

@@ -920,40 +920,109 @@ bullets([
     "move.",
 ], level=1)
 
-doc.add_heading("A.2 EQT Public Value — the cautionary precedent", level=2)
-p("The closest structural precedent to this proposal — a top-tier Nordic sponsor applying "
-  "its toolbox to listed mid-caps — and therefore the most important one to study, because "
-  "it failed on design, not on concept.")
+doc.add_heading("A.2 Case Study: EQT Public Value — the cautionary precedent", level=2)
+p("This is the single most important precedent for the proposal, because it is its closest "
+  "structural analogue — a top-tier Nordic private equity sponsor applying its toolbox to "
+  "listed mid-caps — and it failed. Critically, it failed on design, not on concept: the "
+  "thesis that PE skills can create value in public markets was never properly tested, "
+  "because the vehicle was built in a way that prevented the toolbox from ever being used. "
+  "Every structural choice in Sections 4, 8 and 9 of this document is, in part, a direct "
+  "response to a specific EQT Public Value error.")
+
+p("Background.", bold=True)
 bullets([
-    ("The set-up (2018–19): ", "EQT launched Public Value to invest in listed Nordic "
-     "mid-caps “with the EQT toolbox.” External fundraising met lukewarm LP reception and "
-     "never reached intended scale; the strategy continued at sub-scale rather than being "
-     "re-designed or shelved — the first compounding error."),
-    ("The book: ", "disclosed holdings included Securitas (services), BHG Group "
-     "(e-commerce home improvement), Storebrand (savings/insurance), BioGaia (probiotics), "
-     "AFRY (engineering services) and Storytel (audiobook streaming). Note the drift: from "
-     "value-gap candidates (Securitas, Storebrand) toward growth-momentum names (BHG, "
-     "Storytel) as the cycle inflated."),
-    ("The Storytel position — the case study within the case study: ", "6.6 million shares "
-     "(~10%) bought in September 2021 — second-largest, later largest shareholder — at the "
-     "top of the audiobook-growth multiple. No board-seat agenda, no value plan the "
-     "company was asked to execute; the position was a quality-growth bet held in an "
-     "engagement wrapper. The 2022 rate-driven de-rating cut the stock by ~80% peak to "
-     "trough."),
-    ("The ending: ", "the fund was wound down, with the entire Storytel holding sold in "
-     "August 2024 — a forced, fund-clock liquidation at a fraction of entry, into a thin "
-     "register, by which time the strategy had quietly consumed six years of franchise "
-     "attention."),
-    ("Why it failed — four design flaws: ", "(1) sub-scale capital, so positions were "
-     "passive minorities without an influence path; (2) no activist leadership — PE "
-     "professionals running a public book without campaign mechanics; (3) entry discipline "
-     "anchored on quality and momentum rather than a value gap with a closable catalyst; "
-     "(4) a finite fund clock that forced selling at the cycle bottom."),
-    ("How this proposal answers each: ", "EUR 150–200m GP seed plus a USD 1.5bn target "
-     "(scale); a partner-level activist Head plus a US campaign Principal (leadership); "
-     "≥30% value-gap entries with named catalysts (discipline); and an evergreen "
-     "structure with a 3-year lock (no forced bottom-tick exits)."),
+    "EQT AB launched EQT Public Value in 2018–19 to invest in listed Nordic companies "
+    "where it believed “the EQT toolbox” — operational improvement, board work, M&A — "
+    "could create value. The pitch was almost identical in spirit to this one.",
+    "It was conceived as a complement to EQT's private funds, run by EQT professionals, "
+    "and seeded/anchored by EQT and its network rather than raised at scale from "
+    "dedicated public-equity or activist LPs.",
+    "External fundraising met a lukewarm reception — listed equity sat awkwardly between "
+    "EQT's PE identity and what public-markets LPs wanted — and the strategy never reached "
+    "the scale needed to take influential positions. Rather than redesign or shelve it, "
+    "EQT ran it at sub-scale. That was the first compounding error.",
 ])
+
+p("The book.", bold=True)
+p("Disclosed holdings over the fund's life included the following. Note the drift over "
+  "time from value-gap candidates toward growth-momentum names as the 2020–21 bull market "
+  "inflated:")
+table(
+    ["Holding", "Sector", "Implied thesis", "What actually drove the position"],
+    [
+        ["Securitas", "Guarding / security services",
+         "Margin uplift, tech-enablement, portfolio focus — a genuine self-help / "
+         "value-gap case.", "Sound thesis, but the stake was never large enough to drive "
+         "board change; Securitas's own program (and later activists) did the work."],
+        ["Storebrand", "Savings & insurance (NO)",
+         "Capital return, cost discipline, re-rating of a complex financial — a "
+         "legitimate value-gap target.", "Reasonable holding; again, a passive minority "
+         "with no influence path."],
+        ["AFRY (ÅF Pöyry)", "Engineering & design consultancy",
+         "Consolidation and margin convergence to Nordic peers.",
+         "Cyclical professional-services exposure; no catalyst forced."],
+        ["BioGaia", "Probiotics / consumer health",
+         "Quality compounder, international expansion.",
+         "Growth/quality bet, not a value-gap or catalyst story."],
+        ["BHG Group", "E-commerce (home improvement)",
+         "Online penetration growth; consolidation of a fragmented category.",
+         "Pandemic-era growth-momentum name; de-rated severely as e-commerce multiples "
+         "collapsed in 2022."],
+        ["Storytel", "Audiobook / e-book streaming",
+         "Subscriber growth, international roll-out, category leadership.",
+         "The clearest momentum entry — see below. The de-rating was catastrophic."],
+    ],
+    widths=[1.2, 1.7, 2.0, 2.1],
+)
+
+p("The Storytel position — the case study within the case study.", bold=True)
+bullets([
+    "In September 2021, near the top of the audiobook-growth multiple, EQT Public Value "
+    "bought ~6.6 million shares — close to 10% — becoming the second-largest, and later "
+    "the largest, shareholder.",
+    "Crucially, there was no board-seat agenda and no value plan the company was asked to "
+    "execute. The position was, in substance, a long-only quality-growth bet held inside "
+    "an engagement wrapper — exactly what a PE sponsor's public vehicle should not be.",
+    "As rates rose through 2022, Storytel de-rated by roughly 80% peak-to-trough along "
+    "with the entire unprofitable-growth complex. With no catalyst and no board influence, "
+    "EQT had no lever to pull other than to wait or sell.",
+    "When EQT decided to wind the fund down, it sold the entire Storytel holding in August "
+    "2024 — a forced, fund-clock liquidation at a fraction of the entry price, into a thin "
+    "Nordic register, by which time the strategy had quietly consumed roughly six years of "
+    "franchise attention for little return.",
+])
+
+p("Why it failed — four design flaws, and how this proposal answers each.", bold=True)
+table(
+    ["EQT Public Value flaw", "Consequence", "This proposal's answer"],
+    [
+        ["Sub-scale capital",
+         "Positions were passive minorities with no path to board influence; the "
+         "“toolbox” could never be deployed.",
+         "EUR 150–200m GP seed + USD 1.5bn target; positions sized to 2–10% for "
+         "nomination-committee (EU) / universal-proxy (US) influence (§4, §6, §8)."],
+        ["No activist leadership",
+         "PE generalists ran a public book without campaign mechanics — no proxy, "
+         "nomination-committee or settlement expertise.",
+         "Partner-level Head of Engaged Equities + a dedicated US campaign Principal "
+         "(Knut Nyman) hired from the activist front line (§9)."],
+        ["Wrong entry discipline",
+         "Names selected on quality and growth momentum, not on a value gap with a "
+         "closable catalyst; the book inflated and then de-rated.",
+         "≥30% upside to intrinsic value with a named, company-controllable catalyst; "
+         "explicit no-momentum rule; red-team underwriting (§4)."],
+        ["Finite fund clock",
+         "A wind-down forced selling at the cycle bottom into illiquid registers.",
+         "Evergreen structure with a 3-year soft lock and investor-level gates — the fund "
+         "is never a forced seller (§8)."],
+    ],
+    widths=[1.8, 2.4, 2.6],
+)
+p("The lesson is not that EQT was wrong about the opportunity — it is that a PE sponsor's "
+  "public-markets vehicle only works if it is built, from day one, as an engagement "
+  "platform (scale, activist leadership, catalyst discipline, patient capital) rather than "
+  "as a long-only fund with a famous logo. That is precisely the gap this proposal is "
+  "designed to fill.", italic=True)
 
 doc.add_heading("A.3 Sponsors entering public-market activism", level=2)
 p("Governance commentators now track “occasional activists” — sponsors and strategics "
@@ -1022,6 +1091,128 @@ bullets([
     ("Active Value Partners (2026): ", "ex-Cevian partners launched a Nordic/European "
      "engagement strategy, confirming institutional LP appetite — and starting the clock "
      "on the competitive window this proposal addresses."),
+])
+doc.add_page_break()
+
+# ---------- A.5 New-generation strategic activists ----------
+doc.add_heading("A.5 Case Study: The New-Generation Strategic Activists — Irenic & Ananym",
+                level=2)
+p("Two recently launched US activists, both founded by alumni of the firms whose DNA this "
+  "strategy draws on (Elliott, JANA, Engine No. 1), are the clearest live evidence that a "
+  "concentrated, separation-and-sale “strategic activism” book — precisely the "
+  "conglomerate / SOTP archetype in Section 4.3 — works at the EUR/USD mid-cap scale this "
+  "fund targets. They are both a competitive benchmark and a recruiting/idea-sourcing map. "
+  "Notably, both are spiritually adjacent to Knut Nyman's own Elliott lineage.")
+
+doc.add_heading("A.5.1 Irenic Capital Management", level=3)
+bullets([
+    ("Founded: ", "October 2021 by Adam Katz (former Associate Portfolio Manager at "
+     "Elliott Management, where he ran public-equity activism, PE and distressed "
+     "situations exceeding USD 1bn) and Andy Dodge (former investment partner at Indaba "
+     "Capital, now Director of Research)."),
+    ("Scale & performance: ", "launched with ~USD 335m; ~USD 2.5bn AUM by March 2026. "
+     "Hedge fund (live since August 2022) reportedly +14% (2023), +19% (2024), +17% "
+     "(2025); a top-ten activist by campaign count in 2025 (Barclays). Now extending into "
+     "private equity (hired an ex-Apollo partner) and a ~USD 220m industrials SPAC."),
+    ("Strategy: ", "“strategic activism” — almost always a sum-of-the-parts thesis "
+     "resolved by a spin-off, divestiture or outright sale, pursued constructively first "
+     "and via board settlements rather than scorched-earth proxy fights. Sector-agnostic "
+     "but tilted to industrials, media and software."),
+])
+p("Selected campaigns and theses:", bold=True)
+table(
+    ["Company (year)", "Sector", "Thesis / demand", "Outcome to date"],
+    [
+        ["Barnes Group (2022)", "Aerospace & industrial",
+         "SOTP discount; aerospace unit alone worth more than the whole company; push "
+         "for sale or separation (~$60/share, ~2x).",
+         "Won board representation (2024); company later sold to Apollo — thesis "
+         "realised."],
+        ["News Corp (2022–24)", "Media & online real estate",
+         "Separate the online real estate assets (REA/Move) from media; opposed the "
+         "proposed Fox recombination; later backed collapsing the dual-class structure.",
+         "Forced a special-committee review; Fox merger abandoned; dual-class fight "
+         "ongoing."],
+        ["Forward Air (2023–24)", "Freight / logistics",
+         "Opposed the dilutive Omni Logistics deal; pushed for a sale process and board "
+         "change.", "Strategic review and board changes followed."],
+        ["FD Technologies (2023)", "Software & data (UK/IE)",
+         "Separate KX (analytics) from First Derivatives services; unlock the "
+         "sum-of-the-parts.", "Company pursued break-up / asset sales."],
+        ["Reservoir Media (2024–26)", "Music rights",
+         "Full strategic review; special committee; later an unsolicited takeover "
+         "approach from Irenic itself.", "Review initiated; situation ongoing."],
+        ["Atkore (2025)", "Electrical products",
+         "~2.5% stake; pursue a sale process at a depressed multiple.", "Engagement "
+         "ongoing."],
+        ["Workiva (2025)", "Vertical SaaS",
+         "~2% stake; operational improvement, margin discipline, two board seats.",
+         "Engagement ongoing."],
+        ["Integer Holdings (2026)", "Medtech (contract mfg.)",
+         ">3% stake; board refresh and explore a sale.",
+         "Two directors added (Mar 2026); board launched a strategic review (Apr 2026)."],
+        ["Snap (2026)", "Social media / tech",
+         "Cost rationalisation and a more disciplined AI-spend narrative.",
+         "Stake disclosed; engagement early."],
+        ["HPE (2026)", "Enterprise tech",
+         "Joined Elliott in pressing for value-creating change.", "Multi-activist "
+         "situation; ongoing."],
+    ],
+    widths=[1.5, 1.4, 2.4, 1.5],
+)
+
+doc.add_heading("A.5.2 Ananym Capital Management", level=3)
+bullets([
+    ("Founded: ", "launched 3 September 2024 by Charlie Penner (former JANA Partners "
+     "partner; as head of activism at Engine No. 1 he led the landmark 2021 campaign that "
+     "won three Exxon Mobil board seats) and Alex Silver (former partner and investment-"
+     "committee member at P2 Capital Partners)."),
+    ("Scale: ", "~USD 260m across ~10 concentrated positions (per 13F). Deliberately "
+     "small and high-conviction."),
+    ("Strategy: ", "“high-quality but undervalued companies, regardless of industry,” "
+     "almost always carrying a separation or operational-fix thesis. Prefers to work "
+     "constructively but has shown it will run a full proxy fight — Penner's Exxon "
+     "pedigree makes that threat unusually credible."),
+])
+p("Selected campaigns and theses:", bold=True)
+table(
+    ["Company (year)", "Sector", "Thesis / demand", "Outcome to date"],
+    [
+        ["Henry Schein (2024–25)", "Healthcare distribution",
+         "Cost cuts, CEO succession (Bergman had led since 1989), capital-allocation "
+         "discipline and board refresh; prepared a slate of up to six directors.",
+         "Proxy threat catalysed the KKR “white knight” investment and board changes; "
+         "Bergman succession executed (see A.3) — thesis largely realised."],
+        ["Baker Hughes (2025)", "Oilfield services & energy tech",
+         "Spin off the oilfield services & equipment (OFSE) business from the "
+         "higher-multiple industrial/energy-tech segment; argued ≥60% upside.",
+         "Engagement public; situation ongoing."],
+        ["Siemens Energy (2025)", "Energy equipment (DE)",
+         "Separate the loss-making wind business (Siemens Gamesa) from the strong "
+         "grid/services franchise to stop the drag and re-rate the core.",
+         "Engagement ongoing."],
+        ["LKQ (2024–25)", "Auto parts distribution",
+         "Divest the European operations to focus on the higher-return North American "
+         "business; simplify and re-rate.", "Renewed public push; engagement ongoing."],
+    ],
+    widths=[1.5, 1.5, 2.5, 1.3],
+)
+
+p("Read-across for this strategy.", bold=True)
+bullets([
+    "Both firms validate the core engine of this proposal: a concentrated book of "
+    "mid-cap, separation-and-sale theses, pursued constructively and resolved through "
+    "board settlements, generates strong returns (Irenic's mid-to-high-teens net) and "
+    "rapid AUM growth ($335m → $2.5bn in ~4 years).",
+    "Both are sector-agnostic but converge on conglomerate / SOTP situations — confirming "
+    "the weighting of Section 4.3 and the M&A-heavy campaign mix of the current cycle.",
+    "Both are run by alumni of the exact franchises whose playbook this fund imports "
+    "(Elliott, JANA, Engine No. 1) — the same talent pool from which the US Campaign "
+    "Principal (Knut Nyman) and the wider team would be drawn.",
+    "The key differentiator for Nordic Capital: Irenic and Ananym have the campaign craft "
+    "but no operating platform, no European nomination-committee home field, and no "
+    "buyout balance sheet to convert a public stake into a take-private. Nordic Capital "
+    "Engaged Equities would combine their playbook with all three.",
 ])
 doc.add_page_break()
 
