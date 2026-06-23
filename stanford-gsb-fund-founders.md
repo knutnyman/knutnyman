@@ -1,7 +1,8 @@
 # Notable Fund Launches Founded by Stanford GSB Alumni
 
-A curated, sourced list of notable venture capital, growth, and private-equity
-funds whose **founders are Stanford Graduate School of Business (GSB) alumni**.
+A curated, sourced list of notable venture capital, growth, private-equity, and
+**hedge funds** whose **founders are Stanford Graduate School of Business (GSB)
+alumni**.
 
 *Compiled June 2026. Each entry has been checked to confirm the founder
 actually attended/earned a degree from Stanford GSB (an MBA unless noted) —
@@ -119,6 +120,45 @@ common misconceptions are flagged in the appendix.*
 
 ---
 
+## Hedge Funds Founded by GSB Alumni
+
+A notable concentration here: several of the most successful **"Tiger Cub"**
+hedge funds (firms started by alumni of Julian Robertson's Tiger Management)
+were founded by Stanford GSB classmates — Andreas Halvorsen and John Griffin
+were in the **same GSB Class of 1990**.
+
+### Viking Global Investors — Andreas Halvorsen (co-founder & CEO)
+- **GSB:** MBA, 1990 (prev. Morgan Stanley; Tiger Management, where he was director of equities)
+- **Founded:** 1999 (Greenwich, CT), with David Ott and Brian Olson
+- **Strategy:** Long/short and long-only global equities; one of the largest and most respected Tiger Cubs.
+- **Scale:** ~$40B+ AUM. Among the highest lifetime-dollar-gain hedge funds.
+
+### Farallon Capital Management — Tom Steyer
+- **GSB:** MBA, 1983 (Arjay Miller Scholar; AB, Yale)
+- **Founded:** January 1986 (San Francisco)
+- **Strategy:** Multi-strategy / absolute return — merger arbitrage, credit, distressed, real estate. Pioneered the multi-strategy model on the West Coast.
+- **Scale:** Managed ~$20B by the time Steyer left in 2012 (later a climate activist and presidential candidate). Farallon manages tens of billions today.
+
+### Blue Ridge Capital — John A. Griffin
+- **GSB:** MBA, 1990 (BS finance, UVA McIntire; Halvorsen's classmate)
+- **Founded:** 1996 (New York); **wound down in 2017**
+- **Strategy:** Long/short equity. Griffin was president of Tiger Management before launching Blue Ridge.
+- **Scale:** ~$6B at peak; delivered 15%+ annualized over two decades before voluntarily returning capital.
+
+### Passport Capital — John H. Burbank III
+- **GSB:** MBA, 1992 (BA English, Duke)
+- **Founded:** 2000 (San Francisco), seeded with ~$800K
+- **Strategy:** Global macro + high-conviction fundamental equity; known for prescient bets (e.g., the pre-2008 subprime short and commodities/emerging markets).
+- **Scale:** Up to ~$5B AUM at peak; returned 36%+ in its first year.
+
+### Light Street Capital — Glen Kacher
+- **GSB:** MBA, 1998 (BS commerce, UVA McIntire)
+- **Founded:** 2010 (Silicon Valley)
+- **Strategy:** Technology-focused long/short and long-only, plus private growth investments. A "Tiger Grandcub" (Kacher came via Integral Capital and Tiger Management).
+- **Scale:** ~$2B+ in global technology assets; repeatedly among the top-performing tech hedge funds.
+
+---
+
 ## Appendix — Common Misconceptions / Non-Qualifiers
 
 These prominent investors are frequently *assumed* to be Stanford GSB alumni but
@@ -129,6 +169,8 @@ are **not** (so their funds were excluded from the main list):
 - **Jennifer Fonstad — Aspect Ventures co-founder.** MBA from **Harvard**, not GSB.
 - **Satya Patel — Homebrew co-founder.** University of Pennsylvania, no GSB.
 - **Roelof Botha — Sequoia Capital.** GSB MBA (2000) — *but he leads Sequoia; he did not found it* (Don Valentine founded Sequoia in 1972). A genuine GSB alum, just not a fund *founder*, so listed here for accuracy.
+- **Chris Shumway — Shumway Capital Partners** (founded 2001; grew to $9B+). A prominent Tiger Cub, but his MBA is from **Harvard**, not GSB. *Not GSB.*
+- **Other major Tiger Cubs are *not* GSB:** Stephen Mandel (Lone Pine — Harvard MBA), Lee Ainslie (Maverick — UNC MBA), Chase Coleman (Tiger Global — Williams, no MBA), Philippe Laffont (Coatue — MIT). Included here to pre-empt the assumption that all Tiger Cubs trace to Stanford.
 
 > **Methodology note:** "Stanford GSB" is interpreted as a degree from or
 > enrollment in the Stanford Graduate School of Business (MBA, MSx, PhD, or
@@ -154,6 +196,12 @@ are **not** (so their funds were excluded from the main list):
 - [Charles Edward Hudson — Stanford GSB](https://www.gsb.stanford.edu/faculty-research/faculty/charles-edward-hudson) · [Charles Hudson — Precursor Ventures](https://precursorvc.com/team_member/charles-hudson/)
 - [Renata Quintini — Renegade Partners](https://www.renegadepartners.com/renata-quintini-renegade)
 - [Jenny Lefcourt — Freestyle VC](https://freestyle.vc/team/jenny-lefcourt/) · [Jenny Lefcourt — Something Ventured](https://somethingventured.us/jenny-lefcourt-freestyle-capital-partners-path-from-entrepreneur-to-vc/)
+- [Ole Andreas Halvorsen — Wikipedia](https://en.wikipedia.org/wiki/Ole_Andreas_Halvorsen) · [Viking Global — Our Team](https://vikingglobal.com/our-team/)
+- [Tom Steyer — Wikipedia](https://en.wikipedia.org/wiki/Tom_Steyer) · [Tom Steyer: The Jolly Green Banker — Stanford GSB](https://www.gsb.stanford.edu/insights/tom-steyer-jolly-green-banker)
+- [Blue Ridge Capital — Wikipedia](https://en.wikipedia.org/wiki/Blue_Ridge_Capital) · [John Griffin — McIntire School of Commerce](https://www.commerce.virginia.edu/john-griffin)
+- [Passport Capital — The Hedge Fund Journal](https://thehedgefundjournal.com/passport-capital/) · [John Burbank — Crunchbase](https://www.crunchbase.com/person/john-burbank-2)
+- [Glen Kacher — Light Street Capital — CNBC](https://www.cnbc.com/glen-kacher-light-street-capital/) · [The Tiger Grandcub Headed by Glen Kacher — Institutional Investor](https://www.institutionalinvestor.com/article/2dzhsbmykl0roqzpzwphc/hedge-funds/the-tiger-grandcub-headed-by-glen-kacher-maintains-its-status-as-a-top-performer-this-year)
+- [Chris Shumway — Shumway Capital](https://www.shumwaycapital.com/team/chris-shumway/) *(appendix — non-qualifier, Harvard MBA)*
 - [These Stanford MBAs Are Opening Doors (The 20|20 Fund) — Poets&Quants](https://poetsandquants.com/2023/04/10/these-stanford-mbas-are-opening-doors-to-greater-startup-investment-heres-how/)
 - [Stanford-Born VC Fund Reaction — Poets&Quants for Execs](https://poetsandquantsforexecs.com/news/stanford-born-vc-funds-goal-transform-1-billion-lives-in-10-years/)
 - [Mary Meeker raises $1.25B for Bond — TechCrunch](https://techcrunch.com/2019/04/24/mary-meeker-raises-1-25b-for-bond-her-debut-growth-fund/) *(appendix — non-qualifier)*
