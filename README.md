@@ -21,12 +21,31 @@ uv run resy-rank init
 | Command | Status |
 | --- | --- |
 | `init` — create the DB, load `data/venues.csv` | ✅ milestone 1 |
-| `scan` — poll Resy, persist scans + slots | milestone 2 |
+| `scan` — poll Resy, persist scans + slots | ✅ milestone 2 |
 | `resolve` — fill in Resy and Google Place ids | milestone 3 |
 | `rank` — the main command | milestone 5 |
 | `backfill` — bootstrap the scarcity index | milestone 6 |
 
-`--dry-run` is global and hits nothing over the network.
+`--dry-run` is global, hits nothing over the network, and needs no credentials —
+use it to review the exact request plan before scanning for real.
+
+```bash
+uv run resy-rank --dry-run scan --date 2026-09-12 --party 2 --days-ahead 30
+uv run resy-rank scan --date 2026-09-12 --party 2 --venue carbone
+```
+
+## Read-only, and polite
+
+Outbound URLs are checked against an allowlist containing exactly two
+endpoints (`/4/find` and `/3/venuesearch/search`) before any request leaves;
+Resy's booking endpoints are absent, so an accidental call raises instead of
+reserving a table.
+
+Requests are capped at 3 concurrent, spaced `REQUEST_DELAY_SECONDS` apart
+globally, retried with exponential backoff (2s → 16s, jittered, honoring
+`Retry-After`) on 429/5xx, and counted against a daily cap persisted in SQLite
+so it holds across separate runs. A 401/403 aborts the run immediately rather
+than retrying against a dead token.
 
 ## Scoring
 

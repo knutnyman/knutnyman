@@ -249,6 +249,27 @@ def _maybe_int(raw: str | None, source: str, lineno: int) -> int | None:
         return None
 
 
+def fetch_venues(
+    conn: sqlite3.Connection,
+    *,
+    name_filter: str | None = None,
+    require_resy_id: bool = False,
+) -> list[sqlite3.Row]:
+    """Return venues, optionally narrowed to a name substring (case-insensitive)."""
+    sql = "SELECT * FROM venues"
+    clauses: list[str] = []
+    params: list[object] = []
+    if require_resy_id:
+        clauses.append("resy_venue_id IS NOT NULL")
+    if name_filter:
+        clauses.append("LOWER(name) LIKE ?")
+        params.append(f"%{name_filter.lower()}%")
+    if clauses:
+        sql += " WHERE " + " AND ".join(clauses)
+    sql += " ORDER BY name"
+    return conn.execute(sql, params).fetchall()
+
+
 def venue_counts(conn: sqlite3.Connection) -> dict[str, int]:
     """Small summary used by `init` and (later) `resolve` to report progress."""
     row = conn.execute(
