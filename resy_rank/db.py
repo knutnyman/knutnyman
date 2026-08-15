@@ -84,6 +84,15 @@ MIGRATIONS: list[str] = [
         PRIMARY KEY (day, service)
     );
     """,
+    # ── 1 -> 2: geo sweep bookkeeping ───────────────────────────────────────
+    # in_geo_scope marks venues a city-wide sweep is known to cover. Only those
+    # can be scored as "observed unavailable" when they are absent from a
+    # sweep's results — a venue outside the swept area is simply unknown, and
+    # counting it as booked out would silently inflate its scarcity.
+    """
+    ALTER TABLE venues ADD COLUMN in_geo_scope INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE venues ADD COLUMN last_seen_at TEXT;
+    """,
 ]
 
 SCHEMA_VERSION = len(MIGRATIONS)
@@ -268,6 +277,38 @@ def fetch_venues(
         sql += " WHERE " + " AND ".join(clauses)
     sql += " ORDER BY name"
     return conn.execute(sql, params).fetchall()
+
+
+def available_in_window(
+    conn: sqlite3.Connection,
+    *,
+    target_date: str,
+    party_size: int,
+    start_time: str,
+    end_time: str,
+) -> dict[int, list[tuple[str, str | None]]]:
+    """venue_id -> [(slot_time, service_type)] bookable inside the window.
+
+    Only the most recent scan per venue for that date/party is consulted, so a
+    table that was available last week but is gone today does not show up.
+    Slot times are zero-padded "HH:MM", so string comparison orders correctly.
+    """
+    sql = """
+        SELECT sl.venue_id, sl.slot_time, sl.service_type
+        FROM slots sl
+        JOIN (
+            SELECT venue_id, MAX(scan_id) AS scan_id
+            FROM scans
+            WHERE target_date = ? AND party_size = ?
+            GROUP BY venue_id
+        ) latest ON latest.scan_id = sl.scan_id
+        WHERE sl.slot_time >= ? AND sl.slot_time <= ?
+        ORDER BY sl.slot_time
+    """
+    out: dict[int, list[tuple[str, str | None]]] = {}
+    for row in conn.execute(sql, (target_date, party_size, start_time, end_time)):
+        out.setdefault(row["venue_id"], []).append((row["slot_time"], row["service_type"]))
+    return out
 
 
 def venue_counts(conn: sqlite3.Connection) -> dict[str, int]:

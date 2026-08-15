@@ -399,6 +399,197 @@ def test_persist_scan_writes_raw_blob_and_slots(tmp_path):
     conn.close()
 
 
+def geo_payload(venues: list[dict]) -> dict:
+    return {"results": {"venues": venues}}
+
+
+def geo_venue(vid: int, name: str, slots: list[dict], neighborhood: str = "Nolita") -> dict:
+    return {
+        "venue": {
+            "id": {"resy": vid},
+            "name": name,
+            "neighborhood": neighborhood,
+            "location": {"latitude": 40.72, "longitude": -73.99},
+        },
+        "slots": slots,
+    }
+
+
+def test_parse_find_venues_groups_by_venue():
+    payload = geo_payload(
+        [
+            geo_venue(1, "Lilia", [slot(f"{SATURDAY} 19:00:00")]),
+            geo_venue(2, "Misi", [slot(f"{SATURDAY} 18:00:00"), slot(f"{SATURDAY} 20:00:00")]),
+        ]
+    )
+    venues = resy.parse_find_venues(payload, SATURDAY, PRIME)
+    assert [(v.resy_venue_id, v.name, len(v.slots)) for v in venues] == [
+        (1, "Lilia", 1),
+        (2, "Misi", 2),
+    ]
+    assert venues[0].lat == 40.72 and venues[0].neighborhood == "Nolita"
+
+
+def test_parse_find_venues_drops_entries_with_no_id():
+    payload = geo_payload(
+        [{"venue": {"name": "Nameless"}, "slots": []}, geo_venue(9, "Real", [])]
+    )
+    venues = resy.parse_find_venues(payload, SATURDAY, PRIME)
+    assert [v.resy_venue_id for v in venues] == [9]
+
+
+def test_parse_find_venues_accepts_string_ids():
+    payload = geo_payload([{"venue": {"id": {"resy": "77"}, "name": "X"}, "slots": []}])
+    assert resy.parse_find_venues(payload, SATURDAY, PRIME)[0].resy_venue_id == 77
+
+
+def test_merge_geo_results_unions_slots_across_anchors():
+    a = resy.parse_find_venues(
+        geo_payload([geo_venue(1, "Lilia", [slot(f"{SATURDAY} 19:00:00", "Dining Room", "a")])]),
+        SATURDAY,
+        PRIME,
+    )
+    b = resy.parse_find_venues(
+        geo_payload(
+            [
+                geo_venue(1, "Lilia", [slot(f"{SATURDAY} 20:00:00", "Bar", "b")]),
+                geo_venue(2, "Misi", []),
+            ]
+        ),
+        SATURDAY,
+        PRIME,
+    )
+    merged = {v.resy_venue_id: v for v in resy.merge_geo_results([a, b])}
+    assert len(merged) == 2
+    assert [s.slot_time for s in merged[1].slots] == ["19:00", "20:00"]
+
+
+def test_merge_geo_results_does_not_duplicate_identical_slots():
+    payload = geo_payload([geo_venue(1, "Lilia", [slot(f"{SATURDAY} 19:00:00")])])
+    a = resy.parse_find_venues(payload, SATURDAY, PRIME)
+    b = resy.parse_find_venues(payload, SATURDAY, PRIME)
+    merged = resy.merge_geo_results([a, b])
+    assert len(merged) == 1 and len(merged[0].slots) == 1
+
+
+def _geo_db(tmp_path):
+    path = tmp_path / "geo.db"
+    db.init_db(path)
+    return db.connect(path)
+
+
+def test_geo_sweep_discovers_new_venues(tmp_path):
+    conn = _geo_db(tmp_path)
+    venues = resy.parse_find_venues(
+        geo_payload([geo_venue(1, "Lilia", [slot(f"{SATURDAY} 19:00:00")])]), SATURDAY, PRIME
+    )
+    counts = resy.persist_geo_sweep(
+        conn, target_date=SATURDAY, party_size=2, venues=venues, scan_ts="2026-08-14T12:00:00+00:00"
+    )
+    assert counts == {"available": 1, "unavailable": 0}
+    row = conn.execute("SELECT name, resy_venue_id, in_geo_scope FROM venues").fetchone()
+    assert (row["name"], row["resy_venue_id"], row["in_geo_scope"]) == ("Lilia", 1, 1)
+    conn.close()
+
+
+def test_geo_sweep_links_seed_row_instead_of_duplicating(tmp_path):
+    """A sweep hit resolves a seed venue for free — no extra lookup call."""
+    conn = _geo_db(tmp_path)
+    with conn:
+        conn.execute("INSERT INTO venues (name, neighborhood) VALUES ('Lilia', 'Williamsburg')")
+
+    venues = resy.parse_find_venues(
+        geo_payload([geo_venue(1, "Lilia", [])]), SATURDAY, PRIME
+    )
+    resy.persist_geo_sweep(
+        conn, target_date=SATURDAY, party_size=2, venues=venues, scan_ts="2026-08-14T12:00:00+00:00"
+    )
+    rows = conn.execute("SELECT name, neighborhood, resy_venue_id FROM venues").fetchall()
+    assert len(rows) == 1
+    assert (rows[0]["neighborhood"], rows[0]["resy_venue_id"]) == ("Williamsburg", 1)
+    conn.close()
+
+
+def test_geo_sweep_records_absence_for_in_scope_venues(tmp_path):
+    """The absent venues are the scarcity signal — they must get scan rows."""
+    conn = _geo_db(tmp_path)
+    first = resy.parse_find_venues(
+        geo_payload([geo_venue(1, "Lilia", []), geo_venue(2, "Misi", [])]), SATURDAY, PRIME
+    )
+    resy.persist_geo_sweep(
+        conn, target_date=SATURDAY, party_size=2, venues=first, scan_ts="2026-08-14T12:00:00+00:00"
+    )
+
+    # Next sweep: only Lilia has availability. Misi must still be observed.
+    second = resy.parse_find_venues(
+        geo_payload([geo_venue(1, "Lilia", [slot(f"{SATURDAY} 19:00:00")])]), SATURDAY, PRIME
+    )
+    counts = resy.persist_geo_sweep(
+        conn, target_date="2026-09-19", party_size=2, venues=second,
+        scan_ts="2026-08-15T12:00:00+00:00",
+    )
+    assert counts == {"available": 1, "unavailable": 1}
+
+    misi = conn.execute(
+        "SELECT COUNT(*) c FROM scans WHERE venue_id = 2 AND target_date = '2026-09-19'"
+    ).fetchone()
+    assert misi["c"] == 1  # observed, with no slots — i.e. booked out
+    assert conn.execute("SELECT COUNT(*) c FROM slots WHERE venue_id = 2").fetchone()["c"] == 0
+    conn.close()
+
+
+def test_geo_sweep_does_not_mark_out_of_scope_venues_absent(tmp_path):
+    """A seed venue never seen by a sweep is unknown, not booked out."""
+    conn = _geo_db(tmp_path)
+    with conn:
+        conn.execute("INSERT INTO venues (name, resy_venue_id) VALUES ('Brooklyn Spot', 999)")
+
+    venues = resy.parse_find_venues(geo_payload([geo_venue(1, "Lilia", [])]), SATURDAY, PRIME)
+    counts = resy.persist_geo_sweep(
+        conn, target_date=SATURDAY, party_size=2, venues=venues, scan_ts="2026-08-14T12:00:00+00:00"
+    )
+    assert counts["unavailable"] == 0
+    assert conn.execute("SELECT COUNT(*) c FROM scans WHERE venue_id = 1").fetchone()["c"] == 0
+    conn.close()
+
+
+def test_geo_sweep_stores_only_the_venue_slice_of_the_payload(tmp_path):
+    """Not the whole city blob repeated per venue."""
+    conn = _geo_db(tmp_path)
+    venues = resy.parse_find_venues(
+        geo_payload(
+            [geo_venue(1, "Lilia", [slot(f"{SATURDAY} 19:00:00")]), geo_venue(2, "Misi", [])]
+        ),
+        SATURDAY,
+        PRIME,
+    )
+    resy.persist_geo_sweep(
+        conn, target_date=SATURDAY, party_size=2, venues=venues, scan_ts="2026-08-14T12:00:00+00:00"
+    )
+    for row in conn.execute("SELECT raw_json FROM scans"):
+        assert "Lilia" not in row["raw_json"] or "Misi" not in row["raw_json"]
+    conn.close()
+
+
+def test_geo_pagination_stops_when_no_new_venues(settings):
+    """The page parameter is undocumented; a repeating page must not loop forever."""
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        return httpx.Response(200, json=geo_payload([geo_venue(1, "Lilia", [])]))
+
+    async def go():
+        client = _client_with_transport(settings, handler)
+        found = await client.find_geo(lat=40.7, long=-74.0, target_date=SATURDAY, party_size=2)
+        await client._client.aclose()
+        return found
+
+    found = asyncio.run(go())
+    assert len(found) == 1
+    assert calls["n"] == 2  # page 1 discovers, page 2 repeats and stops the loop
+
+
 def test_scan_with_no_availability_still_records_an_observation(tmp_path):
     """A booked-out venue must leave a scan row — that's the scarcity signal."""
     path = tmp_path / "t.db"

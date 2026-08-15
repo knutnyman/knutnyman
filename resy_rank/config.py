@@ -56,8 +56,33 @@ class Settings(BaseSettings):
     default_long: float = -74.0060
     default_party_size: int = Field(default=2, ge=1)
 
+    # ── Geo sweep ───────────────────────────────────────────────────────────
+    # /4/find without a venue_id returns every venue with availability near a
+    # point — the same query resy.com makes when you browse. One sweep covers
+    # a city in a few dozen requests instead of one-per-venue, which is both
+    # ~40x cheaper and far more polite than enumerating venue ids.
+    geo_anchors: list[tuple[float, float]] = Field(
+        default_factory=lambda: [
+            (40.7075, -74.0113),  # Financial District / Battery
+            (40.7185, -73.9950),  # Chinatown / Lower East Side
+            (40.7265, -73.9830),  # East Village
+            (40.7350, -74.0030),  # West Village
+            (40.7440, -73.9900),  # Chelsea / Flatiron
+            (40.7549, -73.9840),  # Midtown
+            (40.7736, -73.9566),  # Upper East Side
+            (40.7870, -73.9754),  # Upper West Side
+            (40.8116, -73.9465),  # Harlem
+        ]
+    )
+    geo_per_page: int = Field(default=50, ge=1, le=100)
+    geo_max_pages: int = Field(default=10, ge=1)
+
     # ── Google Places ───────────────────────────────────────────────────────
     google_cache_days: int = Field(default=180, ge=1)
+    # Enrichment is capped per calendar month so it stays inside Google's free
+    # tier by default (1,000 Enterprise-SKU calls/month since March 2025).
+    # Raise this only if you actually want to be billed.
+    monthly_enrichment_cap: int = Field(default=1000, ge=0)
 
     # ── Critic matching ─────────────────────────────────────────────────────
     critic_match_threshold: int = Field(default=88, ge=0, le=100)
@@ -92,6 +117,21 @@ class Settings(BaseSettings):
     scarcity_horizon_min_days: int = Field(default=14, ge=0)
     scarcity_horizon_max_days: int = Field(default=28, ge=1)
     scarcity_min_observations: int = Field(default=20, ge=1)
+
+    @field_validator("geo_anchors", mode="before")
+    @classmethod
+    def _parse_anchors(cls, v: object) -> object:
+        """Accept "lat,long;lat,long" from .env as well as a list of pairs."""
+        if isinstance(v, str):
+            anchors = []
+            for chunk in v.split(";"):
+                chunk = chunk.strip()
+                if not chunk:
+                    continue
+                lat, _, lng = chunk.partition(",")
+                anchors.append((float(lat), float(lng)))
+            return anchors
+        return v
 
     @field_validator("prime_days", mode="before")
     @classmethod

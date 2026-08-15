@@ -119,8 +119,8 @@ def _parse_timestamp(value: Any) -> tuple[str | None, str | None]:
     return day, hhmm
 
 
-def _iter_slot_dicts(payload: Any) -> Iterable[tuple[dict, str]]:
-    """Yield (slot_dict, provenance) pairs, tolerating several nesting shapes."""
+def _iter_venue_entries(payload: Any) -> Iterable[tuple[dict, int]]:
+    """Yield (venue_entry, index) from a /4/find payload, tolerating bad shapes."""
     results = payload.get("results") if isinstance(payload, dict) else None
     if not isinstance(results, dict):
         log.debug("find payload has no dict 'results' key; nothing to parse")
@@ -135,17 +135,126 @@ def _iter_slot_dicts(payload: Any) -> Iterable[tuple[dict, str]]:
         if not isinstance(venue, dict):
             log.warning("skipping venue #%d: expected dict, got %s", index, type(venue).__name__)
             continue
-        slots = venue.get("slots")
-        if slots is None:
-            continue  # a venue with no availability legitimately has no slots
-        if not isinstance(slots, list):
-            log.warning("skipping venue #%d: 'slots' is %s, not a list", index, type(slots).__name__)
-            continue
-        for slot in slots:
-            if not isinstance(slot, dict):
-                log.warning("skipping malformed slot in venue #%d", index)
-                continue
+        yield venue, index
+
+
+def _iter_slot_dicts(payload: Any) -> Iterable[tuple[dict, str]]:
+    """Yield (slot_dict, provenance) pairs across every venue in the payload."""
+    for venue, index in _iter_venue_entries(payload):
+        for slot in _venue_slot_dicts(venue, index):
             yield slot, f"venue#{index}"
+
+
+def _venue_slot_dicts(venue: dict, index: int) -> Iterable[dict]:
+    slots = venue.get("slots")
+    if slots is None:
+        return  # a venue with no availability legitimately has no slots
+    if not isinstance(slots, list):
+        log.warning("skipping venue #%d: 'slots' is %s, not a list", index, type(slots).__name__)
+        return
+    for slot in slots:
+        if not isinstance(slot, dict):
+            log.warning("skipping malformed slot in venue #%d", index)
+            continue
+        yield slot
+
+
+def _coerce_resy_id(raw: Any) -> int | None:
+    if isinstance(raw, dict):
+        raw = raw.get("resy")
+    if isinstance(raw, bool):
+        return None
+    if isinstance(raw, int):
+        return raw
+    if isinstance(raw, str) and raw.strip().isdigit():
+        return int(raw.strip())
+    return None
+
+
+def _coerce_float(raw: Any) -> float | None:
+    if isinstance(raw, bool):
+        return None
+    if isinstance(raw, (int, float)):
+        return float(raw)
+    if isinstance(raw, str):
+        try:
+            return float(raw)
+        except ValueError:
+            return None
+    return None
+
+
+def _extract_identity(entry: dict) -> dict[str, Any]:
+    """Pull venue identity out of a /4/find entry, whatever the nesting."""
+    venue = entry.get("venue") if isinstance(entry.get("venue"), dict) else entry
+    location = venue.get("location") if isinstance(venue.get("location"), dict) else {}
+
+    name = venue.get("name")
+    if not isinstance(name, str):
+        name = ""
+
+    neighborhood = venue.get("neighborhood")
+    if not isinstance(neighborhood, str):
+        neighborhood = location.get("neighborhood") if isinstance(location.get("neighborhood"), str) else ""
+
+    lat = _coerce_float(location.get("latitude"))
+    lng = _coerce_float(location.get("longitude"))
+    if lat is None:
+        lat = _coerce_float(venue.get("latitude"))
+    if lng is None:
+        lng = _coerce_float(venue.get("longitude"))
+
+    return {
+        "resy_venue_id": _coerce_resy_id(venue.get("id")),
+        "name": name.strip(),
+        "neighborhood": (neighborhood or "").strip(),
+        "lat": lat,
+        "lng": lng,
+    }
+
+
+@dataclass
+class VenueSlots:
+    """One venue's availability, as returned by a geo (city-wide) find."""
+
+    resy_venue_id: int | None
+    name: str
+    neighborhood: str
+    lat: float | None
+    lng: float | None
+    slots: list[ParsedSlot]
+    raw: dict | None = None
+
+
+def parse_find_venues(
+    payload: Any,
+    target_date: str,
+    prime: PrimeWindow,
+) -> list[VenueSlots]:
+    """Group a /4/find payload by venue — the shape a geo sweep returns.
+
+    Venues without a usable Resy id are dropped with a log line: without an id
+    there is nothing stable to key observations against.
+    """
+    venues: list[VenueSlots] = []
+    for entry, index in _iter_venue_entries(payload):
+        identity = _extract_identity(entry)
+        if identity["resy_venue_id"] is None:
+            log.warning("skipping venue #%d: no usable Resy id", index)
+            continue
+        slots = _parse_slots(_venue_slot_dicts(entry, index), target_date, prime, f"venue#{index}")
+        venues.append(
+            VenueSlots(
+                resy_venue_id=identity["resy_venue_id"],
+                name=identity["name"],
+                neighborhood=identity["neighborhood"],
+                lat=identity["lat"],
+                lng=identity["lng"],
+                slots=slots,
+                raw=entry,
+            )
+        )
+    return venues
 
 
 def parse_find_response(
@@ -153,11 +262,25 @@ def parse_find_response(
     target_date: str,
     prime: PrimeWindow,
 ) -> list[ParsedSlot]:
-    """Extract per-slot time, service type, and token from a /4/find payload."""
+    """Extract per-slot time, service type, and token from a /4/find payload.
+
+    Flattens across venues, which is what a single-venue targeted find wants.
+    """
+    return _parse_slots(
+        (slot for slot, _ in _iter_slot_dicts(payload)), target_date, prime, "find"
+    )
+
+
+def _parse_slots(
+    slot_dicts: Iterable[dict],
+    target_date: str,
+    prime: PrimeWindow,
+    where: str,
+) -> list[ParsedSlot]:
     parsed: list[ParsedSlot] = []
     seen: set[tuple[str, str | None, str | None]] = set()
 
-    for slot, where in _iter_slot_dicts(payload):
+    for slot in slot_dicts:
         config = slot.get("config")
         config = config if isinstance(config, dict) else {}
         date_info = slot.get("date")
@@ -505,6 +628,52 @@ class ResyClient:
             log.exception("parse failed for venue %s on %s", resy_venue_id, target_date)
         return outcome
 
+    async def find_geo(
+        self,
+        *,
+        lat: float,
+        long: float,
+        target_date: str,
+        party_size: int,
+    ) -> list[VenueSlots]:
+        """GET /4/find with no venue_id — every venue with availability nearby.
+
+        This is the sweep primitive: one call covers a neighborhood instead of
+        one call per venue. Pagination is best-effort, since the parameters are
+        undocumented; it stops as soon as a page adds no new venue ids.
+        """
+        collected: dict[int, VenueSlots] = {}
+        for page in range(1, self.settings.geo_max_pages + 1):
+            params = {
+                "lat": lat,
+                "long": long,
+                "day": target_date,
+                "party_size": party_size,
+                "per_page": self.settings.geo_per_page,
+                "page": page,
+            }
+            try:
+                payload = await self._request("GET", FIND_URL, params=params)
+            except (DailyCapReached, ResyUnauthorized):
+                raise
+            except Exception as exc:
+                log.warning("geo find failed at (%s, %s) page %d: %s", lat, long, page, exc)
+                break
+
+            if payload is None:  # dry-run
+                break
+
+            venues = parse_find_venues(payload, target_date, self.prime)
+            fresh = [v for v in venues if v.resy_venue_id not in collected]
+            for venue in fresh:
+                collected[venue.resy_venue_id] = venue
+
+            # Stop when the page is empty or adds nothing new — the safest
+            # reading of an endpoint that may ignore `page` entirely.
+            if not venues or not fresh:
+                break
+        return list(collected.values())
+
     async def search_venues(
         self, query: str, *, lat: float | None = None, long: float | None = None
     ) -> list[dict[str, Any]]:
@@ -525,6 +694,133 @@ class ResyClient:
 
 
 # ── Persistence ─────────────────────────────────────────────────────────────
+
+
+def upsert_geo_venue(conn: sqlite3.Connection, venue: VenueSlots, now: str) -> int:
+    """Insert or link a venue seen in a geo sweep. Returns the local venue_id.
+
+    A sweep hit also resolves seed rows for free: if venues.csv has a row with
+    a matching name and no Resy id yet, the id is filled in here rather than
+    costing a separate venuesearch call.
+    """
+    row = conn.execute(
+        "SELECT venue_id FROM venues WHERE resy_venue_id = ?", (venue.resy_venue_id,)
+    ).fetchone()
+
+    if row is None and venue.name:
+        row = conn.execute(
+            "SELECT venue_id FROM venues WHERE resy_venue_id IS NULL AND LOWER(name) = ?",
+            (venue.name.lower(),),
+        ).fetchone()
+        if row is not None:
+            conn.execute(
+                "UPDATE venues SET resy_venue_id = ? WHERE venue_id = ?",
+                (venue.resy_venue_id, row["venue_id"]),
+            )
+
+    if row is None:
+        cursor = conn.execute(
+            "INSERT INTO venues (name, neighborhood, resy_venue_id, lat, lng, "
+            "in_geo_scope, last_seen_at) VALUES (?, ?, ?, ?, ?, 1, ?)",
+            (
+                venue.name or f"resy:{venue.resy_venue_id}",
+                venue.neighborhood,
+                venue.resy_venue_id,
+                venue.lat,
+                venue.lng,
+                now,
+            ),
+        )
+        return cursor.lastrowid
+
+    conn.execute(
+        "UPDATE venues SET in_geo_scope = 1, last_seen_at = ?, "
+        "lat = COALESCE(lat, ?), lng = COALESCE(lng, ?), "
+        "neighborhood = CASE WHEN neighborhood = '' THEN ? ELSE neighborhood END "
+        "WHERE venue_id = ?",
+        (now, venue.lat, venue.lng, venue.neighborhood, row["venue_id"]),
+    )
+    return row["venue_id"]
+
+
+def persist_geo_sweep(
+    conn: sqlite3.Connection,
+    *,
+    target_date: str,
+    party_size: int,
+    venues: list[VenueSlots],
+    scan_ts: str,
+) -> dict[str, int]:
+    """Record one date's sweep: availability for venues seen, absence for the rest.
+
+    The absence rows are the point. A venue that is in scope but missing from
+    the sweep was observed and had nothing — which is exactly the signal the
+    scarcity index reads.
+    """
+    seen_ids: set[int] = set()
+    with conn:
+        for venue in venues:
+            venue_id = upsert_geo_venue(conn, venue, scan_ts)
+            seen_ids.add(venue_id)
+            cursor = conn.execute(
+                "INSERT INTO scans (venue_id, scan_ts, target_date, party_size, raw_json) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (
+                    venue_id,
+                    scan_ts,
+                    target_date,
+                    party_size,
+                    # Only this venue's slice of the payload, not the whole
+                    # city blob repeated per venue.
+                    json.dumps(venue.raw, separators=(",", ":")) if venue.raw is not None else None,
+                ),
+            )
+            conn.executemany(
+                "INSERT INTO slots (scan_id, venue_id, target_date, slot_time, "
+                "service_type, slot_token, is_prime) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                [
+                    (
+                        cursor.lastrowid,
+                        venue_id,
+                        target_date,
+                        slot.slot_time,
+                        slot.service_type,
+                        slot.slot_token,
+                        int(slot.is_prime),
+                    )
+                    for slot in venue.slots
+                ],
+            )
+
+        absent = [
+            row["venue_id"]
+            for row in conn.execute("SELECT venue_id FROM venues WHERE in_geo_scope = 1")
+            if row["venue_id"] not in seen_ids
+        ]
+        conn.executemany(
+            "INSERT INTO scans (venue_id, scan_ts, target_date, party_size, raw_json) "
+            "VALUES (?, ?, ?, ?, NULL)",
+            [(venue_id, scan_ts, target_date, party_size) for venue_id in absent],
+        )
+
+    return {"available": len(seen_ids), "unavailable": len(absent)}
+
+
+def merge_geo_results(batches: Iterable[list[VenueSlots]]) -> list[VenueSlots]:
+    """Union venue results across anchor points, deduplicating slots."""
+    merged: dict[int, VenueSlots] = {}
+    for batch in batches:
+        for venue in batch:
+            existing = merged.get(venue.resy_venue_id)
+            if existing is None:
+                merged[venue.resy_venue_id] = venue
+                continue
+            known = {(s.slot_time, s.service_type, s.slot_token) for s in existing.slots}
+            for slot in venue.slots:
+                if (slot.slot_time, slot.service_type, slot.slot_token) not in known:
+                    existing.slots.append(slot)
+            existing.slots.sort(key=lambda s: (s.slot_time, s.service_type or ""))
+    return list(merged.values())
 
 
 def persist_scan(conn: sqlite3.Connection, outcome: ScanOutcome, scan_ts: str) -> int:
