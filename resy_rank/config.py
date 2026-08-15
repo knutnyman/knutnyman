@@ -11,8 +11,10 @@ from datetime import time
 from functools import lru_cache
 from pathlib import Path
 
+from typing import Annotated
+
 from pydantic import Field, field_validator, model_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -61,8 +63,11 @@ class Settings(BaseSettings):
     # point — the same query resy.com makes when you browse. One sweep covers
     # a city in a few dozen requests instead of one-per-venue, which is both
     # ~40x cheaper and far more polite than enumerating venue ids.
-    geo_anchors: list[tuple[float, float]] = Field(
+    # NoDecode: without it pydantic-settings JSON-decodes complex types straight
+    # from .env, which fails before the validators below ever run.
+    geo_anchors: Annotated[list[tuple[float, float]], NoDecode] = Field(
         default_factory=lambda: [
+            # Manhattan
             (40.7075, -74.0113),  # Financial District / Battery
             (40.7185, -73.9950),  # Chinatown / Lower East Side
             (40.7265, -73.9830),  # East Village
@@ -72,6 +77,18 @@ class Settings(BaseSettings):
             (40.7736, -73.9566),  # Upper East Side
             (40.7870, -73.9754),  # Upper West Side
             (40.8116, -73.9465),  # Harlem
+            # Brooklyn
+            (40.7180, -73.9575),  # Williamsburg
+            (40.7220, -73.9580),  # Greenpoint
+            (40.6890, -73.9900),  # Downtown Brooklyn / Fort Greene
+            (40.6780, -73.9640),  # Crown Heights / Prospect Heights
+            (40.6730, -73.9880),  # Park Slope / Gowanus
+            (40.6870, -73.9200),  # Bushwick
+            (40.6270, -74.0250),  # Bay Ridge / Sunset Park
+            # Queens
+            (40.7450, -73.9490),  # Long Island City / Astoria
+            (40.7460, -73.8830),  # Jackson Heights / Elmhurst
+            (40.7590, -73.8300),  # Flushing
         ]
     )
     geo_per_page: int = Field(default=50, ge=1, le=100)
@@ -110,7 +127,7 @@ class Settings(BaseSettings):
     # ── Scarcity index ──────────────────────────────────────────────────────
     # Prime = Thu-Sat, 18:30-20:30. Scarcity only counts observations made
     # 14-28 days out, where a full book-out is signal rather than noise.
-    prime_days: list[int] = Field(default_factory=lambda: [3, 4, 5])
+    prime_days: Annotated[list[int], NoDecode] = Field(default_factory=lambda: [3, 4, 5])
     prime_start: time = time(18, 30)
     prime_end: time = time(20, 30)
     scarcity_lookback_days: int = Field(default=30, ge=1)

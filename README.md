@@ -20,8 +20,8 @@ uv run resy-rank init
 
 ```bash
 uv run resy-rank init                       # create DB, load data/venues.csv
+uv run resy-rank scan --date 2026-09-05 --geo   # sweep availability, discover venues
 uv run resy-rank critics                    # match data/critics.csv to venues
-uv run resy-rank scan --date 2026-09-05 --geo   # sweep availability
 uv run resy-rank resolve                    # Google enrichment (free tier by default)
 uv run resy-rank rank --date 2026-09-05 --party 2 --time 19:30 --window 60
 uv run resy-rank backfill --days 30         # bootstrap the scarcity index
@@ -34,8 +34,8 @@ spends nothing — use it to review the exact request plan first.
 
 **Geo sweep (`--geo`)** — `/4/find` without a `venue_id` returns every venue
 with availability near a point, which is the same query resy.com makes when you
-browse. Nine anchor points cover Manhattan in **9 requests per date** instead of
-one request per venue (~2,000). It also discovers venues automatically, so
+browse. Nineteen anchor points cover Manhattan, Brooklyn, and Queens in **19 requests
+per date** instead of one request per venue (thousands). It also discovers venues automatically, so
 `venues.csv` is a seed list rather than the whole universe, and a sweep hit
 fills in a seed row's Resy id for free.
 
@@ -70,9 +70,8 @@ not pool. Requesting `rating` forces the Enterprise tier, so:
 - results are cached permanently and only re-fetched with `--refresh` or after
   `GOOGLE_CACHE_DAYS` (180).
 
-Every run reports its billable call count. For a ~2,000-venue Manhattan
-universe that's about $25 one-time if you lift the cap, or $0 spread over two
-months. Verify current rates in your own billing console — Google's pricing
+Every run reports its billable call count. For a ~2,000-venue NYC universe
+that's about $25 one-time if you lift the cap, or $0 spread over two months. Verify current rates in your own billing console — Google's pricing
 pages moved recently.
 
 To skip Google entirely, set `WEIGHT_RATING=0`; the composite reweights itself.
@@ -114,9 +113,15 @@ Every weight and constant lives in `.env` / `resy_rank/config.py`.
   with rapidfuzz, and every unmatched row is printed with its closest candidate,
   since a silent miss removes up to a third of a venue's score.
 
-> **The shipped CSVs are scaffolding, not data.** The venue list and especially
-> the Michelin tiers were written from memory and are not verified. Replace them
-> with your own before trusting a ranking.
+**Order matters:** run `critics` *after* a geo sweep. Critic lists cover the
+whole city, but the venue table only fills up as sweeps discover it, so matching
+too early leaves most rows unmatched. Re-running `critics` is always safe.
+
+> **`critics.csv` is real but incomplete.** The Michelin stars and Bib Gourmands
+> are from the 2025 NYC guide; the one-star tier lists 7 of 55 and the Bib list
+> 32 of 90, because the source pages are unreachable from this sandbox. The four
+> `eater_38` rows are low-confidence. `venues.csv` is a seed of hard-to-book
+> places, not a universe — sweeps supply the rest.
 
 ## Tests
 
@@ -124,10 +129,5 @@ Every weight and constant lives in `.env` / `resy_rank/config.py`.
 uv run pytest
 ```
 
-126 tests, no network. `tests/test_scoring.py` pins the Bayesian shrinkage and
+129 tests, no network. `tests/test_scoring.py` pins the Bayesian shrinkage and
 the weight-redistribution rules against hand-computed cases.
-
-## Note on the rest of this repo
-
-`main.py`, `booker.py`, `resy_client.py`, and `notifier.py` are a separate,
-earlier auto-booking tool. `resy_rank/` shares no code with them.

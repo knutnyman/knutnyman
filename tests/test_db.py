@@ -120,3 +120,39 @@ def test_foreign_keys_enforced(conn):
                 "INSERT INTO scans (venue_id, scan_ts, target_date, party_size) "
                 "VALUES (999, '2026-08-14T12:00:00', '2026-09-12', 2)"
             )
+
+
+def test_settings_parse_list_fields_from_a_real_dotenv_file(tmp_path, monkeypatch):
+    """Regression: pydantic-settings JSON-decodes list fields from .env.
+
+    Passing these as kwargs (as the other tests do) bypasses the dotenv source
+    entirely, so this bug only appears when a real .env file is on disk.
+    """
+    from resy_rank.config import Settings
+
+    env = tmp_path / ".env"
+    env.write_text(
+        "PRIME_DAYS=thu,fri,sat\n"
+        "GEO_ANCHORS=40.7075,-74.0113;40.7549,-73.9840\n",
+        encoding="utf-8",
+    )
+    settings = Settings(_env_file=str(env))
+    assert settings.prime_days == [3, 4, 5]
+    assert settings.geo_anchors == [(40.7075, -74.0113), (40.7549, -73.9840)]
+
+
+def test_settings_parse_numeric_prime_days_from_dotenv(tmp_path):
+    from resy_rank.config import Settings
+
+    env = tmp_path / ".env"
+    env.write_text("PRIME_DAYS=4,5\n", encoding="utf-8")
+    assert Settings(_env_file=str(env)).prime_days == [4, 5]
+
+
+def test_shipped_env_example_actually_loads(tmp_path):
+    """The file we tell people to copy must parse."""
+    from resy_rank.config import PROJECT_ROOT, Settings
+
+    settings = Settings(_env_file=str(PROJECT_ROOT / ".env.example"))
+    assert settings.prime_days == [3, 4, 5]
+    assert settings.monthly_enrichment_cap == 1000

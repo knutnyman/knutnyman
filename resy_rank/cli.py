@@ -45,6 +45,15 @@ class Context:
         self.settings = get_settings()
 
 
+def _run_async(coro):
+    """Run a coroutine, turning setup failures into a message not a traceback."""
+    try:
+        return asyncio.run(coro)
+    except RuntimeError as exc:
+        console.print(f"[red]{exc}[/red]")
+        raise typer.Exit(1) from None
+
+
 @app.callback()
 def main(
     ctx: typer.Context,
@@ -137,7 +146,7 @@ def resolve(
 
     conn = db.connect(cfg.db_path)
     try:
-        asyncio.run(_run_resolve(context, conn, refresh=refresh, limit=limit, skip_resy=skip_resy))
+        _run_async(_run_resolve(context, conn, refresh=refresh, limit=limit, skip_resy=skip_resy))
     finally:
         conn.close()
 
@@ -336,7 +345,7 @@ def scan(
                 )
                 raise typer.Exit(1)
 
-        outcomes = asyncio.run(_run_scan(context, conn, venues, dates, party, budget))
+        outcomes = _run_async(_run_scan(context, conn, venues, dates, party, budget))
     finally:
         conn.close()
 
@@ -368,7 +377,7 @@ def _scan_geo(context: "Context", conn, dates: list[str], party: int) -> None:
             )
             raise typer.Exit(1)
 
-    summary = asyncio.run(_run_geo_scan(context, conn, dates, party, budget))
+    summary = _run_async(_run_geo_scan(context, conn, dates, party, budget))
 
     if context.dry_run:
         console.print("[yellow]dry-run:[/yellow] nothing was requested or written.")
@@ -573,6 +582,15 @@ def critics_cmd(
                     f"{score:.0f}",
                 )
             console.print(table)
+
+            if len(report.unmatched) > len(report.matched):
+                console.print(
+                    "\n[dim]Most rows are unmatched because those venues aren't in the "
+                    "database yet. Critic lists cover the whole city; your venue table "
+                    "only fills up as sweeps discover it. Run [/dim]"
+                    "resy-rank scan --geo[dim] first, then re-run this — it is safe to "
+                    "re-run any number of times.[/dim]"
+                )
 
         if context.dry_run:
             console.print("[yellow]dry-run:[/yellow] no flags were written.")
