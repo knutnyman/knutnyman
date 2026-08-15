@@ -12,9 +12,13 @@ reservation-drop time.
 
 ```bash
 uv sync
-cp .env.example .env   # fill in RESY_API_KEY / RESY_AUTH_TOKEN
+cp .env.example .env   # ships with Resy's public web key already filled in
 uv run resy-rank init
 ```
+
+`.env.example` contains the public API key resy.com sends from any browser.
+A personal session token (`RESY_AUTH_TOKEN`) is optional — set it only if a
+request comes back 401/403.
 
 ## Workflow
 
@@ -32,9 +36,13 @@ spends nothing — use it to review the exact request plan first.
 
 ## Two scanning modes
 
-**Geo sweep (`--geo`)** — `/4/find` without a `venue_id` returns every venue
-with availability near a point, which is the same query resy.com makes when you
-browse. Nineteen anchor points cover Manhattan, Brooklyn, and Queens in **19 requests
+`/4/find` is a **POST** taking a JSON body, verified against a captured browser
+request: `{"day","lat","long","party_size","venue_id"}`, with `lat`/`long` sent
+as `0` when `venue_id` is supplied.
+
+**Geo sweep (`--geo`)** — omitting `venue_id` and sending a real `lat`/`long`
+returns every venue with availability near that point, which is the query
+resy.com makes when you browse a city. Nineteen anchor points cover Manhattan, Brooklyn, and Queens in **19 requests
 per date** instead of one request per venue (thousands). It also discovers venues automatically, so
 `venues.csv` is a seed list rather than the whole universe, and a sweep hit
 fills in a seed row's Resy id for free.
@@ -129,5 +137,5 @@ too early leaves most rows unmatched. Re-running `critics` is always safe.
 uv run pytest
 ```
 
-129 tests, no network. `tests/test_scoring.py` pins the Bayesian shrinkage and
+133 tests, no network. `tests/test_scoring.py` pins the Bayesian shrinkage and
 the weight-redistribution rules against hand-computed cases.

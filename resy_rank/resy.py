@@ -485,12 +485,18 @@ class ResyClient:
             api_key, token = self.settings.require_resy_credentials()
             headers = {
                 "Authorization": f'ResyAPI api_key="{api_key}"',
-                "X-Resy-Auth-Token": token,
-                "Accept": "application/json",
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json",
                 "Origin": "https://resy.com",
                 "Referer": "https://resy.com/",
                 "User-Agent": "resy-rank/0.1 (personal read-only research tool)",
             }
+            # The browser's /4/find request carries only the api_key, so the
+            # user token appears to be optional for availability lookups. It is
+            # sent when present and simply omitted when not; a 401/403 will say
+            # plainly if this endpoint turns out to want it after all.
+            if token:
+                headers["X-Resy-Auth-Token"] = token
             self._client = httpx.AsyncClient(
                 headers=headers,
                 timeout=self.settings.request_timeout_seconds,
@@ -595,10 +601,13 @@ class ResyClient:
         long: float | None = None,
     ) -> ScanOutcome:
         """GET /4/find for one venue on one date. Never raises on bad payloads."""
-        params = {
-            "lat": lat if lat is not None else self.settings.default_lat,
-            "long": long if long is not None else self.settings.default_long,
+        # A venue-targeted find sends lat/long as 0 — the venue_id is the
+        # filter, and the geo anchor is ignored. This mirrors the request the
+        # Resy web app makes.
+        body = {
             "day": target_date,
+            "lat": 0,
+            "long": 0,
             "party_size": party_size,
             "venue_id": resy_venue_id,
         }
@@ -609,7 +618,7 @@ class ResyClient:
             party_size=party_size,
         )
         try:
-            payload = await self._request("GET", FIND_URL, params=params)
+            payload = await self._request("POST", FIND_URL, json_body=body)
         except (DailyCapReached, ResyUnauthorized):
             raise  # fatal for the whole run, not just this venue
         except Exception as exc:
@@ -644,16 +653,16 @@ class ResyClient:
         """
         collected: dict[int, VenueSlots] = {}
         for page in range(1, self.settings.geo_max_pages + 1):
-            params = {
+            body = {
+                "day": target_date,
                 "lat": lat,
                 "long": long,
-                "day": target_date,
                 "party_size": party_size,
                 "per_page": self.settings.geo_per_page,
                 "page": page,
             }
             try:
-                payload = await self._request("GET", FIND_URL, params=params)
+                payload = await self._request("POST", FIND_URL, json_body=body)
             except (DailyCapReached, ResyUnauthorized):
                 raise
             except Exception as exc:

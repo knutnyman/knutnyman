@@ -7,6 +7,7 @@ seen in the wild, plus the malformed variants the parser must survive.
 from __future__ import annotations
 
 import asyncio
+import json
 from datetime import time
 
 import httpx
@@ -353,7 +354,7 @@ def test_dry_run_needs_no_credentials():
     asyncio.run(go())  # must not raise about missing credentials
 
 
-def test_live_run_requires_credentials():
+def test_live_run_requires_api_key():
     bare = Settings(_env_file=None)
 
     async def go():
@@ -362,6 +363,76 @@ def test_live_run_requires_credentials():
 
     with pytest.raises(RuntimeError, match="RESY_API_KEY"):
         asyncio.run(go())
+
+
+def test_auth_token_is_optional():
+    """The browser sends only the api_key on /4/find, so a token is not required."""
+    async def go():
+        async with ResyClient(Settings(_env_file=None, RESY_API_KEY="k")) as client:
+            return dict(client._client.headers)
+
+    headers = asyncio.run(go())
+    assert "x-resy-auth-token" not in {k.lower() for k in headers}
+    assert headers["authorization"] == 'ResyAPI api_key="k"'
+
+
+def test_auth_token_is_sent_when_present():
+    async def go():
+        async with ResyClient(
+            Settings(_env_file=None, RESY_API_KEY="k", RESY_AUTH_TOKEN="tok")
+        ) as client:
+            return dict(client._client.headers)
+
+    assert asyncio.run(go())["x-resy-auth-token"] == "tok"
+
+
+def test_find_posts_the_exact_body_the_browser_sends(settings):
+    """Pinned against a real captured request: POST, JSON, lat/long of 0."""
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["method"] = request.method
+        seen["content_type"] = request.headers.get("content-type")
+        seen["body"] = json.loads(request.content)
+        seen["length"] = len(request.content)
+        return httpx.Response(200, json=find_payload([]))
+
+    async def go():
+        client = _client_with_transport(settings, handler)
+        await client.find(venue_id=1, resy_venue_id=25973, target_date="2026-09-05", party_size=2)
+        await client._client.aclose()
+
+    asyncio.run(go())
+    assert seen["method"] == "POST"
+    assert seen["content_type"] == "application/json"
+    assert seen["body"] == {
+        "day": "2026-09-05",
+        "lat": 0,
+        "long": 0,
+        "party_size": 2,
+        "venue_id": 25973,
+    }
+    # The captured browser request was content-length 69 for a 5-digit venue id.
+    assert seen["length"] == 69
+
+
+def test_geo_find_posts_without_a_venue_id(settings):
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.setdefault("bodies", []).append(json.loads(request.content))
+        return httpx.Response(200, json=geo_payload([]))
+
+    async def go():
+        client = _client_with_transport(settings, handler)
+        await client.find_geo(lat=40.7359, long=-73.9911, target_date="2026-09-05", party_size=2)
+        await client._client.aclose()
+
+    asyncio.run(go())
+    body = seen["bodies"][0]
+    assert "venue_id" not in body
+    assert body["lat"] == 40.7359 and body["long"] == -73.9911
+    assert body["day"] == "2026-09-05"
 
 
 # ── persistence ─────────────────────────────────────────────────────────────

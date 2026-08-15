@@ -181,22 +181,20 @@ class Settings(BaseSettings):
     def weight_total(self) -> float:
         return self.weight_rating + self.weight_critic + self.weight_scarcity
 
-    def require_resy_credentials(self) -> tuple[str, str]:
-        """Return (api_key, auth_token), or raise with a fixable message."""
-        missing = [
-            name
-            for name, value in (
-                ("RESY_API_KEY", self.resy_api_key),
-                ("RESY_AUTH_TOKEN", self.resy_auth_token),
-            )
-            if not value
-        ]
-        if missing:
+    def require_resy_credentials(self) -> tuple[str, str | None]:
+        """Return (api_key, auth_token).
+
+        Only the api_key is required: Resy's web app sends just that header on
+        /4/find, so availability lookups appear not to need a user session at
+        all. RESY_AUTH_TOKEN is passed through when set, in case some endpoint
+        does want it.
+        """
+        if not self.resy_api_key:
             raise RuntimeError(
-                f"Missing {', '.join(missing)} in .env — copy .env.example and paste "
-                "the values from your logged-in Resy browser session."
+                "Missing RESY_API_KEY in .env — copy .env.example, which ships with "
+                "Resy's public web key already filled in."
             )
-        return self.resy_api_key, self.resy_auth_token  # type: ignore[return-value]
+        return self.resy_api_key, self.resy_auth_token
 
     def require_google_key(self) -> str:
         if not self.google_places_api_key:
