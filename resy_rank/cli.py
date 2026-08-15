@@ -377,7 +377,7 @@ def _scan_geo(context: "Context", conn, dates: list[str], party: int) -> None:
             )
             raise typer.Exit(1)
 
-    summary = _run_async(_run_geo_scan(context, conn, dates, party, budget))
+    summary, failures = _run_async(_run_geo_scan(context, conn, dates, party, budget))
 
     if context.dry_run:
         console.print("[yellow]dry-run:[/yellow] nothing was requested or written.")
@@ -394,6 +394,20 @@ def _scan_geo(context: "Context", conn, dates: list[str], party: int) -> None:
         )
     console.print(table)
 
+    if failures:
+        total_planned = len(cfg.geo_anchors) * len(dates)
+        console.print(
+            f"[red]{failures} of {total_planned} request(s) failed.[/red] "
+            + (
+                "Every request failed, so this sweep recorded nothing — the zeros above "
+                "mean 'no data', not 'no availability'. Check your network and "
+                "RESY_API_KEY, then re-run."
+                if failures >= total_planned
+                else "The venues behind those requests were not observed and are absent "
+                "from the counts above."
+            )
+        )
+
     counts = db.venue_counts(conn)
     console.print(
         f"[dim]{counts['total']} venue(s) known; {counts['missing_place']} still need Google "
@@ -403,9 +417,10 @@ def _scan_geo(context: "Context", conn, dates: list[str], party: int) -> None:
 
 async def _run_geo_scan(
     context: "Context", conn, dates: list[str], party: int, budget: DailyBudget | None
-) -> list[dict]:
+) -> tuple[list[dict], int]:
     cfg = context.settings
     summary: list[dict] = []
+    failures = 0
 
     async with ResyClient(
         cfg,
@@ -436,7 +451,8 @@ async def _run_geo_scan(
             counts["date"] = day
             counts["prime"] = sum(1 for v in venues for s in v.slots if s.is_prime)
             summary.append(counts)
-    return summary
+        failures = client.failed_requests
+    return summary, failures
 
 
 async def _run_scan(

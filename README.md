@@ -137,5 +137,5 @@ too early leaves most rows unmatched. Re-running `critics` is always safe.
 uv run pytest
 ```
 
-133 tests, no network. `tests/test_scoring.py` pins the Bayesian shrinkage and
+134 tests, no network. `tests/test_scoring.py` pins the Bayesian shrinkage and
 the weight-redistribution rules against hand-computed cases.

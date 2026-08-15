@@ -1,10 +1,14 @@
 """Resy client — strictly read-only.
 
-Resy has no public API. Credentials come from a logged-in browser session and
-are sent as:
+Resy has no public API. Requests carry the public web api_key:
 
     Authorization: ResyAPI api_key="<RESY_API_KEY>"
-    X-Resy-Auth-Token: <RESY_AUTH_TOKEN>
+
+and optionally a personal session token (X-Resy-Auth-Token), which
+availability lookups appear not to need.
+
+/4/find is a POST taking a JSON body — verified against a captured browser
+request, not the GET the shape of this endpoint is often documented as.
 
 Two safety properties this module is built to hold:
 
@@ -477,6 +481,9 @@ class ResyClient:
         self._politeness = Politeness(settings.max_concurrency, settings.request_delay_seconds)
         self._client: httpx.AsyncClient | None = None
         self.request_count = 0
+        # Counted so a sweep can tell "nothing was available" apart from
+        # "nothing got through" — both otherwise look like zero venues.
+        self.failed_requests = 0
         self.prime = PrimeWindow.from_settings(settings)
 
     # -- lifecycle --------------------------------------------------------
@@ -622,6 +629,7 @@ class ResyClient:
         except (DailyCapReached, ResyUnauthorized):
             raise  # fatal for the whole run, not just this venue
         except Exception as exc:
+            self.failed_requests += 1
             outcome.error = str(exc)
             log.warning("find failed for venue %s on %s: %s", resy_venue_id, target_date, exc)
             return outcome
@@ -666,6 +674,7 @@ class ResyClient:
             except (DailyCapReached, ResyUnauthorized):
                 raise
             except Exception as exc:
+                self.failed_requests += 1
                 log.warning("geo find failed at (%s, %s) page %d: %s", lat, long, page, exc)
                 break
 

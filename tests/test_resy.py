@@ -676,3 +676,22 @@ def test_scan_with_no_availability_still_records_an_observation(tmp_path):
     assert conn.execute("SELECT COUNT(*) c FROM scans").fetchone()["c"] == 1
     assert conn.execute("SELECT COUNT(*) c FROM slots").fetchone()["c"] == 0
     conn.close()
+
+
+def test_failed_requests_are_counted_so_zero_is_not_ambiguous(settings, no_backoff_sleep):
+    """A totally failed sweep must be distinguishable from an empty one."""
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(503)
+
+    async def go():
+        client = _client_with_transport(settings, handler)
+        found = await client.find_geo(
+            lat=40.7, long=-74.0, target_date=SATURDAY, party_size=2
+        )
+        await client._client.aclose()
+        return found, client.failed_requests
+
+    found, failures = asyncio.run(go())
+    assert found == []
+    assert failures == 1
